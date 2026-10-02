@@ -40,7 +40,7 @@ Các nhãn dưới đây kế thừa evidence theo fixture/phạm vi đã ghi; k
 | P13 ASR/separator | ACCEPTED / KEEP CURRENT | Giữ WhisperX batch 4 + BS-RoFormer; batch 6 và clean-speech skip bị reject bởi A/B. |
 | P14 Multi-speaker | OWNER HUMAN PASS trong fixture | 63 segments/3 speakers, owner nghe 3/3 clips; robustness với hội thoại/podcast/audio không ổn định còn theo dõi. |
 | P15 Profiles | DONE | Fast/Balanced/Max dùng cùng core, có fingerprint theo resolved behavior. |
-| P16 Review UI | ACCEPTED trong scope lịch sử | Catalog/model selector, edit/rerender, reload đã có evidence; lỗi fixture Playwright hiện tại vẫn mở. |
+| P16 Review UI | ACCEPTED trong scope lịch sử | Catalog/model selector, edit/rerender, reload đã có evidence; harness reload đã sửa offline 02/10, không đóng UI acceptance còn thiếu. |
 | P17 Regression fixtures | ACCEPTED trong scope lịch sử | Manifest có 10/10 loại fixture; không thay kiểm chứng trên thay đổi mới. |
 | P18 Lip-sync | REMOVED | Không nằm trong active product scope. |
 | P19 Premium/cloud | OUT OF CURRENT SCOPE | Chỉ xem lại khi có nhu cầu và authority riêng về cost/privacy/account. |
@@ -93,7 +93,7 @@ Authority và resume preflight nằm ở [Job12 audit](../../planning/checkpoint
 [UI-FIX-PLAN](frontend/UI-FIX-PLAN.md) nay chỉ là bảng đối chiếu bản cũ với source; không là một hàng đợi độc lập. [PRODUCT-UI-CONTRACT](frontend/PRODUCT-UI-CONTRACT.md) giữ identity/timebase/readiness semantics.
 
 - Đã có: EngineerDrawer, video/audio thật, waveform từ audio, review/edit, import modal, offline health, demo mode opt-in, VI/EN, theme, LongformPreviewRail, catalog/connector panels.
-- Giữ mở: lỗi shared Gradio/Playwright fixture-order ở test reload; kiểm tra đầy đủ i18n, contrast/keyboard/touch/narrow layout và preview matrix chưa được build/test source đơn lẻ chứng minh.
+- Harness Gradio/Playwright reload đã được cô lập khỏi retained jobs/provider và pass cả module/order controls ngày 02/10; nguyên nhân chính xác của timeout lịch sử chưa được chứng minh. Giữ mở kiểm tra đầy đủ i18n, contrast/keyboard/touch/narrow layout và preview matrix.
 - Playback “Final” hiện đi theo lifecycle `completed`; không được diễn giải badge đó là QA pass. Job12 là counterexample phải giữ trong review UI/QA kế tiếp.
 - Waveform hiện tải/decode toàn audio để tạo peaks; đã có waveform thật nhưng chưa có bằng chứng memory budget cho near-12h.
 
@@ -102,12 +102,14 @@ Authority và resume preflight nằm ở [Job12 audit](../../planning/checkpoint
 
 | Ưu tiên | Slice cụ thể | Oracle / giới hạn |
 |---|---|---|
-| 1 — offline | Sửa hoặc quarantine có lý do lỗi fixture-order trong `tests/test_web_e2e_playwright.py`; chỉ sửa fixture/runtime liên quan sau khi tái hiện. | Module 3 tests, isolated reload, two-test controls, M3/M5 UI contracts; giữ lỗi thấy được nếu chưa sửa. |
+| 1 — offline / harness closed | Cô lập `tests/test_web_e2e_playwright.py` khỏi retained jobs/provider; startup/teardown có owner, browser chỉ loopback. | Module 3/3, isolated reload 1/1, two controls 2/2 mỗi control, toàn suite offline 672 pass/1 skip; [receipt](work/checkpoints/UI-reload-fixture-repair-20261002/CHECKPOINT.md). Không claim sửa một lỗi Gradio production chưa được xác nhận. |
 | 2 — offline | Hoàn thiện evidence UI còn mở trong mục trên bằng fixture; không biến thành redesign hoặc viết lại các phase đã có. | Ready/stale/blocked, refresh/edit invalidation, Preview/Final/QA, VI/EN, 1440/768/390, keyboard/contrast, memory nơi có rủi ro. |
 | 3 — owner-gated | Review/repair 122 failed segments và full-track/human QA Job12. | Giữ provenance/receipt, không waive bằng processing completed; fresh preflight và đúng retained job. |
 | 4 — owner-gated | Đóng repeated whole-job 33m và whole-pipeline 6h+ P23. | Correctness + resource/reliability + repeated paired benchmark; chỉ claim speedup khi evidence đủ. |
 
-Trước code UI tiếp theo, ghi bounded slice ngay trong PLAN này: files, oracle, rollback và evidence path. Không tạo thêm PLAN cho mỗi lượt. Baseline lỗi fixture: [audit 30/09](../../planning/checkpoints/workspace-next-stage/VI-safe-continuation-20260930/CHECKPOINT.md); báo cáo lịch sử `671 passed, 1 skipped, 1 failed`, chưa được cleanup này sửa.
+Trước code UI tiếp theo, ghi bounded slice ngay trong PLAN này: files, oracle, rollback và evidence path. Không tạo thêm PLAN cho mỗi lượt. Baseline lỗi fixture: [audit 30/09](../../planning/checkpoints/workspace-next-stage/VI-safe-continuation-20260930/CHECKPOINT.md); kết quả lịch sử `671 passed, 1 skipped, 1 failed` được giữ, harness repair 02/10 có receipt riêng.
+
+**Slice được giao 02/10/2026 — offline fixture-order repair:** chỉ sở hữu `tests/test_web_e2e_playwright.py` và receipt ở `work/checkpoints/UI-reload-fixture-repair-20261002/`. Đối chiếu cả module 3 tests, reload riêng, hai controls và M3/catalog contracts; dùng workspace tạm, model catalog fixture và browser loopback để không chạm retained jobs/provider. Không đổi UI/pipeline để che lỗi harness; rollback bằng revert commit của slice. Kết quả kiểm chứng và root cause sẽ ghi trong receipt, không mở M0-VI-ready/M5 hoặc media/listening gate.
 
 <a id="runtime-gates"></a>
 ## Runtime và authority
