@@ -133,6 +133,8 @@ Kết quả [ticker receipt](work/checkpoints/UI-narrow-ticker-20261002/CHECKPOI
 
 **Slice UI kế tiếp — narrow header controls:** `frontend/src/components/header/Header.tsx` và regression M3 fixture; oracle là language/theme/import/catalog/job controls trong header có thể chạm/tab/click ở390/768/1440 mà không cuộn lệch toàn trang, giữ job selection và modal focus. Evidence về `work/checkpoints/UI-narrow-header-20261002/`; không redesign hoặc đổi shared token/runtime/ASR closure. Rollback revert slice commit; các gate i18n/contrast/touch toàn bộ vẫn mở.
 
+Kết quả [header receipt](work/checkpoints/UI-narrow-header-20261002/CHECKPOINT.md): fail-before controls ra ngoàiviewport390; Header nay wrap, dropdown bám phải ởcompact, actual language/theme/catalog/import/job-selection giữ scrollX0 và keyboard/modal focus ở390/768/1440. Focused3/full browser11 pass, build/UI/telemetry contracts pass. UI tổng thể vẫn mở: cần preview matrix/finalQA/i18n/contrast/touch và near12h waveform memory riêng; không coi ba focused fixes là fullUI acceptance.
+
 <a id="runtime-gates"></a>
 ## Runtime và authority
 

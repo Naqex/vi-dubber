@@ -1,0 +1,66 @@
+F
+================================== FAILURES ===================================
+_ test_header_controls_stay_reachable_without_page_horizontal_scroll[chromium-390] _
+
+page = <Page url='http://127.0.0.1:51388/'>
+m3_react_server = ('http://127.0.0.1:51388', 'job-m3-watch-review', WindowsPath('C:/Users/MIIKEY/AppData/Local/Temp/pytest-of-MIIKEY/pytest-1063/test_header_controls_stay_reac0/work'))
+width = 390
+
+    @pytest.mark.parametrize("width", [390, 768, 1440])
+    def test_header_controls_stay_reachable_without_page_horizontal_scroll(
+        page: Page,
+        m3_react_server: tuple[str, str, Path],
+        width: int,
+    ) -> None:
+        base_url, _target_id, _work = m3_react_server
+        page.context.route(
+            "**/*",
+            lambda route: route.continue_()
+            if route.request.url.startswith(base_url + "/")
+            or route.request.url.startswith(("data:", "blob:"))
+            else route.abort(),
+        )
+        page.route(
+            "**/api/system",
+            lambda route: route.fulfill(status=200, content_type="application/json", body="{}"),
+        )
+        page.set_viewport_size({"width": width, "height": 900})
+        page.goto(base_url, wait_until="networkidle", timeout=30000)
+        header = page.get_by_role("banner")
+
+        def assert_controls_fit() -> None:
+            bounds = header.locator("button:visible, a:visible").evaluate_all("""els => ({
+              scrollX, controls: els.map(el => {
+                const r = el.getBoundingClientRect();
+                return {name: el.getAttribute('aria-label') || el.textContent,
+                        left:r.left, right:r.right, top:r.top, bottom:r.bottom};
+              })
+            })""")
+            assert bounds["scrollX"] == 0, bounds
+            assert all(0 <= box["left"] < box["right"] <= width for box in bounds["controls"]), bounds
+
+        expect(header.get_by_role("button", name="M3 Library Entry")).to_be_visible()
+>       assert_controls_fit()
+
+tests\test_m3_react_ui_playwright.py:492:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def assert_controls_fit() -> None:
+        bounds = header.locator("button:visible, a:visible").evaluate_all("""els => ({
+          scrollX, controls: els.map(el => {
+            const r = el.getBoundingClientRect();
+            return {name: el.getAttribute('aria-label') || el.textContent,
+                    left:r.left, right:r.right, top:r.top, bottom:r.bottom};
+          })
+        })""")
+        assert bounds["scrollX"] == 0, bounds
+>       assert all(0 <= box["left"] < box["right"] <= width for box in bounds["controls"]), bounds
+E       AssertionError: {'controls': [{'bottom': 38.5, 'left': 147.28125, 'name': 'M3 Library Entry', 'right': 312.84375, ...}, {'bottom': 38....bottom': 38.5, 'left': 567.84375, 'name': 'Ki\u1ec3m tra tr\u1ea1ng th\xe1i JSON g\u1ed1c', 'right': 599.84375, ...}, ...], 'scrollX': 0}
+E       assert False
+E        +  where False = all(<generator object test_header_controls_stay_reachable_without_page_horizontal_scroll.<locals>.assert_controls_fit.<locals>.<genexpr> at 0x000001F12BE80C80>)
+
+tests\test_m3_react_ui_playwright.py:489: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_m3_react_ui_playwright.py::test_header_controls_stay_reachable_without_page_horizontal_scroll[chromium-390]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed in 4.59s

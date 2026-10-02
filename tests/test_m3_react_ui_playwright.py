@@ -455,6 +455,82 @@ def test_system_ribbon_sections_do_not_overlap(
             page.get_by_text("M3 Watch Review Fixture", exact=True).first.click()
 
 
+@pytest.mark.parametrize("width", [390, 768, 1440])
+def test_header_controls_stay_reachable_without_page_horizontal_scroll(
+    page: Page,
+    m3_react_server: tuple[str, str, Path],
+    width: int,
+) -> None:
+    base_url, _target_id, _work = m3_react_server
+    page.context.route(
+        "**/*",
+        lambda route: route.continue_()
+        if route.request.url.startswith(base_url + "/")
+        or route.request.url.startswith(("data:", "blob:"))
+        else route.abort(),
+    )
+    page.route(
+        "**/api/system",
+        lambda route: route.fulfill(status=200, content_type="application/json", body="{}"),
+    )
+    page.set_viewport_size({"width": width, "height": 900})
+    page.goto(base_url, wait_until="networkidle", timeout=30000)
+    header = page.get_by_role("banner")
+
+    def assert_controls_fit() -> None:
+        bounds = header.locator("button:visible, a:visible").evaluate_all("""els => ({
+          scrollX, controls: els.map(el => {
+            const r = el.getBoundingClientRect();
+            return {name: el.getAttribute('aria-label') || el.textContent,
+                    left:r.left, right:r.right, top:r.top, bottom:r.bottom};
+          })
+        })""")
+        assert bounds["scrollX"] == 0, bounds
+        assert all(0 <= box["left"] < box["right"] <= width for box in bounds["controls"]), bounds
+
+    expect(header.get_by_role("button", name="M3 Library Entry")).to_be_visible()
+    assert_controls_fit()
+    language = header.get_by_role("button", name="Switch language")
+    language.click()
+    expect(language).to_have_text("EN")
+    assert_controls_fit()
+    theme = header.get_by_role("button", name="Light Mode")
+    language.focus()
+    language.press("Tab")
+    expect(theme).to_be_focused()
+    theme.press("Enter")
+    expect(page.locator("html")).not_to_have_class("dark")
+    assert_controls_fit()
+
+    for control in (
+        header.get_by_role("button", name="Catalog", exact=True),
+        header.get_by_role("button", name="Import Video / YouTube", exact=True),
+    ):
+        control.focus()
+        control.press("Enter")
+        dialog = page.get_by_role("dialog")
+        expect(dialog).to_be_visible()
+        assert dialog.evaluate("el => el.contains(document.activeElement)")
+        page.keyboard.press("Escape")
+        expect(dialog).to_have_count(0)
+        expect(control).to_be_focused()
+        assert_controls_fit()
+
+    job_selector = header.get_by_role("button", name="M3 Library Entry")
+    job_selector.focus()
+    job_selector.press("Enter")
+    menu = header.get_by_role("menu")
+    expect(menu).to_be_visible()
+    menu_box = menu.bounding_box()
+    assert menu_box and 0 <= menu_box["x"] and menu_box["x"] + menu_box["width"] <= width
+    menu.get_by_role("menuitem", name="M3 Watch Review Fixture").click()
+    expect(header.get_by_role("button", name="M3 Watch Review Fixture")).to_be_visible()
+    assert_controls_fit()
+    artifact_dir = WORK_DIR / "artifacts" / "vi-narrow-header-proof"
+    artifact_dir.mkdir(parents=True, exist_ok=True)
+    page.screenshot(path=str(artifact_dir / f"{width}-en-light.png"), full_page=True)
+
+
 def test_m3_library_watch_review_edit_stale_flow(
     page: Page,
     m3_react_server: tuple[str, str, Path],

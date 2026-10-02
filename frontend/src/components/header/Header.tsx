@@ -49,10 +49,10 @@ export const Header: React.FC = () => {
 
   return (
     <>
-    <header className="h-[46px] shrink-0 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#090d16] text-slate-900 dark:text-slate-100 sticky top-0 z-40 select-none transition-colors">
-      <div className="w-full px-3 sm:px-4 h-full flex items-center justify-between gap-3">
+    <header className="min-h-[46px] shrink-0 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#090d16] text-slate-900 dark:text-slate-100 sticky top-0 z-40 select-none transition-colors">
+      <div className="w-full px-3 sm:px-4 min-h-[46px] py-2 lg:py-0 flex flex-wrap items-center justify-between gap-3">
         {/* Left: Branding & Job Selector */}
-        <div className="flex items-center gap-3">
+        <div className="flex w-full min-w-0 lg:w-auto items-center justify-between lg:justify-start gap-3">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-md bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center shadow-md shadow-orange-500/20 text-white shrink-0">
               <Volume2 className="w-4 h-4" />
@@ -61,7 +61,7 @@ export const Header: React.FC = () => {
               <span className="font-bold text-xs tracking-tight text-slate-900 dark:text-slate-100 font-mono">
                 VI-DUBBER
               </span>
-              <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/30 font-mono">
+              <span className="hidden sm:inline text-[10px] font-semibold px-1.5 py-0.2 rounded bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/30 font-mono">
                 v2.0-PRO
               </span>
               <span className="text-xs text-slate-600 dark:text-slate-300 hidden xl:inline font-sans">
@@ -107,7 +107,7 @@ export const Header: React.FC = () => {
               id="header-job-menu"
               role="menu"
               aria-label={t('common.all_jobs')}
-              className={`absolute left-0 mt-1 w-72 py-1 bg-white dark:bg-slate-900 rounded-md shadow-xl border border-slate-200 dark:border-slate-700 ${isJobMenuOpen ? 'block' : 'hidden'} z-50`}
+              className={`absolute right-0 lg:left-0 lg:right-auto mt-1 w-72 py-1 bg-white dark:bg-slate-900 rounded-md shadow-xl border border-slate-200 dark:border-slate-700 ${isJobMenuOpen ? 'block' : 'hidden'} z-50`}
             >
               <div className="px-3 py-1.5 text-xs font-mono text-slate-600 dark:text-slate-300 uppercase tracking-wider border-b border-slate-100 dark:border-slate-800">
                 {t('common.all_jobs')} ({jobs.length})
@@ -148,7 +148,7 @@ export const Header: React.FC = () => {
         </div>
 
         {/* Right: Controls & Toggles */}
-        <div className="flex items-center gap-2">
+        <div className="flex w-full lg:w-auto flex-wrap items-center gap-2">
           {/* Local metadata catalog */}
           <button
             type="button"
@@ -194,7 +194,7 @@ export const Header: React.FC = () => {
               aria-label={t('common.download_video')}
             >
               <Download className="w-4 h-4" />
-              <span>{t('common.download_video')}</span>
+              <span className="hidden sm:inline">{t('common.download_video')}</span>
             </a>
           )}
 
