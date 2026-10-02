@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import type { JobState, StageDefinition } from '@/types';
+import type { JobState, LongformMetadata, PreviewArtifact, StageDefinition } from '@/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -50,6 +50,18 @@ export function isFinalJobReady(
   job: JobState | null | undefined,
 ): job is JobState & { status: 'completed' } {
   return job?.status === 'completed';
+}
+
+export function isPreviewReady(
+  preview: PreviewArtifact | null | undefined,
+  longform: LongformMetadata | undefined,
+): preview is PreviewArtifact {
+  if (!preview || longform?.preview_stale_chunks?.includes(preview.chunk_id)
+    || longform?.preview_blocked_chunks?.includes(preview.chunk_id)) return false;
+  // A manifest can outlive a readiness update; an explicit persisted list
+  // takes precedence over the artifact returned by the previews endpoint.
+  return longform?.preview_ready_chunks === undefined
+    || longform.preview_ready_chunks.includes(preview.chunk_id);
 }
 
 export const PIPELINE_STAGES: StageDefinition[] = [

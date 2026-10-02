@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useJob } from '@/context/JobContext';
 import { useTranslation } from '@/context/I18nContext';
-import { formatSeconds } from '@/lib/utils';
+import { formatSeconds, isPreviewReady } from '@/lib/utils';
 import { positiveFinite } from '@/lib/telemetry';
 import {
   Play,
@@ -31,12 +31,14 @@ export const VideoPlayer: React.FC = () => {
     requestSeek,
     isPlaying,
     setIsPlaying,
-    selectedPreview,
+    selectedPreview: rememberedPreview,
     setSelectedPreview,
     setIsCreatorOpen,
     setDroppedFile,
   } = useJob();
   const { t, language } = useTranslation();
+  const selectedPreview = isPreviewReady(rememberedPreview, activeJob?.metadata?.longform)
+    ? rememberedPreview : null;
 
   const [isLoopingSegment, setIsLoopingSegment] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -350,11 +352,11 @@ export const VideoPlayer: React.FC = () => {
                 <Download className="w-3 h-3" />
                 <span>{t('common.download_video')}</span>
               </a>
-            ) : (
-              <div className="px-1.5 py-0.5 rounded bg-black/80 backdrop-blur-sm border border-slate-800 text-[10px] text-emerald-400 font-bold pointer-events-none">
-                1080p DUB READY
+            ) : !videoSrc ? (
+              <div className="px-1.5 py-0.5 rounded bg-black/80 backdrop-blur-sm border border-slate-800 text-[10px] text-slate-400 font-bold pointer-events-none">
+                {t('common.unavailable')}
               </div>
-            )}
+            ) : null}
           </div>
         </div>
 

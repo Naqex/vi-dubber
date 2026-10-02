@@ -289,7 +289,20 @@ def _list_chunk_previews(job_dir: Path) -> list[dict[str, Any]]:
     chunks_dir = job_dir / "chunks"
     if not chunks_dir.is_dir():
         return previews
+    state = load_job_state(job_dir)
+    metadata = state.get("metadata") if isinstance(state.get("metadata"), dict) else {}
+    longform = metadata.get("longform") if isinstance(metadata.get("longform"), dict) else {}
     for chunk_dir in sorted(path for path in chunks_dir.glob("chunk_*") if path.is_dir()):
+        chunk_id = chunk_dir.name
+        # A valid manifest may remain after a readiness update or crash. The
+        # current persisted state must also allow listing, playback and download.
+        if any(
+            chunk_id in longform.get(key, [])
+            for key in ("preview_stale_chunks", "preview_blocked_chunks")
+        ):
+            continue
+        if "preview_ready_chunks" in longform and chunk_id not in longform["preview_ready_chunks"]:
+            continue
         manifest_path = chunk_dir / "manifests" / "preview.json"
         manifest = load_stage_manifest(
             manifest_path,
@@ -317,7 +330,6 @@ def _list_chunk_previews(job_dir: Path) -> list[dict[str, Any]]:
             continue
         if not preview_path.is_file():
             continue
-        chunk_id = chunk_dir.name
         previews.append(
             {
                 **meta,

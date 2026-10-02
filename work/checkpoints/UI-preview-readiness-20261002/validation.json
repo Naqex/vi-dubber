@@ -1,0 +1,24 @@
+{
+  "source_base": "e870f6d",
+  "captured_at": "2026-10-02T20:51:49.9515165+07:00",
+  "api": {
+    "passed": 28,
+    "skipped": 1,
+    "seconds": 15.32,
+    "warnings": "2 existing Starlette/httpx deprecations"
+  },
+  "browser": {
+    "passed": 5,
+    "seconds": 31.68
+  },
+  "build": "tsc + vite pass",
+  "ui_contract_checks": 4,
+  "telemetry_contract_cases": 5,
+  "scope": "disposable FastAPI/React readiness fixtures; no retained Job12 or provider writes",
+  "visual_review": [
+    "1440 ready",
+    "390 stale"
+  ],
+  "remaining_visual_finding": "390 top stage ticker overlaps timing telemetry; full responsive/i18n/contrast acceptance remains open",
+  "frozen_asr_closure_changed": false
+}

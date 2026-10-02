@@ -349,6 +349,21 @@ def test_api_lists_and_serves_only_verified_chunk_previews(
     assert played.content == b"verified-preview"
     assert played.headers["x-vi-dubber-artifact"] == "PREVIEW"
 
+    for readiness in ("blocked", "stale", "queued"):
+        longform = {"preview_ready_chunks": []}
+        if readiness != "queued":
+            longform[f"preview_{readiness}_chunks"] = ["chunk_0001"]
+        update_job_state(job_dir, metadata={"longform": longform})
+        assert client.get("/api/jobs/job-preview01/previews").json() == []
+        for suffix in ("", "?download=true"):
+            assert client.get(
+                f"/api/jobs/job-preview01/previews/chunk_0001{suffix}"
+            ).status_code == 404
+
+    update_job_state(job_dir, metadata={"longform": {"preview_ready_chunks": ["chunk_0001"]}})
+    assert len(client.get("/api/jobs/job-preview01/previews").json()) == 1
+    assert client.get("/api/jobs/job-preview01/previews/chunk_0001").status_code == 200
+
     preview_path.write_bytes(b"tampered")
     assert client.get("/api/jobs/job-preview01/previews").json() == []
     assert client.get("/api/jobs/job-preview01/previews/chunk_0001").status_code == 404

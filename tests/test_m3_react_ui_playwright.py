@@ -335,6 +335,67 @@ def _layout_metrics(page: Page) -> dict[str, int | bool]:
     )
 
 
+@pytest.mark.parametrize("readiness", ["blocked", "stale", "queued"])
+def test_persisted_preview_readiness_overrides_existing_artifact(
+    page: Page,
+    m3_react_server: tuple[str, str, Path],
+    readiness: str,
+) -> None:
+    base_url, target_id, work = m3_react_server
+    page.context.route(
+        "**/*",
+        lambda route: route.continue_()
+        if route.request.url.startswith(base_url + "/")
+        or route.request.url.startswith(("data:", "blob:"))
+        else route.abort(),
+    )
+    page.route(
+        "**/api/system",
+        lambda route: route.fulfill(status=200, content_type="application/json", body="{}"),
+    )
+    page.goto(base_url, wait_until="networkidle", timeout=30000)
+    page.get_by_text("M3 Library Entry", exact=True).first.hover()
+    page.get_by_text("M3 Watch Review Fixture", exact=True).first.click()
+    ready = page.locator("button:has-text('#0001'):has-text('READY')")
+    expect(ready).to_be_enabled()
+    ready.click()
+    expect(page.locator("video").first).to_have_attribute(
+        "src", f"/api/jobs/{target_id}/previews/chunk_0001",
+    )
+    cached_previews = page.request.get(f"{base_url}/api/jobs/{target_id}/previews").json()
+    page.route(
+        f"**/api/jobs/{target_id}/previews",
+        lambda route: route.fulfill(
+            status=200, content_type="application/json", body=json.dumps(cached_previews),
+        ),
+    )
+
+    state = json.loads((work / target_id / "state.json").read_text(encoding="utf-8"))
+    metadata = state["metadata"]
+    metadata["longform"]["preview_ready_chunks"] = []
+    if readiness in {"blocked", "stale"}:
+        metadata["longform"][f"preview_{readiness}_chunks"].append("chunk_0001")
+    update_job_state(work / target_id, metadata=metadata)
+    # Model a lagging preview response while readiness arrives from the real
+    # persisted jobs endpoint. The newer state must win on refresh and reload.
+    assert (work / target_id / "chunks/chunk_0001/manifests/preview.json").is_file()
+    label = {"blocked": "QA BLOCK", "stale": "STALE", "queued": "QUEUED"}[readiness]
+    chunk = page.locator(f"button:has-text('#0001'):has-text('{label}')")
+    expect(chunk).to_be_disabled(timeout=10000)
+    expect(page.locator("video[src*='/previews/']")).to_have_count(0)
+    expect(page.get_by_title("Tải preview chunk")).to_have_count(0)
+    expect(page.get_by_text("1080p DUB READY", exact=True)).to_have_count(0)
+
+    page.evaluate(
+        "job => localStorage.setItem(`vi_dubber_preview_${job}`, 'chunk_0001')",
+        target_id,
+    )
+    page.reload(wait_until="networkidle", timeout=30000)
+    expect(chunk).to_be_disabled(timeout=10000)
+    expect(page.locator("video[src*='/previews/']")).to_have_count(0)
+    expect(page.get_by_title("Tải preview chunk")).to_have_count(0)
+
+
 def test_m3_library_watch_review_edit_stale_flow(
     page: Page,
     m3_react_server: tuple[str, str, Path],
@@ -514,7 +575,7 @@ def test_m3_library_watch_review_edit_stale_flow(
     assert page.evaluate("document.activeElement !== document.body")
 
     responsive: dict[str, dict[str, int | bool]] = {}
-    for width, height in ((768, 1024), (360, 800)):
+    for width, height in ((768, 1024), (390, 844), (360, 800)):
         page.set_viewport_size({"width": width, "height": height})
         page.wait_for_timeout(250)
         expect(editor).to_be_visible()

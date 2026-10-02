@@ -1,0 +1,45 @@
+{
+  "scope": "M3 VI representative Library -> Watch -> Review edit/stale product fixture",
+  "backend": "FastAPI create_app with isolated persisted WORK_DIR",
+  "frontend": "built React/Vite dist from current HEAD",
+  "target_job": "job-m3-watch-review",
+  "states_proved": [
+    "ready",
+    "qa-blocked",
+    "processing",
+    "queued",
+    "stale-after-edit"
+  ],
+  "responsive": {
+    "768": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "innerHeight": 1024,
+      "scrollHeight": 1024,
+      "bodyOverflowX": false
+    },
+    "390": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "innerHeight": 844,
+      "scrollHeight": 844,
+      "bodyOverflowX": false
+    },
+    "360": {
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "innerHeight": 800,
+      "scrollHeight": 800,
+      "bodyOverflowX": false
+    }
+  },
+  "console_errors": [],
+  "screenshots": [
+    "01-1440-watch-ready.png",
+    "02-1440-review-stale.png",
+    "03-768-review-stale.png",
+    "04-360-review-stale.png",
+    "04-390-review-stale.png",
+    "05-1440-light-stale.png"
+  ]
+}

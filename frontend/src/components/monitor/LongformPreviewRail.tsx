@@ -3,7 +3,7 @@ import { AlertTriangle, CheckCircle2, Download, LoaderCircle, Play, RotateCcw } 
 import { useJob } from '@/context/JobContext';
 import { fetchJobPreviews, rerenderJob } from '@/lib/api';
 import type { PreviewArtifact } from '@/types';
-import { formatSeconds } from '@/lib/utils';
+import { formatSeconds, isPreviewReady } from '@/lib/utils';
 
 export const LongformPreviewRail: React.FC = () => {
   const {
@@ -32,13 +32,14 @@ export const LongformPreviewRail: React.FC = () => {
         const next = await fetchJobPreviews(activeJob.id);
         if (cancelled) return;
         setPreviews(next);
+        const playable = next.filter(item => isPreviewReady(item, longform));
         const storageKey = `vi_dubber_preview_${activeJob.id}`;
         const remembered = window.localStorage.getItem(storageKey) || '';
         const candidate = [selectedPreview?.chunk_id || '', remembered]
-          .find(chunkId => chunkId && next.some(item => item.chunk_id === chunkId));
+          .find(chunkId => chunkId && playable.some(item => item.chunk_id === chunkId));
         const hadSelection = Boolean(selectedPreview?.chunk_id || remembered);
-        const chosen = candidate || (!hadSelection && activeJob.status !== 'completed' ? next[0]?.chunk_id || '' : '');
-        const artifact = next.find(item => item.chunk_id === chosen) || null;
+        const chosen = candidate || (!hadSelection && activeJob.status !== 'completed' ? playable[0]?.chunk_id || '' : '');
+        const artifact = playable.find(item => item.chunk_id === chosen) || null;
         setSelectedPreview(artifact);
         setSelectedChunkId(chosen);
         if (chosen) window.localStorage.setItem(storageKey, chosen);
@@ -53,7 +54,7 @@ export const LongformPreviewRail: React.FC = () => {
       cancelled = true;
       if (interval !== undefined) window.clearInterval(interval);
     };
-  }, [activeJob?.id, activeJob?.status, activeJob?.updated_at, enabled, selectedPreview?.chunk_id, setSelectedPreview]);
+  }, [activeJob?.id, activeJob?.status, activeJob?.updated_at, enabled, longform, selectedPreview?.chunk_id, setSelectedPreview]);
 
   const previewById = useMemo(
     () => new Map(previews.map(item => [item.chunk_id, item])),
@@ -70,7 +71,8 @@ export const LongformPreviewRail: React.FC = () => {
     }
     return Array.from(known).sort();
   }, [ready, stale, blocked, previews, total]);
-  const selected = previewById.get(selectedChunkId);
+  const selectedArtifact = previewById.get(selectedChunkId);
+  const selected = isPreviewReady(selectedArtifact, longform) ? selectedArtifact : null;
   const currentPhase = String(longform?.phase || activeJob?.stage || '').toUpperCase();
   const currentChunk = longform?.current_chunk || '';
   const eta = longform?.eta_seconds;
@@ -124,7 +126,7 @@ export const LongformPreviewRail: React.FC = () => {
           const preview = previewById.get(chunkId);
           const isStale = stale.has(chunkId);
           const isBlocked = blocked.has(chunkId);
-          const isReady = Boolean(preview) && !isStale;
+          const isReady = isPreviewReady(preview, longform);
           const isCurrent = currentChunk === chunkId && !isReady && !isStale && !isBlocked;
           const active = selectedChunkId === chunkId;
           const statusLabel = isStale

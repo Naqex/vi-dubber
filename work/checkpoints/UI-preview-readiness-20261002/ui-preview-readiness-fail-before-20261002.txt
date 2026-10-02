@@ -1,0 +1,67 @@
+F
+================================== FAILURES ===================================
+_ test_persisted_preview_readiness_overrides_existing_artifact[chromium-blocked] _
+
+page = <Page url='http://127.0.0.1:61261/'>
+m3_react_server = ('http://127.0.0.1:61261', 'job-m3-watch-review', WindowsPath('C:/Users/MIIKEY/AppData/Local/Temp/pytest-of-MIIKEY/pytest-1053/test_persisted_preview_readine0/work'))
+readiness = 'blocked'
+
+    @pytest.mark.parametrize("readiness", ["blocked", "stale", "queued"])
+    def test_persisted_preview_readiness_overrides_existing_artifact(
+        page: Page,
+        m3_react_server: tuple[str, str, Path],
+        readiness: str,
+    ) -> None:
+        base_url, target_id, work = m3_react_server
+        page.context.route(
+            "**/*",
+            lambda route: route.continue_()
+            if route.request.url.startswith(base_url + "/")
+            or route.request.url.startswith(("data:", "blob:"))
+            else route.abort(),
+        )
+        page.route(
+            "**/api/system",
+            lambda route: route.fulfill(status=200, content_type="application/json", body="{}"),
+        )
+        page.goto(base_url, wait_until="networkidle", timeout=30000)
+        page.get_by_text("M3 Library Entry", exact=True).first.hover()
+        page.get_by_text("M3 Watch Review Fixture", exact=True).first.click()
+        ready = page.locator("button:has-text('#0001'):has-text('READY')")
+        expect(ready).to_be_enabled()
+        ready.click()
+        expect(page.locator("video").first).to_have_attribute(
+            "src", f"/api/jobs/{target_id}/previews/chunk_0001",
+        )
+
+        state = json.loads((work / target_id / "state.json").read_text(encoding="utf-8"))
+        metadata = state["metadata"]
+        metadata["longform"]["preview_ready_chunks"] = []
+        if readiness in {"blocked", "stale"}:
+            metadata["longform"][f"preview_{readiness}_chunks"].append("chunk_0001")
+        update_job_state(work / target_id, metadata=metadata)
+        # The previously published, valid manifest is deliberately retained: its
+        # presence cannot overrule the newer job readiness on refresh or reload.
+        assert (work / target_id / "chunks/chunk_0001/manifests/preview.json").is_file()
+        label = {"blocked": "QA BLOCK", "stale": "STALE", "queued": "QUEUED"}[readiness]
+        chunk = page.locator(f"button:has-text('#0001'):has-text('{label}')")
+>       expect(chunk).to_be_disabled(timeout=10000)
+E       AssertionError: Locator expected to be disabled
+E       Actual value: enabled
+E       Call log:
+E         - Expect "to_be_disabled" locator("button:has-text('#0001'):has-text('QA BLOCK')") with timeout 10000ms
+E         - waiting for locator("button:has-text('#0001'):has-text('QA BLOCK')")
+E           17 × locator resolved to <button type="button" class="min-w-[92px] rounded-lg border px-2 py-1 text-left transition border-orange-500 bg-orange-500/10 cursor-pointer hover:border-orange-400">…</button>
+E              - unexpected value "enabled"
+E
+E       Aria snapshot:
+E       - button "#0001 QA BLOCK":
+E         - text: "#0001"
+E         - img
+E         - text: QA BLOCK
+
+tests\test_m3_react_ui_playwright.py:377: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_m3_react_ui_playwright.py::test_persisted_preview_readiness_overrides_existing_artifact[chromium-blocked]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed in 16.16s

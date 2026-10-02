@@ -1,0 +1,91 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________ test_api_lists_and_serves_only_verified_chunk_previews ____________
+
+client = <starlette.testclient.TestClient object at 0x00000193B2187650>
+tmp_path = WindowsPath('C:/Users/MIIKEY/AppData/Local/Temp/pytest-of-MIIKEY/pytest-1056/test_api_lists_and_serves_only0')
+
+    def test_api_lists_and_serves_only_verified_chunk_previews(
+        client: TestClient,
+        tmp_path: Path,
+    ) -> None:
+        job_dir = tmp_path / "work" / "job-preview01"
+        preview_dir = job_dir / "chunks" / "chunk_0001" / "preview"
+        preview_dir.mkdir(parents=True, exist_ok=True)
+        preview_path = preview_dir / "PREVIEW_chunk_0001.mp4"
+        preview_path.write_bytes(b"verified-preview")
+        meta_path = job_dir / "chunks" / "chunk_0001" / "preview.json"
+        atomic_write_json(
+            meta_path,
+            {
+                "version": 1,
+                "kind": "preview",
+                "label": "PREVIEW",
+                "final": False,
+                "stale": False,
+                "chunk_id": "chunk_0001",
+                "index": 0,
+                "start": 0.0,
+                "end": 30.0,
+                "duration": 30.0,
+                "qa_status": "passed",
+                "artifact": "chunks/chunk_0001/preview/PREVIEW_chunk_0001.mp4",
+            },
+        )
+        chunk = MacroChunk(
+            chunk_id="chunk_0001",
+            index=0,
+            source_start=0.0,
+            source_end=30.0,
+            context_start=0.0,
+            context_end=30.0,
+            boundary_reason="end",
+        )
+        commit_chunk_stage(
+            job_dir,
+            chunk,
+            "preview",
+            inputs={"fixture": True},
+            artifacts=[preview_path, meta_path],
+            versions={"policy": 1},
+        )
+
+        listed = client.get("/api/jobs/job-preview01/previews")
+        assert listed.status_code == 200
+        previews = listed.json()
+        assert len(previews) == 1
+        assert previews[0]["label"] == "PREVIEW"
+        assert previews[0]["final"] is False
+        assert previews[0]["download_available"] is True
+        assert previews[0]["play_url"].endswith("/previews/chunk_0001")
+
+        played = client.get("/api/jobs/job-preview01/previews/chunk_0001")
+        assert played.status_code == 200
+        assert played.content == b"verified-preview"
+        assert played.headers["x-vi-dubber-artifact"] == "PREVIEW"
+
+        for readiness in ("blocked", "stale", "queued"):
+            longform = {"preview_ready_chunks": []}
+            if readiness != "queued":
+                longform[f"preview_{readiness}_chunks"] = ["chunk_0001"]
+            update_job_state(job_dir, metadata={"longform": longform})
+>           assert client.get("/api/jobs/job-preview01/previews").json() == []
+E           AssertionError: assert [{'artifact':...d=true', ...}] == []
+E
+E             Left contains one more item: {'artifact': 'chunks/chunk_0001/preview/PREVIEW_chunk_0001.mp4', 'chunk_id': 'chunk_0001', 'download_available': True, 'download_url': '/api/jobs/job-preview01/previews/chunk_0001?download=true', ...}
+E             Use -v to get more diff
+
+tests\test_api.py:357: AssertionError
+============================== warnings summary ===============================
+.venv\Lib\site-packages\fastapi\testclient.py:1
+  D:\ANNAM\TradingWorkspace\projects\vi-dubber\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv\Lib\site-packages\starlette\testclient.py:53
+  D:\ANNAM\TradingWorkspace\projects\vi-dubber\.venv\Lib\site-packages\starlette\testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_api.py::test_api_lists_and_serves_only_verified_chunk_previews
+1 failed, 2 warnings in 1.79s
