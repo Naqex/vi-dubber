@@ -125,7 +125,11 @@ Kết quả cuối slice chuẩn bị trước 20:31 ngày 02/10/2026: [windowed
 
 Kết quả [readiness receipt](work/checkpoints/UI-preview-readiness-20261002/CHECKPOINT.md): fail-before đã tái hiện ở UI và API; persisted blocked/stale/explicit empty ready list nay khóa rail/player/download và direct API trả404. API28 pass/1skip, browser5 pass, build/UI/telemetry contracts pass; chưa đóng whole-product UI. Visual review phát hiện ticker top bar chồng chữ tại390.
 
-**Slice UI kế tiếp — narrow ticker layout:** chỉ top progress ticker và regression M3 fixture liên quan; xác định file/component hiện hữu trước sửa, oracle là stage/progress/timing/control không chồng nhau ở390/768/1440, giữ trạng thái persisted và keyboard controls. Evidence về `work/checkpoints/UI-narrow-ticker-20261002/`; không mở redesign/i18n toàn bộ, không sửa ASR closure/provider. Rollback revert slice commit; acceptance UI tổng thể vẫn theo queue hiện tại.
+**Slice UI kế tiếp — narrow ticker layout:** chỉ `frontend/src/components/header/SystemBar.tsx` và regression `tests/test_m3_react_ui_playwright.py`; oracle là stage/progress/timing/control không chồng nhau ở390/768/1440 (VI/EN), giữ trạng thái persisted và keyboard stage-details. Evidence về `work/checkpoints/UI-narrow-ticker-20261002/`; không mở redesign/i18n toàn bộ, không sửa ASR closure/provider. Rollback revert slice commit; acceptance UI tổng thể vẫn theo queue hiện tại.
+
+Kết quả [ticker receipt](work/checkpoints/UI-narrow-ticker-20261002/CHECKPOINT.md): nowrap stage label đã tái hiện overflow; ticker nay wrap ở màn hình nhỏ, không chồng section ở390/768/1440 VI/EN và stage details dùng Enter/Escape. Focused3/full browser8 pass, build/UI/telemetry contracts pass. Header còn overflow ở390; click nút language ngoài viewport làm trang cuộn ngang, chưa claim responsive tổng thể.
+
+**Slice UI kế tiếp — narrow header controls:** `frontend/src/components/header/Header.tsx` và regression M3 fixture; oracle là language/theme/import/catalog/job controls trong header có thể chạm/tab/click ở390/768/1440 mà không cuộn lệch toàn trang, giữ job selection và modal focus. Evidence về `work/checkpoints/UI-narrow-header-20261002/`; không redesign hoặc đổi shared token/runtime/ASR closure. Rollback revert slice commit; các gate i18n/contrast/touch toàn bộ vẫn mở.
 
 <a id="runtime-gates"></a>
 ## Runtime và authority

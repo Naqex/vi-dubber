@@ -1,0 +1,53 @@
+F..                                                                      [100%]
+================================== FAILURES ===================================
+__________ test_system_ribbon_sections_do_not_overlap[chromium-390] ___________
+
+page = <Page url='http://127.0.0.1:62783/'>
+m3_react_server = ('http://127.0.0.1:62783', 'job-m3-watch-review', WindowsPath('C:/Users/MIIKEY/AppData/Local/Temp/pytest-of-MIIKEY/pytest-1060/test_system_ribbon_sections_do0/work'))
+width = 390
+
+    @pytest.mark.parametrize("width", [390, 768, 1440])
+    def test_system_ribbon_sections_do_not_overlap(
+        page: Page,
+        m3_react_server: tuple[str, str, Path],
+        width: int,
+    ) -> None:
+        base_url, _target_id, _work = m3_react_server
+        page.context.route(
+            "**/*",
+            lambda route: route.continue_()
+            if route.request.url.startswith(base_url + "/")
+            or route.request.url.startswith(("data:", "blob:"))
+            else route.abort(),
+        )
+        page.route(
+            "**/api/system",
+            lambda route: route.fulfill(status=200, content_type="application/json", body="{}"),
+        )
+        page.set_viewport_size({"width": width, "height": 900})
+        page.goto(base_url, wait_until="networkidle", timeout=30000)
+        page.get_by_text("M3 Library Entry", exact=True).first.hover()
+        page.get_by_text("M3 Watch Review Fixture", exact=True).first.click()
+        for language in ("vi", "en"):
+            title = "Xem chi ti\u1ebft b\u01b0\u1edbc x\u1eed l\xfd" if language == "vi" else "Click to view stage details"
+            stage = page.get_by_title(title, exact=True)
+            expect(stage).to_contain_text("62%")
+            ribbon = stage.locator("xpath=../..")
+            geometry = ribbon.evaluate("""bar => {
+              const sections = [...bar.children].slice(0, 3).map(el => {
+                const r = el.getBoundingClientRect();
+                return {left:r.left, right:r.right, top:r.top, bottom:r.bottom,
+                        overflow:el.scrollWidth > el.clientWidth + 1};
+              });
+              return {sections, width:innerWidth};
+            }""")
+            for index, left in enumerate(geometry["sections"]):
+                assert not left["overflow"], geometry
+>               assert 0 <= left["left"] < left["right"] <= width, geometry
+E               AssertionError: {'sections': [{'bottom': 70, 'left': -233, 'overflow': False, 'right': 133, ...}, {'bottom': 100, 'left': -233, 'overflow': False, 'right': -29.234375, ...}, {'bottom': 106, 'left': 27, 'overflow': False, 'right': 133, ...}], 'width': 390}
+E               assert 0 <= -233
+
+tests\test_m3_react_ui_playwright.py:436: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_m3_react_ui_playwright.py::test_system_ribbon_sections_do_not_overlap[chromium-390]
+1 failed, 2 passed in 10.88s

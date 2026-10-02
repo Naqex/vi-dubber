@@ -396,6 +396,65 @@ def test_persisted_preview_readiness_overrides_existing_artifact(
     expect(page.get_by_title("Tải preview chunk")).to_have_count(0)
 
 
+@pytest.mark.parametrize("width", [390, 768, 1440])
+def test_system_ribbon_sections_do_not_overlap(
+    page: Page,
+    m3_react_server: tuple[str, str, Path],
+    width: int,
+) -> None:
+    base_url, _target_id, _work = m3_react_server
+    page.context.route(
+        "**/*",
+        lambda route: route.continue_()
+        if route.request.url.startswith(base_url + "/")
+        or route.request.url.startswith(("data:", "blob:"))
+        else route.abort(),
+    )
+    page.route(
+        "**/api/system",
+        lambda route: route.fulfill(status=200, content_type="application/json", body="{}"),
+    )
+    page.set_viewport_size({"width": width, "height": 900})
+    page.goto(base_url, wait_until="networkidle", timeout=30000)
+    page.get_by_text("M3 Library Entry", exact=True).first.hover()
+    page.get_by_text("M3 Watch Review Fixture", exact=True).first.click()
+    for language in ("vi", "en"):
+        title = "Xem chi tiết bước xử lý" if language == "vi" else "Click to view stage details"
+        stage = page.get_by_title(title, exact=True)
+        expect(stage).to_contain_text("62%")
+        ribbon = stage.locator("xpath=../..")
+        geometry = ribbon.evaluate("""bar => {
+          const sections = [...bar.children].slice(0, 3).map(el => {
+            const r = el.getBoundingClientRect();
+            return {left:r.left, right:r.right, top:r.top, bottom:r.bottom,
+                    overflow:el.scrollWidth > el.clientWidth + 1};
+          });
+          return {sections, width:innerWidth};
+        }""")
+        for index, left in enumerate(geometry["sections"]):
+            assert not left["overflow"], geometry
+            assert 0 <= left["left"] < left["right"] <= width, geometry
+            for right in geometry["sections"][index + 1:]:
+                assert left["right"] <= right["left"] or right["right"] <= left["left"] \
+                    or left["bottom"] <= right["top"] or right["bottom"] <= left["top"], geometry
+        # Opening details by keyboard must remain usable after the layout wraps.
+        stage.focus()
+        stage.press("Enter")
+        expect(page.get_by_role("dialog")).to_be_visible()
+        page.keyboard.press("Escape")
+        expect(page.get_by_role("dialog")).to_have_count(0)
+        artifact_dir = WORK_DIR / "artifacts" / "vi-narrow-ticker-proof"
+        artifact_dir.mkdir(parents=True, exist_ok=True)
+        page.screenshot(path=str(artifact_dir / f"{width}-{language}.png"), full_page=True)
+        if language == "vi":
+            # Seed the existing preference for the second fixture language.
+            # The separate header overflow is outside this ticker geometry test.
+            page.evaluate("localStorage.setItem('vi_dubber_lang', 'en')")
+            page.reload(wait_until="networkidle", timeout=30000)
+            page.get_by_text("M3 Library Entry", exact=True).first.hover()
+            page.get_by_text("M3 Watch Review Fixture", exact=True).first.click()
+
+
 def test_m3_library_watch_review_edit_stale_flow(
     page: Page,
     m3_react_server: tuple[str, str, Path],

@@ -69,18 +69,18 @@ export const SystemBar: React.FC = () => {
   };
 
   return (
-    <div className="h-[36px] shrink-0 bg-white dark:bg-[#090d16] border-b border-slate-200 dark:border-slate-800 px-3 flex items-center justify-between text-xs font-mono select-none overflow-x-auto no-scrollbar gap-4 w-full">
+    <div className="min-h-[36px] shrink-0 bg-white dark:bg-[#090d16] border-b border-slate-200 dark:border-slate-800 px-3 py-2 lg:py-0 flex flex-wrap lg:flex-nowrap items-center justify-between text-xs font-mono select-none gap-x-4 gap-y-2 w-full">
       {/* Section 1: Progress bar with stage label */}
-      <div className="flex flex-1 items-center gap-3 min-w-[200px] max-w-xl">
+      <div className="flex w-full min-w-0 items-center gap-3 lg:w-auto lg:flex-1 lg:max-w-xl">
         <button
           onClick={() => setSelectedStage(activeStage)}
-          className="font-bold text-slate-800 dark:text-slate-200 hover:text-orange-500 dark:hover:text-orange-400 transition cursor-pointer whitespace-nowrap"
+          className="min-w-0 flex-1 lg:flex-none text-left font-bold text-slate-800 dark:text-slate-200 hover:text-orange-500 dark:hover:text-orange-400 transition cursor-pointer whitespace-normal lg:whitespace-nowrap"
           title={language === 'vi' ? 'Xem chi tiết bước xử lý' : 'Click to view stage details'}
         >
           {activeStage ? t('system.stage_of', { current: activeIndex + 1, total: 7 }) : unavailable}: {stageName || unavailable} · {progress === null ? unavailable : `${Math.round(progress * 100)}%`}
         </button>
         <div
-          className="flex-1 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full relative mx-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/60"
+          className="w-20 shrink-0 lg:w-auto lg:flex-1 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full relative mx-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/60"
           role="button"
           tabIndex={activeStage ? 0 : -1}
           aria-label={activeStage ? (language === 'vi' ? 'Mở chi tiết bước xử lý' : 'Open stage details') : unavailable}
