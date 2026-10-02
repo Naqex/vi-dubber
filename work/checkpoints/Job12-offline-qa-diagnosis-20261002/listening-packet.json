@@ -1,0 +1,3072 @@
+{
+  "format": "vi-job12-listening-packet-v1",
+  "job_id": "job-8dc51f8a892aba21",
+  "source_artifact_sha256": {
+    "state.json": "68e85b389dcb44afd22e5b83b252701846bfdd283bdfabd47f245c7bb4446742",
+    "qa.json": "89b86cdf318190aa758ecb6e2593f6aed1e422ca77d4aafec4a59a7567829909",
+    "segment_qa.json": "f03fb3cbe2f3d14906493a37be0e77201304684b7f64673da77176c099437b21",
+    "segments_vi.json": "5723f01e475e433867c798ea00c5bceea6b34eb65cb0098cd883ccdedc6b9a9f",
+    "tts_stats.json": "3ea415ba9856b1d81d00c17bad4493d9ba977d71bc22dae3b33a0e50a7631e64",
+    "resolved_config.json": "60d45431f74d5da196b15e581de9a0879a82e4d1ac18a925bb00fd5e547a86df",
+    "terminology_qa.json": "329a790103901591ad507909c18600515af28403969651892e7fc09f96d20771",
+    "result.json": "9d1df257534ae1f2bf0fb5cb309cbb5ad699e767485ebf925de8207170c14bbc",
+    "mix_metrics.json": "3174cc305fbf08243c30274bc11138fe26552c60f660a76839a885b29cc3e34f",
+    "chunks/plan.json": "de93e284ca50f767c1ae00635482a44042f1b61ee6ac648c86482034d608ce50"
+  },
+  "final_video": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\outputs\\IXSu0MClr34_vi.mp4",
+  "first_listening": [
+    {
+      "segment_id": 313,
+      "source_start": 2982.2660935,
+      "source_end": 2983.4270934999995,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00313.wav",
+      "expected": "Fair value gap là gì?",
+      "re_asr": "Thầy A-Va-Lu-Ge-Ha-Ba-Zi.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical",
+        "severe_transcript_mismatch"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.5,
+      "timing_ratio": 1.0011918382912668,
+      "audio_duration": 1.3125625,
+      "qa_duration": 1.3125625,
+      "stats_duration": 1.3125625,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 47,
+      "source_start": 377.326,
+      "source_end": 377.666,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00047.wav",
+      "expected": "Sao?",
+      "re_asr": "Hẹn gặp lại.",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch",
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 0.0,
+      "timing_ratio": 1.3250534188036582,
+      "audio_duration": 0.5167708333333333,
+      "qa_duration": 0.5167708333333333,
+      "stats_duration": 0.5167708333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1542,
+      "source_start": 14147.7164585,
+      "source_end": 14148.356458499999,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01542.wav",
+      "expected": "Là cái này.",
+      "re_asr": "Lạc ngay!",
+      "acoustic_checked": true,
+      "reasons": [
+        "timing_overflow",
+        "transcript_mismatch"
+      ],
+      "missing_critical": [],
+      "similarity": 0.5555555555555556,
+      "timing_ratio": 1.0395270270273336,
+      "audio_duration": 0.76925,
+      "qa_duration": 0.76925,
+      "stats_duration": 0.76925,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2298,
+      "source_start": 22263.3953645,
+      "source_end": 22263.5753645,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02298.wav",
+      "expected": "Sao?",
+      "re_asr": "Chào!",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch",
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 0.2857142857142857,
+      "timing_ratio": 2.3486666666666665,
+      "audio_duration": 0.5871666666666666,
+      "qa_duration": 0.5871666666666666,
+      "stats_duration": 0.5871666666666666,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3,
+      "source_start": 37.583,
+      "source_end": 42.708,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00003.wav",
+      "expected": "Thay vì cố thành thạo mười khái niệm, hãy làm chủ những thứ này, và bạn sẽ trade tốt hơn.",
+      "re_asr": "Thay vì cố thành thạo mới khái niệm, hãy làm chủ những thứ này và bạn sẽ trade tốt hơn.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "mười"
+      ],
+      "similarity": 0.9824561403508771,
+      "timing_ratio": 0.8208955223880587,
+      "audio_duration": 4.4,
+      "qa_duration": 4.4,
+      "stats_duration": 4.4,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3997,
+      "source_start": 40536.812677,
+      "source_end": 40551.152677,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03997.wav",
+      "expected": "Từ một giờ ba mươi, ngay đây, đến ba giờ ba mươi, ngay đây. Đây là khoảng thời gian chúng ta tìm pha manipulation trong price action. Giá đi lên, rồi đi xuống, đúng rồi, như thế này.",
+      "re_asr": "Từ 1h30 ngay đây đến 3h30 ngay đây. Đây là khoảng thời gian chúng ta tìm Farm Manipulation trong Price Action. Giá đi lên rồi đi xuống. Đúng rồi, như thế này.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "ba",
+        "ba mươi",
+        "một"
+      ],
+      "similarity": 0.8711656441717791,
+      "timing_ratio": 0.6441487546916026,
+      "audio_duration": 9.44,
+      "qa_duration": 9.44,
+      "stats_duration": 9.44,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 4050,
+      "source_start": 40972.197583,
+      "source_end": 40980.682582999994,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\04050.wav",
+      "expected": "Trong đó có Edge Model, chính là chiến lược tôi dùng để tìm các mức lợi nhuận năm ăn một, mười ăn một, thậm chí hai mươi ăn một, và giao dịch trực tiếp cùng cộng đồng.",
+      "re_asr": "Trong đó của Edge Model chính là chiến lược tôi dùng để tìm các mức lợi nhuận 5 ăn 1, 10 ăn 1, thậm chí 20 ăn 1 và giao dịch trực tiếp cùng cộng đồng.",
+      "acoustic_checked": true,
+      "reasons": [],
+      "missing_critical": [],
+      "similarity": 0.9907692307692308,
+      "timing_ratio": 0.9001148105634139,
+      "audio_duration": 7.84,
+      "qa_duration": 7.84,
+      "stats_duration": 7.84,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 0,
+      "source_start": 0.151,
+      "source_end": 21.668,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00000.wav",
+      "expected": "Đây là khóa học đầy đủ về ICT và Smart Money Concepts. Khóa học gồm sáu phần: đầu tiên là kiến thức cơ bản, rồi thanh khoản, fair value gap, cấu trúc thị trường và bias, tiếp theo là các khái niệm nâng cao, và phần cuối là các chiến lược cùng những trading plan khác nhau mà bạn có thể áp dụng sau khi học xong.",
+      "re_asr": "Đây là khóa học đầy đủ về ECT và Smart Money Concept. Khóa học gồm 6 phần, đầu tiên là kiến thức cơ bản, rồi thanh khoản, Fair Value Gap, cấu trúc thị trường và Bayes, tiếp theo là các khái niệm nâng cao, và phần cuối là các chiến lược cùng những trading plan khác nhau mà bạn có thể áp dụng sau khi học xong.",
+      "acoustic_checked": true,
+      "reasons": [],
+      "missing_critical": [],
+      "similarity": 0.9900990099009901,
+      "timing_ratio": 0.7748362697168157,
+      "audio_duration": 16.8,
+      "qa_duration": 16.8,
+      "stats_duration": 16.8,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2037,
+      "source_start": 19476.158417,
+      "source_end": 19477.339417,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02037.wav",
+      "expected": "Cấu trúc breaker bị phá.",
+      "re_asr": "Cấu trúc breaker bị phá.",
+      "acoustic_checked": true,
+      "reasons": [],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.008327406354411,
+      "audio_duration": 1.4177083333333333,
+      "qa_duration": 1.4177083333333333,
+      "stats_duration": 1.4177083333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    }
+  ],
+  "all_failed": [
+    {
+      "segment_id": 3,
+      "source_start": 37.583,
+      "source_end": 42.708,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00003.wav",
+      "expected": "Thay vì cố thành thạo mười khái niệm, hãy làm chủ những thứ này, và bạn sẽ trade tốt hơn.",
+      "re_asr": "Thay vì cố thành thạo mới khái niệm, hãy làm chủ những thứ này và bạn sẽ trade tốt hơn.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "mười"
+      ],
+      "similarity": 0.9824561403508771,
+      "timing_ratio": 0.8208955223880587,
+      "audio_duration": 4.4,
+      "qa_duration": 4.4,
+      "stats_duration": 4.4,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 46,
+      "source_start": 376.005,
+      "source_end": 377.266,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00046.wav",
+      "expected": "Nhiều trader ICT.",
+      "re_asr": "YourTrader ECT",
+      "acoustic_checked": true,
+      "reasons": [
+        "transcript_mismatch"
+      ],
+      "missing_critical": [],
+      "similarity": 0.6666666666666667,
+      "timing_ratio": 1.0089563862927795,
+      "audio_duration": 1.4034583333333333,
+      "qa_duration": 1.4034583333333333,
+      "stats_duration": 1.4034583333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 47,
+      "source_start": 377.326,
+      "source_end": 377.666,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00047.wav",
+      "expected": "Sao?",
+      "re_asr": "Hẹn gặp lại.",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch",
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 0.0,
+      "timing_ratio": 1.3250534188036582,
+      "audio_duration": 0.5167708333333333,
+      "qa_duration": 0.5167708333333333,
+      "stats_duration": 0.5167708333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 187,
+      "source_start": 1851.0860934999998,
+      "source_end": 1851.4660934999997,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00187.wav",
+      "expected": "Vì sao?",
+      "re_asr": "Vậy sao?",
+      "acoustic_checked": true,
+      "reasons": [
+        "timing_overflow",
+        "transcript_mismatch"
+      ],
+      "missing_critical": [],
+      "similarity": 0.7692307692307692,
+      "timing_ratio": 1.3042083333333334,
+      "audio_duration": 0.6521041666666667,
+      "qa_duration": 0.6521041666666667,
+      "stats_duration": 0.6521041666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 198,
+      "source_start": 1922.0800934999997,
+      "source_end": 1922.5600934999998,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00198.wav",
+      "expected": "Không hẳn.",
+      "re_asr": "Không hẳn.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.12227138643057,
+      "audio_duration": 0.6340833333333333,
+      "qa_duration": 0.6340833333333333,
+      "stats_duration": 0.6340833333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 235,
+      "source_start": 2118.1970935,
+      "source_end": 2128.0260934999997,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00235.wav",
+      "expected": "Thực ra, mục đích của sáu bí mật fair value gap là giúp bạn chuyển từ việc đọc mọi fair value gap sang tập trung vào những gap có xác suất cao hơn.",
+      "re_asr": "Thực ra, mục đích của sầu bí mật Fair Value Gap là giúp bạn chuyển từ việc đọc mọi Fair Value Gap sang tập trung vào những gặp có sát xuất cao hơn.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "sáu"
+      ],
+      "similarity": 0.9655172413793103,
+      "timing_ratio": 0.7604562737642477,
+      "audio_duration": 7.6,
+      "qa_duration": 7.6,
+      "stats_duration": 7.6,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 310,
+      "source_start": 2979.2650935,
+      "source_end": 2979.7850934999997,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00310.wav",
+      "expected": "Ta sẽ biết.",
+      "re_asr": "Ta sẽ biết.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.1142764857889307,
+      "audio_duration": 0.7187083333333333,
+      "qa_duration": 0.7187083333333333,
+      "stats_duration": 0.7187083333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 312,
+      "source_start": 2981.6260935,
+      "source_end": 2982.1260935,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00312.wav",
+      "expected": "Ta sẽ biết.",
+      "re_asr": "Ta sẽ biết.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.2719512195126466,
+      "audio_duration": 0.78225,
+      "qa_duration": 0.78225,
+      "stats_duration": 0.78225,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 313,
+      "source_start": 2982.2660935,
+      "source_end": 2983.4270934999995,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00313.wav",
+      "expected": "Fair value gap là gì?",
+      "re_asr": "Thầy A-Va-Lu-Ge-Ha-Ba-Zi.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical",
+        "severe_transcript_mismatch"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.5,
+      "timing_ratio": 1.0011918382912668,
+      "audio_duration": 1.3125625,
+      "qa_duration": 1.3125625,
+      "stats_duration": 1.3125625,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 391,
+      "source_start": 3694.7255,
+      "source_end": 3695.0855,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00391.wav",
+      "expected": "Vì sao?",
+      "re_asr": "Vì sao?",
+      "acoustic_checked": true,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.1916280864198334,
+      "audio_duration": 0.6434791666666667,
+      "qa_duration": 0.6434791666666667,
+      "stats_duration": 0.6434791666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 563,
+      "source_start": 5415.670073,
+      "source_end": 5415.890073,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00563.wav",
+      "expected": "Sao?",
+      "re_asr": "Chào!",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch",
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 0.2857142857142857,
+      "timing_ratio": 1.0968421052665183,
+      "audio_duration": 0.521,
+      "qa_duration": 0.521,
+      "stats_duration": 0.521,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 632,
+      "source_start": 5962.994073,
+      "source_end": 5963.354073,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00632.wav",
+      "expected": "Thế sao?",
+      "re_asr": "Thế sao?",
+      "acoustic_checked": true,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.4252747252749531,
+      "audio_duration": 0.6485,
+      "qa_duration": 0.6485,
+      "stats_duration": 0.6485,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 703,
+      "source_start": 6665.7503955,
+      "source_end": 6666.1113955,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00703.wav",
+      "expected": "Vậy thôi.",
+      "re_asr": "Tạm biệt.",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch",
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 0.25,
+      "timing_ratio": 1.247774372446192,
+      "audio_duration": 0.7124791666666667,
+      "qa_duration": 0.7124791666666667,
+      "stats_duration": 0.7124791666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 891,
+      "source_start": 8657.368437,
+      "source_end": 8657.588436999999,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00891.wav",
+      "expected": "Sao?",
+      "re_asr": "Xong.",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch",
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 0.2857142857142857,
+      "timing_ratio": 1.6849033816368266,
+      "audio_duration": 0.5812916666666667,
+      "qa_duration": 0.5812916666666667,
+      "stats_duration": 0.5812916666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 927,
+      "source_start": 8822.586437,
+      "source_end": 8822.646437,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00927.wav",
+      "expected": "Vậy",
+      "re_asr": "Vậy",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.1142063492071212,
+      "audio_duration": 0.5849583333333334,
+      "qa_duration": 0.5849583333333334,
+      "stats_duration": 0.5849583333333334,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 954,
+      "source_start": 9116.181822999999,
+      "source_end": 9116.601822999999,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00954.wav",
+      "expected": "Giả sử...",
+      "re_asr": "Là sư.",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch"
+      ],
+      "missing_critical": [],
+      "similarity": 0.36363636363636365,
+      "timing_ratio": 0.9938327316484595,
+      "audio_duration": 0.825875,
+      "qa_duration": 0.825875,
+      "stats_duration": 0.825875,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 955,
+      "source_start": 9116.621822999998,
+      "source_end": 9117.621822999998,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00955.wav",
+      "expected": "Có hai fair value gap.",
+      "re_asr": "có high fair value gap,",
+      "acoustic_checked": true,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 0.9302325581395349,
+      "timing_ratio": 1.183029935276418,
+      "audio_duration": 1.2185208333333333,
+      "qa_duration": 1.2185208333333333,
+      "stats_duration": 1.2185208333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 978,
+      "source_start": 9228.613822999998,
+      "source_end": 9229.635822999999,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\00978.wav",
+      "expected": "Ở đây có displacement.",
+      "re_asr": "Ở đây có displacement.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.100821787557037,
+      "audio_duration": 1.3507083333333334,
+      "qa_duration": 1.3507083333333334,
+      "stats_duration": 1.3507083333333334,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1016,
+      "source_start": 9605.655823,
+      "source_end": 9605.795822999999,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01016.wav",
+      "expected": "Vậy",
+      "re_asr": "lệch",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch"
+      ],
+      "missing_critical": [],
+      "similarity": 0.0,
+      "timing_ratio": 0.9864824717771268,
+      "audio_duration": 0.5534166666666667,
+      "qa_duration": 0.5534166666666667,
+      "stats_duration": 0.5534166666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1021,
+      "source_start": 9626.162822999999,
+      "source_end": 9627.022822999998,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01021.wav",
+      "expected": "Đó là một lý do.",
+      "re_asr": "Đó là một lý do.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.0355236824551106,
+      "audio_duration": 1.0348333333333333,
+      "qa_duration": 1.0348333333333333,
+      "stats_duration": 1.0348333333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1033,
+      "source_start": 9674.388822999998,
+      "source_end": 9675.349822999999,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01033.wav",
+      "expected": "Rồi nhịp đi thật mới bắt đầu.",
+      "re_asr": "Rồi nhịp đi thật mới bắt đầu.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.2771267361105128,
+      "audio_duration": 1.3486458333333333,
+      "qa_duration": 1.3486458333333333,
+      "stats_duration": 1.3486458333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1140,
+      "source_start": 10326.374822999998,
+      "source_end": 10328.137822999997,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01140.wav",
+      "expected": "Thực ra bạn có thể chuyển sang khung bốn giờ",
+      "re_asr": "Thực ra bạn có thể chuyển sang 04h",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "bốn"
+      ],
+      "similarity": 0.8205128205128205,
+      "timing_ratio": 1.0052636718750572,
+      "audio_duration": 2.1445625,
+      "qa_duration": 2.1445625,
+      "stats_duration": 2.1445625,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1141,
+      "source_start": 10328.838822999998,
+      "source_end": 10355.810822999998,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01141.wav",
+      "expected": "và tìm một ví dụ. Nếu sang khung bốn giờ, hãy tìm một cấu trúc breakout xác suất cao. Đó là điều đầu tiên. Tôi không thích price action gần đây, nên ta lùi lại và tìm một ví dụ khác. Chẳng hạn cái này. Bạn thấy ta có một cấu trúc breaker mạnh, cùng imbalance này. Nó không nhất thiết lúc nào cũng phải ở mức năm mươi phần trăm.",
+      "re_asr": "Và tìm một ví dụ, nếu sang 04h, hãy tìm một cấu trúc breakout sát xuất cao. Đó là điều đầu tiên. Tôi không thích price action gần đây, nên ta lùi lại và tìm một ví dụ khác, chẳng hạn cái này. Bạn thấy ta có một cấu trúc breaker mạnh, cùng imbalance này. Nó không nhất thiết lúc nào cũng phải ở mức 50%.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "bốn"
+      ],
+      "similarity": 0.967948717948718,
+      "timing_ratio": 0.5981112277019802,
+      "audio_duration": 16.53,
+      "qa_duration": 16.53,
+      "stats_duration": 16.53,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1153,
+      "source_start": 10424.478822999998,
+      "source_end": 10447.484822999999,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01153.wav",
+      "expected": "Pullback này là lần đầu giá chạm vào range. Đây là mức thanh khoản ta sẽ trade, chính là mức này. Sau đó giá đi đến đâu? Có lẽ về năm mươi phần trăm của imbalance rồi tiếp tục giảm. Vậy đây là một pha quét thanh khoản xác suất cao, tức mức thanh khoản xác suất cao mà tôi khuyên bạn tập trung vào. Tương tự ở đây, ta có một nhịp mạnh.",
+      "re_asr": "Fullback này là lần đầu giá chạm vào range. Đây là mức thanh khoản ta sẽ trade. Chính là mức này. Sau đó giá đi đến đâu? Có lẽ về 50% của imbalance rồi tiếp tục giảm. Vậy đây là một pha quét thanh khoản sát xuất cao. Tức mức thanh khoản sát xuất cao mà tôi khuyên bạn tập trung vào. Tương tự ở đây, ta có một nhịp mạnh.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "pullback"
+      ],
+      "similarity": 0.9784615384615385,
+      "timing_ratio": 0.6869164800810512,
+      "audio_duration": 16.26,
+      "qa_duration": 16.26,
+      "stats_duration": 16.26,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1196,
+      "source_start": 10937.128552,
+      "source_end": 10941.952552,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01196.wav",
+      "expected": "Giả sử trong đoạn giá này, chúng ta có ba fair value gap trên khung mười lăm phút.",
+      "re_asr": "Giả sử trong đoạn giá này chúng ta có 3 fair value kép trên khung 15 phút",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.975,
+      "timing_ratio": 0.7847663012116924,
+      "audio_duration": 4.08,
+      "qa_duration": 4.08,
+      "stats_duration": 4.08,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1210,
+      "source_start": 11055.710552,
+      "source_end": 11056.770552000002,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01210.wav",
+      "expected": "Đó là cách chúng ta tiếp cận vấn đề này.",
+      "re_asr": "Đó là cách chúng ta tiếp cận vấn đề này.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.188755707763268,
+      "audio_duration": 1.7355833333333333,
+      "qa_duration": 1.7355833333333333,
+      "stats_duration": 1.7355833333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1222,
+      "source_start": 11244.214552000001,
+      "source_end": 11244.394552000002,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01222.wav",
+      "expected": "Vì sao?",
+      "re_asr": "Vì sao?",
+      "acoustic_checked": true,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.2332532051271698,
+      "audio_duration": 0.6412916666666667,
+      "qa_duration": 0.6412916666666667,
+      "stats_duration": 0.6412916666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1230,
+      "source_start": 11268.040552,
+      "source_end": 11269.120552,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01230.wav",
+      "expected": "Ta có fair value gap này.",
+      "re_asr": "Ta có fair value gap này.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.095558785530519,
+      "audio_duration": 1.4132708333333333,
+      "qa_duration": 1.4132708333333333,
+      "stats_duration": 1.4132708333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1234,
+      "source_start": 11273.401552000001,
+      "source_end": 11273.701552,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01234.wav",
+      "expected": "Cái này.",
+      "re_asr": "Cảm ơn.",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch"
+      ],
+      "missing_critical": [],
+      "similarity": 0.4615384615384615,
+      "timing_ratio": 1.0099116161618389,
+      "audio_duration": 0.6665416666666667,
+      "qa_duration": 0.6665416666666667,
+      "stats_duration": 0.6665416666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1235,
+      "source_start": 11273.981552000001,
+      "source_end": 11295.036552000001,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01235.wav",
+      "expected": "...không phải breakaway gap, nhưng vấn đề không chỉ nằm ở đó. Bạn thấy một, hai, ba. Làm sao biết cái này sẽ không bị lấp, cái này cũng không bị lấp, còn cái này thì sẽ bị lấp? Khi chuyển sang khung chín mươi phút, ta thấy cái này thực ra chính là cái này. Đây là khung chín mươi phút, và nó nằm phía trên fair value gap ngày màu vàng này.",
+      "re_asr": "không phải breakaway gap, nhưng vấn đề không chỉ nằm ở đó. Bạn thấy 1, 2, 3, làm sao biết cái này sẽ không bị lấp, cái này cũng không bị lấp, còn cái này thì sẽ bị lấp. Khi chuyển sang 0.90 phút, ta thấy cái này thực ra chính là cái này. Thực ra chính là cái này. Đây là 0.90 phút, và nó nằm phía trên phe value gap ngày màu vàng này.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.8984615384615384,
+      "timing_ratio": 0.8374291115311966,
+      "audio_duration": 17.72,
+      "qa_duration": 17.72,
+      "stats_duration": 17.72,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1240,
+      "source_start": 11330.415552,
+      "source_end": 11331.336552,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01240.wav",
+      "expected": "Và nó xảy ra đây.",
+      "re_asr": "Vẫn không xảy ra đấy.",
+      "acoustic_checked": true,
+      "reasons": [
+        "transcript_mismatch"
+      ],
+      "missing_critical": [],
+      "similarity": 0.7222222222222221,
+      "timing_ratio": 1.0076672862444809,
+      "audio_duration": 1.08425,
+      "qa_duration": 1.08425,
+      "stats_duration": 1.08425,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1245,
+      "source_start": 11338.583552,
+      "source_end": 11344.308552,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01245.wav",
+      "expected": "Vì có một fair value gap ở higher time frame ngăn giá chạm tới các ép vi gi ở lower time frame.",
+      "re_asr": "Vì có một Fair Value Gap ở Higher Time Frame, ngăn giá trạng tới các FVs ở Lower Time Frame.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "ép vi gi"
+      ],
+      "similarity": 0.9130434782608696,
+      "timing_ratio": 0.8476119526530446,
+      "audio_duration": 5.12,
+      "qa_duration": 5.12,
+      "stats_duration": 5.12,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1291,
+      "source_start": 11895.105552,
+      "source_end": 11895.385552000002,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01291.wav",
+      "expected": "Vì sao?",
+      "re_asr": "Peace out.",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch"
+      ],
+      "missing_critical": [],
+      "similarity": 0.2666666666666667,
+      "timing_ratio": 1.018127147765101,
+      "audio_duration": 0.4937916666666667,
+      "qa_duration": 0.4937916666666667,
+      "stats_duration": 0.4937916666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1299,
+      "source_start": 11948.324552000002,
+      "source_end": 11970.951552,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01299.wav",
+      "expected": "...để lấy thanh khoản phía trên và dùng nó làm nhiên liệu đi cao hơn. Nhưng điều đó không có nghĩa giá sẽ thật sự đảo chiều từ những vùng đó khi mục tiêu thanh khoản chính đã bị lấy. Rồi, thêm một ví dụ để củng cố phần này. Ta đang đi lên trên khung một giờ và giá đã tôn trọng fair value gap này. Dù đây là breakaway gap, nhưng...",
+      "re_asr": "để lấy thanh khoản phía trên và dùng nó làm nhiên liệu đi cao hơn. Nhưng điều đó không có nghĩa giá sẽ thật sự đào chiều từ những vùng đó khi mục tiêu thanh khoản chính đã bị lấy. Rồi thêm một ví dụ để củng cố phần này. Ta đang đi lên trên khu 1 giờ và giá đã tôn trọng phe value gap này. Dù đây là breakaway gap nhưng...",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9826771653543307,
+      "timing_ratio": 0.7033402203856758,
+      "audio_duration": 16.34,
+      "qa_duration": 16.34,
+      "stats_duration": 16.34,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1361,
+      "source_start": 12700.7859795,
+      "source_end": 12703.4279795,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01361.wav",
+      "expected": "Xuống khung mười lăm phút để xem phản ứng tại fair value gap đó.",
+      "re_asr": "xuống khung 15 phút để xem phản ứng tại pheo value gap đó.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9365079365079364,
+      "timing_ratio": 0.9951196633200707,
+      "audio_duration": 3.270958333333333,
+      "qa_duration": 3.270958333333333,
+      "stats_duration": 3.270958333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1362,
+      "source_start": 12704.0879795,
+      "source_end": 12708.371979500002,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01362.wav",
+      "expected": "Ta thấy giá lấp fair value gap đó, thậm chí không đóng cửa phía trên, rồi bắt đầu đi xuống.",
+      "re_asr": "Ta thấy giá lớp Fair Value gấp đó thậm chí không đóng cửa phía trên, rồi bắt đầu đi xuống.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9772727272727273,
+      "timing_ratio": 1.0016813336192016,
+      "audio_duration": 4.666833333333333,
+      "qa_duration": 4.666833333333333,
+      "stats_duration": 4.666833333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1386,
+      "source_start": 12902.8119795,
+      "source_end": 12931.2339795,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01386.wav",
+      "expected": "Và thêm một breakaway gap nữa, tổng cộng hai breakaway gap. Nhưng bỏ qua chuyện đó, ở đây ta sẽ làm phân tích nội bộ. Ta xuống khung một phút để xem bên trong đang xảy ra gì. Nhớ rằng không chỉ có kỹ thuật này mà còn cần kinh nghiệm. Tôi đã nói nhiều lần: fair value gap nào chồng lấn với các PD array khác thì xác suất cao hơn. Giả sử giá đi lên, quay xuống rồi lại đi lên tới đây.",
+      "re_asr": "Và thêm một breakaway gap nữa, tổng cộng hai breakaway gap. Nhưng bỏ qua chuyện đó, ở đây ta sẽ làm phân tích nội bộ. Ta xuống không một phút để xem bên trong đang xảy ra gì. Nhớ rằng, không chỉ có kỹ thuật này mà còn cần kinh nghiệm. Tôi đã nói nhiều lần, phe value gap nào trống lấn với các phe DRA khác thì sát xuất cao hơn. Giả sử giá đi lên, quay xuống rồi lại đi lên tới đây.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9622641509433962,
+      "timing_ratio": 0.6796850826829539,
+      "audio_duration": 19.77,
+      "qa_duration": 19.77,
+      "stats_duration": 19.77,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1427,
+      "source_start": 13469.040979500001,
+      "source_end": 13470.941979500001,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01427.wav",
+      "expected": "Đó là các fair value gap khung một giờ, đúng không?",
+      "re_asr": "Đó là các phe Value App không 1 giờ đúng không?",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.8865979381443299,
+      "timing_ratio": 1.00588686732529,
+      "audio_duration": 2.2391041666666665,
+      "qa_duration": 2.2391041666666665,
+      "stats_duration": 2.2391041666666665,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1439,
+      "source_start": 13560.732458499999,
+      "source_end": 13579.873458499998,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01439.wav",
+      "expected": "Ở phía trên quanh đây còn vài fair value gap bullish. Tất cả những fair value gap đó đều có xác suất thấp. Tại sao? Vì chúng không nằm trong một fair value gap của khung thời gian cao hơn. Nhưng cái này thì khác. Nhìn kỹ, đây là một fair value gap khung một giờ. Giờ bạn sẽ tự hỏi...",
+      "re_asr": "Ở phía trên quanh đây còn vài phe Value Gap Bullish. Tất cả những phe Value Gap đó đều có sang suất thấp. Tại sao? Vì chúng không nằm trong một phe Value Gap của khung thời gian cao hơn. Nhìn cái này thì khác. Nhìn kỹ đây là một phe Value Gap khung giờ. Giờ bạn sẽ tự hỏi.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9219330855018587,
+      "timing_ratio": 0.7173527369963741,
+      "audio_duration": 13.95,
+      "qa_duration": 13.95,
+      "stats_duration": 13.95,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1441,
+      "source_start": 13584.2984585,
+      "source_end": 13592.4254585,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01441.wav",
+      "expected": "Và đúng là có. Giờ ta đang chọn các fair value gap mười lăm phút xác suất cao, rồi tinh chỉnh chúng.",
+      "re_asr": "Và đúng là có. Giờ ta đang chọn các phe value gáp 15 phút sát xuất cao, rồi tinh chỉnh chúng.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.922279792746114,
+      "timing_ratio": 0.6648599819330244,
+      "audio_duration": 5.52,
+      "qa_duration": 5.52,
+      "stats_duration": 5.52,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1449,
+      "source_start": 13699.4084585,
+      "source_end": 13701.4704585,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01449.wav",
+      "expected": "Vậy bạn thấy rồi, đó là fair value gap một giờ.",
+      "re_asr": "Vậy bạn thấy rồi, đó là phe Value Gap 1 giờ.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9213483146067416,
+      "timing_ratio": 1.0044261595058745,
+      "audio_duration": 2.5482291666666668,
+      "qa_duration": 2.5482291666666668,
+      "stats_duration": 2.5482291666666668,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1456,
+      "source_start": 13743.507458499998,
+      "source_end": 13762.5654585,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01456.wav",
+      "expected": "Tại sao cách này cho các setup xác suất cao và fair value gap xác suất cao? Lý do đầu tiên là ta đang trade từ một PDA array ở khung thời gian cao hơn. Nhiều người sẽ bảo rằng nếu trade khung mười lăm phút thì phải nhìn các PDA array ở khung lớn hơn. Nhưng khi làm theo cách này...",
+      "re_asr": "Tại sao cách này cho các setup sản xuất cao và fair value gáp sản xuất cao? Lý do đầu tiên là ta đang trade từ một pdf ở khung thời gian cao hơn. Nhiều người sẽ bảo rằng nếu trade khung 15 phút thì phải nhìn các pdf ở khung lớn hơn. Nhưng khi làm theo cách này,",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9368029739776952,
+      "timing_ratio": 0.7657312273167985,
+      "audio_duration": 14.98,
+      "qa_duration": 14.98,
+      "stats_duration": 14.98,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1460,
+      "source_start": 13776.1114585,
+      "source_end": 13776.311458499998,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01460.wav",
+      "expected": "Sao?",
+      "re_asr": "Chào!",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch",
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 0.2857142857142857,
+      "timing_ratio": 1.9067622950915195,
+      "audio_duration": 0.5815625,
+      "qa_duration": 0.5815625,
+      "stats_duration": 0.5815625,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1475,
+      "source_start": 13821.302458499998,
+      "source_end": 13829.0304585,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01475.wav",
+      "expected": "Vậy fair value gap xác suất cao của bạn sẽ được vẽ, hay xác định, trên khung bốn giờ.",
+      "re_asr": "Vậy phe Value Gap sát xuất cao của bạn sẽ được vẽ hay xác định trên khung 4 giờ.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9202453987730062,
+      "timing_ratio": 0.593838921192587,
+      "audio_duration": 4.8,
+      "qa_duration": 4.8,
+      "stats_duration": 4.8,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1488,
+      "source_start": 13961.0494585,
+      "source_end": 13966.153458499999,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01488.wav",
+      "expected": "Giờ bạn chuyển xuống khung bốn giờ, là khung bạn muốn trade dựa trên các fair value gap.",
+      "re_asr": "Giờ bạn chuyển xuống khung 4 giờ là khung bạn muốn trade dựa trên các phe value gap.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9590643274853801,
+      "timing_ratio": 0.7273416043185146,
+      "audio_duration": 3.84,
+      "qa_duration": 3.84,
+      "stats_duration": 3.84,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1489,
+      "source_start": 13966.554458499999,
+      "source_end": 13971.6584585,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01489.wav",
+      "expected": "Và ở đây bạn sẽ tìm các fair value gap xác suất cao trên khung bốn giờ.",
+      "re_asr": "Và ở đây bạn sẽ tìm các phe Value Gap sát xuất cao trên khung 4 giờ.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9064748201438849,
+      "timing_ratio": 0.6786690545762789,
+      "audio_duration": 3.6,
+      "qa_duration": 3.6,
+      "stats_duration": 3.6,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1493,
+      "source_start": 13978.5034585,
+      "source_end": 13979.3444585,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01493.wav",
+      "expected": "Bạn nhìn chỗ này.",
+      "re_asr": "Bạn nhìn chỗ này.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.0723116495191043,
+      "audio_duration": 1.6154375,
+      "qa_duration": 1.6154375,
+      "stats_duration": 1.6154375,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1497,
+      "source_start": 13989.8884585,
+      "source_end": 13992.3894585,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01497.wav",
+      "expected": "Đây là fair value gap khung ngày khi nhìn trên khung bốn giờ.",
+      "re_asr": "Đây là pheo value gap khung ngày khi nhìn trên khung 4 giờ.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9333333333333332,
+      "timing_ratio": 1.0046588302745365,
+      "audio_duration": 2.6281875,
+      "qa_duration": 2.6281875,
+      "stats_duration": 2.6281875,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1499,
+      "source_start": 13997.8424585,
+      "source_end": 14004.0854585,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01499.wav",
+      "expected": "Giờ ta có thể chỉnh vùng này theo fair value gap khung bốn giờ, vì ta biết mình đang trade từ một fair value gap khung ngày.",
+      "re_asr": "là do các hệ trình vùng này theo Fair Value Gap khung 4 giờ, vì ta biết mình đang trade từ một Fair Value Gap khung ngày.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "có thể"
+      ],
+      "similarity": 0.9135802469135803,
+      "timing_ratio": 0.8621736490586911,
+      "audio_duration": 5.68,
+      "qa_duration": 5.68,
+      "stats_duration": 5.68,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1507,
+      "source_start": 14022.430458499999,
+      "source_end": 14027.811458499998,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01507.wav",
+      "expected": "Lý do là gì? Thứ nhất, nó nằm trong fair value gap khung ngày, tức khung lớn hơn so với bốn giờ.",
+      "re_asr": "Lý do là gì? Thứ nhất, nó nằm trong phe value gấp khung này, tức khung lớn hơn so với 4 giờ.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9450549450549449,
+      "timing_ratio": 0.9004572634541462,
+      "audio_duration": 5.12,
+      "qa_duration": 5.12,
+      "stats_duration": 5.12,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1542,
+      "source_start": 14147.7164585,
+      "source_end": 14148.356458499999,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01542.wav",
+      "expected": "Là cái này.",
+      "re_asr": "Lạc ngay!",
+      "acoustic_checked": true,
+      "reasons": [
+        "timing_overflow",
+        "transcript_mismatch"
+      ],
+      "missing_critical": [],
+      "similarity": 0.5555555555555556,
+      "timing_ratio": 1.0395270270273336,
+      "audio_duration": 0.76925,
+      "qa_duration": 0.76925,
+      "stats_duration": 0.76925,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1543,
+      "source_start": 14148.376458499999,
+      "source_end": 14153.0584585,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01543.wav",
+      "expected": "Vậy ta điều chỉnh về fair value gap khung bốn giờ rồi tự hỏi câu này.",
+      "re_asr": "Vậy ta điều chỉnh về phe value gap khung 4 giờ rồi tự hỏi câu này.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9481481481481482,
+      "timing_ratio": 0.7386729654282189,
+      "audio_duration": 3.44,
+      "qa_duration": 3.44,
+      "stats_duration": 3.44,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1550,
+      "source_start": 14170.962458499998,
+      "source_end": 14172.8434585,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01550.wav",
+      "expected": "Đặt fair value gap của ta vào trong fair value gap khung ngày.",
+      "re_asr": "Đặt fair value gap của ta vào trong fair value gap khung ngày.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.0361413408572786,
+      "audio_duration": 2.570666666666667,
+      "qa_duration": 2.570666666666667,
+      "stats_duration": 2.570666666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1581,
+      "source_start": 14287.724458499999,
+      "source_end": 14291.6484585,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01581.wav",
+      "expected": "Ta chuyển nó xuống khung bốn giờ, và đây là fair value gap bốn giờ.",
+      "re_asr": "Ta chuyển nó xuống khung 4 giờ, và đây là phe value ghép 4 giờ.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.923076923076923,
+      "timing_ratio": 0.8238928939236583,
+      "audio_duration": 3.6,
+      "qa_duration": 3.6,
+      "stats_duration": 3.6,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1583,
+      "source_start": 14295.7524585,
+      "source_end": 14297.473458499999,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01583.wav",
+      "expected": "Một cái khác ở đây, và đây là fair value gap khung ngày.",
+      "re_asr": "Một cái khác ở đây, và đây là fair value gap khung ngày.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.1962477543692085,
+      "audio_duration": 2.4415416666666667,
+      "qa_duration": 2.4415416666666667,
+      "stats_duration": 2.4415416666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1586,
+      "source_start": 14300.115458499999,
+      "source_end": 14301.856458499999,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01586.wav",
+      "expected": "Bên trong có fair value gap bốn giờ không?",
+      "re_asr": "Bên trong có phe value gap 4 giờ 0",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9135802469135803,
+      "timing_ratio": 1.0054300796116464,
+      "audio_duration": 1.9364583333333334,
+      "qa_duration": 1.9364583333333334,
+      "stats_duration": 1.9364583333333334,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1592,
+      "source_start": 14315.284458499998,
+      "source_end": 14316.1854585,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01592.wav",
+      "expected": "Và bạn thấy chuyện gì xảy ra ở đây không?",
+      "re_asr": "Và bạn thấy chuyện gì xảy ra ở đây không?",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.7989777432739587,
+      "audio_duration": 1.7378125,
+      "qa_duration": 1.7378125,
+      "stats_duration": 1.7378125,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1612,
+      "source_start": 14575.0064585,
+      "source_end": 14597.5324585,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01612.wav",
+      "expected": "Sau khi fair value gap này hình thành, bạn thấy giá quay lại rất nhanh: ngay cây nến kế tiếp, rồi thêm một lần nữa sau ba cây nến. Nhưng với vùng này, nơi có râu nến lớn, nếu xuống khung thời gian thấp hơn ta sẽ thấy một điều. Tôi đổi vùng này sang màu xanh, rồi xuống khung mười lăm phút, ta sẽ thấy rằng...",
+      "re_asr": "Sau khi phe Value Gap này hình thành, bạn thấy giá quay lại rất nhanh, ngay cây nến kế tiếp, rồi thêm một lần nữa sau 3 cây nến. Nhưng với vùng này, nơi có râu nến lớn, nếu xuống khung thời gian thấp hơn, ta sẽ thấy một điều. Tôi đổi vùng này sang màu xanh, rồi xuống khung 15 phút, ta sẽ thấy rằng",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.988155668358714,
+      "timing_ratio": 0.6601698934931451,
+      "audio_duration": 15.31,
+      "qa_duration": 15.31,
+      "stats_duration": 15.31,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1652,
+      "source_start": 15361.137729,
+      "source_end": 15385.858729,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01652.wav",
+      "expected": "Vậy phân tích nội bộ là phân tích khung thời gian thấp dựa trên thanh khoản bên trong một fair value gap của khung thời gian cao. Ta kết hợp khung thấp với khung cao và cần sự đồng thuận giữa chúng. Đây là nguyên tắc tôi luôn nhắc tới. Nếu bạn dùng fair value gap mười lăm phút, bạn có thể phân tích ở khung một phút. Tuy nhiên...",
+      "re_asr": "Vậy phân tích nội bộ là phân tích khung thời gian thấp dựa trên thanh khoản bên trong một phe value gap của khung thời gian cao. Ta kết hợp khung thấp với khung cao và cần sự đồng thuận giữa chúng. Đây là nguyên tắc tôi luôn nhắc tới. Nếu bạn dùng phe value gap 15 phút, bạn có thể phân tích ở khung 1 phút. Tuy nhiên,",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9781931464174456,
+      "timing_ratio": 0.5987552194122645,
+      "audio_duration": 15.2,
+      "qa_duration": 15.2,
+      "stats_duration": 15.2,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1741,
+      "source_start": 16253.463729,
+      "source_end": 16271.965729,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01741.wav",
+      "expected": "Bí mật số ba: quy tắc năm mươi phần trăm của fair value gap. Khi bạn không có gì cả, không có yếu tố hợp lưu nào khác và cũng không có gì chồng lên fair value gap, thì nên tập trung vào đâu? Ngay cả khi phân tích bên trong, bạn cũng không thấy gì. Bất kể thế nào, đây vẫn là mức đầu tiên mà...",
+      "re_asr": "Bí mật số 3, quy tắc 50% của Fair Value Gap. Khi bạn không có gì cả, không có yếu tố hợp lưu nào khác, và cũng không có gì trồng lên Fair Value Gap, thì đến đây tập trung vào đâu? Ngay cả khi phân tích bên trong, bạn cũng không thấy gì. Bất kể thế nào, đây vẫn là mức đầu tiên mà.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "nên"
+      ],
+      "similarity": 0.9788732394366196,
+      "timing_ratio": 0.7896528250510654,
+      "audio_duration": 15.08,
+      "qa_duration": 15.08,
+      "stats_duration": 15.08,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1748,
+      "source_start": 16369.242729,
+      "source_end": 16396.138729,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01748.wav",
+      "expected": "...fair value gap trên khung thời gian cao hơn sẽ rất gần với vùng mà ta xác định từ fair value gap đầu tiên đến vùng cuối cùng. Có lẽ fair value gap khung lớn sẽ nằm rất gần vùng này. Vậy khi muốn áp dụng quy tắc năm mươi phần trăm cho các fair value gap liên tiếp, ta lấy từ vùng đầu tiên đến vùng cuối cùng rồi xác định mức năm mươi phần trăm, tức tìm mức năm mươi phần trăm của toàn bộ chuỗi fair value gap này.",
+      "re_asr": "Phe Value Gap trên khung thời gian cao hơn sẽ rất gần với vùng mà ta xác định từ Phe Value Gap đầu tiên đến vùng cuối cùng. Có lẽ Phe Value Gap không lớn sẽ nằm rất gần vùng này. Vậy khi muốn áp dụng quy tắc 50% cho các Phe Value Gap liên tiếp, ta lấy từ vùng đầu tiên đến vùng cuối cùng rồi xác định mức 50%, tức tìm mức 50%, tức tìm mức 50% của toàn bộ chuỗi Phe Value Gap này.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.919047619047619,
+      "timing_ratio": 0.7972043245604058,
+      "audio_duration": 21.9,
+      "qa_duration": 21.9,
+      "stats_duration": 21.9,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1757,
+      "source_start": 16419.219729,
+      "source_end": 16443.265729,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01757.wav",
+      "expected": "Và tôi sẽ không thực hiện gì cả, không tìm điểm vào hay điểm vào xác nhận, trừ khi mức năm mươi phần trăm của fair value gap được chạm tới. Điều này có đảm bảo bạn vào được mọi lệnh không? Không hẳn. Nhưng nó giúp bạn tập trung vào những lệnh có xác suất cao. Nhìn ở đây, mức năm mươi phần trăm, một lần nữa, lại được giá tôn trọng.",
+      "re_asr": "Và tôi sẽ không thực hiện gì cả, không tìm điểm vào hay điểm vào xác nhận, trừ khi mức 50% của Fair Value App được chạm tới. Điều này có đảm bảo bạn vào được mọi lệnh không? Không hẳn. Nhưng nó giúp bạn tập trung vào những lệnh có sát xuất cao. Nhìn ở đây, mức 50% một lần nữa lại được giá tôn trọng.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9875776397515527,
+      "timing_ratio": 0.6785150398770025,
+      "audio_duration": 16.76,
+      "qa_duration": 16.76,
+      "stats_duration": 16.76,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1790,
+      "source_start": 16813.013354,
+      "source_end": 16841.253354,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01790.wav",
+      "expected": "được kỳ vọng sẽ đẩy giá lên cao hơn. Ngay cả khi đo từ đây đến đây, bạn sẽ thấy đúng mức năm mươi phần trăm của chuỗi nến này được tôn trọng. Cái sau sẽ được tôn trọng, còn cái trước được kỳ vọng sẽ bị phá. Ở đây cũng có một ví dụ khác: ta thấy cú quét, fair value gap được tạo trước và fair value gap được tạo sau. Bây giờ còn có khái niệm hai cái này chồng lấn lên nhau.",
+      "re_asr": "Được kỳ vọng sẽ đẩy giá lên cao hơn. Ngay cả khi đò từ đây đến đây, bạn sẽ thấy đúng mức 50% của chuỗi nến này được tôn trọng. Cái sau sẽ được tôn trọng, còn cái trước được kỳ vọng sẽ bị phá. Ở đây cũng có một ví dụ khác. Ta thấy cú quét. Phe value gap được tạo trước và phe value gap được tạo sau. Bây giờ còn có khái niệm hai cái này trồng lấn lên nhau.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9723756906077348,
+      "timing_ratio": 0.6469058762351049,
+      "audio_duration": 18.66,
+      "qa_duration": 18.66,
+      "stats_duration": 18.66,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1807,
+      "source_start": 17159.642354,
+      "source_end": 17178.555354,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01807.wav",
+      "expected": "Giá đi tới đây. Sau đó có thêm một cú quét nữa, đúng vậy. Nên kể cả vào lệnh ở đây, bạn có thể bị đá ra tùy độ rộng stop loss. Nhưng bạn thấy giá phản ứng từ đây rồi đi xuống. Giờ ta thấy gì? Nếu để ý, ở đây có nhiều fair value gap liên tiếp. Hãy áp dụng quy tắc năm mươi phần trăm. Quy tắc năm mươi phần trăm là...",
+      "re_asr": "Giá đi tới đây. Sau đó có thêm một cú quét nữa, đúng vậy. Nên kể cả vào lệnh ở đây, bạn có thể bị đá ra tùy độ rộng stop loss, nhưng bạn thấy giá phản ứng từ đây rồi đi xuống. Giờ ta thấy gì? Nếu để ý ở đây có nhiều phe value gap liên tiếp, hãy áp dụng quy tắc 50%. Quy tắc 50% là...",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.988391376451078,
+      "timing_ratio": 0.8384489461838015,
+      "audio_duration": 16.39,
+      "qa_duration": 16.39,
+      "stats_duration": 16.39,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1828,
+      "source_start": 17440.721353999998,
+      "source_end": 17445.263354,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01828.wav",
+      "expected": "Ví dụ ở đây ta có ba fair value gap trên khung mười lăm phút.",
+      "re_asr": "Ví dụ ở đây ta có 3 phe value gáp trên khung 15 phút.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9243697478991596,
+      "timing_ratio": 0.7583737097109131,
+      "audio_duration": 3.6,
+      "qa_duration": 3.6,
+      "stats_duration": 3.6,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1829,
+      "source_start": 17445.343354,
+      "source_end": 17451.165354,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01829.wav",
+      "expected": "Và bên dưới có một fair value gap khung bốn giờ, nếu xét riêng đoạn price action này.",
+      "re_asr": "Và bên dưới có một phe Value Gap khung 4 giờ nếu xét riêng đoạn Price Action này.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9575757575757575,
+      "timing_ratio": 0.8003334722799419,
+      "audio_duration": 4.8,
+      "qa_duration": 4.8,
+      "stats_duration": 4.8,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1832,
+      "source_start": 17485.917353999997,
+      "source_end": 17506.695354,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01832.wav",
+      "expected": "Về mối liên hệ giữa fair value gap khung cao và khung thấp, ta đã nói khung cao luôn chi phối mạnh hơn và là vùng được tôn trọng. Khung thấp sẽ không được tôn trọng khi có fair value gap khung cao. Giờ nếu xét theo khung giờ, hoặc bắt đầu với khung bốn giờ chẳng hạn.",
+      "re_asr": "Về mối liên hệ giữa phe value gap khung cao và khung thấp, ta đã nói khung cao luôn chi phối mạnh hơn và là vùng được tôn trọng. Khung thấp sẽ không được tôn trọng khi có phe value gap khung cao. Giờ nếu xét theo khung giờ, hoặc bắt đầu với khung 4 giờ chẳng hạn,",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9731800766283524,
+      "timing_ratio": 0.5866716410950151,
+      "audio_duration": 12.58,
+      "qa_duration": 12.58,
+      "stats_duration": 12.58,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1851,
+      "source_start": 17684.882353999998,
+      "source_end": 17685.362354,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01851.wav",
+      "expected": "Vì sao?",
+      "re_asr": "Thì sao?",
+      "acoustic_checked": true,
+      "reasons": [
+        "timing_overflow",
+        "transcript_mismatch"
+      ],
+      "missing_critical": [],
+      "similarity": 0.7692307692307692,
+      "timing_ratio": 1.174905303030562,
+      "audio_duration": 0.7754375,
+      "qa_duration": 0.7754375,
+      "stats_duration": 0.7754375,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1882,
+      "source_start": 17968.548354,
+      "source_end": 17969.809354,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01882.wav",
+      "expected": "Ở khung mười lăm phút, bạn thấy cái này.",
+      "re_asr": "Ở khung lớp food bạn thấy cái này.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical",
+        "timing_overflow",
+        "transcript_mismatch"
+      ],
+      "missing_critical": [
+        "mười lăm"
+      ],
+      "similarity": 0.7605633802816901,
+      "timing_ratio": 1.1008656585575027,
+      "audio_duration": 1.6744166666666667,
+      "qa_duration": 1.6744166666666667,
+      "stats_duration": 1.6744166666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1889,
+      "source_start": 17998.110354,
+      "source_end": 17999.711354,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01889.wav",
+      "expected": "Đây là fair value gap bốn giờ.",
+      "re_asr": "Đây là phe value gap 4 giờ.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.8771929824561404,
+      "timing_ratio": 1.005271779256087,
+      "audio_duration": 1.8155208333333333,
+      "qa_duration": 1.8155208333333333,
+      "stats_duration": 1.8155208333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1890,
+      "source_start": 18000.171354,
+      "source_end": 18027.541354,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01890.wav",
+      "expected": "Về cách ghép khung thời gian, với khung bốn giờ thì khung chính là mười lăm phút. Tuy vậy, bạn cũng có thể xem một giờ, năm phút và ba mươi phút. Với Daily thì xem bốn giờ, cũng có thể một giờ; còn với mười lăm phút thì là một phút. Tôi vẫn luôn nói về cách ghép khung như vậy. Giờ nhìn vào fair value gap bốn giờ này.",
+      "re_asr": "Về cách ghép khung thời gian, với khung 4 giờ thì khung chính là 15 phút, tuy vậy bạn cũng có thể xem 1 giờ, 5 phút và 30 phút. Với daily thì xem 4 giờ, cũng có thể 1 giờ, còn với 15 phút thì là 1 phút, thì là 1 phút. Tôi vẫn luôn nói về cách ghép khung như vậy. Giờ nhìn vào phe value gap 4 giờ này.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9635499207606973,
+      "timing_ratio": 0.6057675085079517,
+      "audio_duration": 16.91,
+      "qa_duration": 16.91,
+      "stats_duration": 16.91,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1893,
+      "source_start": 18062.280417,
+      "source_end": 18077.910417,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01893.wav",
+      "expected": "Vậy là bạn có một trading plan hoàn chỉnh. Với fair value gap bốn giờ này, trước tiên ta xem khung một giờ. Đây là những gì đang diễn ra ở khung một giờ. Giờ có vài thứ cần tập trung, và tôi sẽ xếp theo thứ tự này.",
+      "re_asr": "Vậy là bạn có một trading plan hoàn chỉnh. Với phe value ghép 4 giờ này, trước tiên ta xem khung 1 giờ. Đây là những gì đang diễn ra ở khung 1 giờ. Giờ có vài thứ cần tập trung và tôi sẽ xếp theo thứ tự này.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9759615384615384,
+      "timing_ratio": 0.6522420821575768,
+      "audio_duration": 10.4,
+      "qa_duration": 10.4,
+      "stats_duration": 10.4,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1902,
+      "source_start": 18147.568417,
+      "source_end": 18153.352417000002,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01902.wav",
+      "expected": "Điều đầu tiên tôi thấy là fair value gap một giờ này nằm bên trong fair value gap bốn giờ.",
+      "re_asr": "Điều đầu tiên tôi thấy là phe value gap 1 giờ này nằm bên trong phe value gap 4 giờ.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9204545454545454,
+      "timing_ratio": 0.7576009303866202,
+      "audio_duration": 4.56,
+      "qa_duration": 4.56,
+      "stats_duration": 4.56,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 1970,
+      "source_start": 18786.197417,
+      "source_end": 18801.304417,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\01970.wav",
+      "expected": "lệnh ở đây. Tuy nhiên, một số người vẫn có thể chọn vùng này vì nó nằm ở cuối và chồng lấn bên trong một fair value gap, nên đây cũng là một điểm hợp lệ. Nhưng với mình, điểm đẹp nhất vẫn là order block. Giờ đây là khung một giờ...",
+      "re_asr": "lệnh ở đây tuy nhiên một số người vẫn có thể chọn vùng này vì nó nằm ở cuối và trồng lẫn bên trong một phe value gap nên đây cũng là một điểm hợp lệ nhưng với mình điểm đẹp nhất vẫn là order block giờ đây là khu 1 giờ",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9659863945578231,
+      "timing_ratio": 0.7253360385494564,
+      "audio_duration": 11.44,
+      "qa_duration": 11.44,
+      "stats_duration": 11.44,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2001,
+      "source_start": 19048.577417,
+      "source_end": 19072.272417,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02001.wav",
+      "expected": "Giờ ở đây có nhiều fair value gap khác nhau. Vì sao giá lại phản ứng đúng tại đây? Bạn cũng có thể xuống khung thấp hơn để xem chuyện gì đang xảy ra. Tôi sẽ không lặp lại toàn bộ nữa. Ở đây cũng có inducement: phản ứng lần đầu từ đây, lần hai từ tận đây. Vì đang dùng khung năm phút nên ta phải xuống khung một phút, không còn cách nào khác...",
+      "re_asr": "Giờ ở đây có nhiều phe value gap khác nhau. Vì sao giá lại phản ứng đúng tại đây? Bạn cũng có thể xuống khung thấp hơn để xem chuyện gì đang xảy ra. Tôi sẽ không lặp lại toàn bộ nữa. Ở đây cũng có inducement, phản ứng lần đầu từ đây, lần hai từ tận đây. Vì đang dùng khung 5 phút, nên ta phải xuống khung 1 phút, không còn cách nào khác.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9894419306184012,
+      "timing_ratio": 0.6990968801314507,
+      "audio_duration": 17.03,
+      "qa_duration": 17.03,
+      "stats_duration": 17.03,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2142,
+      "source_start": 20517.9004895,
+      "source_end": 20518.7204895,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02142.wav",
+      "expected": "Tôi có khóa học đầy đủ.",
+      "re_asr": "Tôi có khoa học đầy đủ.",
+      "acoustic_checked": true,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 0.9545454545454546,
+      "timing_ratio": 1.1976919934635397,
+      "audio_duration": 1.2216458333333333,
+      "qa_duration": 1.2216458333333333,
+      "stats_duration": 1.2216458333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2155,
+      "source_start": 20660.1654895,
+      "source_end": 20660.406489499997,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02155.wav",
+      "expected": "Ừ.",
+      "re_asr": "Cảm ơn",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch",
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 0.0,
+      "timing_ratio": 1.5253718285165412,
+      "audio_duration": 0.5811666666666667,
+      "qa_duration": 0.5811666666666667,
+      "stats_duration": 0.5811666666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2298,
+      "source_start": 22263.3953645,
+      "source_end": 22263.5753645,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02298.wav",
+      "expected": "Sao?",
+      "re_asr": "Chào!",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch",
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 0.2857142857142857,
+      "timing_ratio": 2.3486666666666665,
+      "audio_duration": 0.5871666666666666,
+      "qa_duration": 0.5871666666666666,
+      "stats_duration": 0.5871666666666666,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2383,
+      "source_start": 23412.5237395,
+      "source_end": 23414.7457395,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02383.wav",
+      "expected": "61.8, 70.5 và bảy mươi chín nằm ở đây.",
+      "re_asr": "60, 1.8, 70.5 và 79 nằm ở đây.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "61 8"
+      ],
+      "similarity": 0.875,
+      "timing_ratio": 1.0009855189076071,
+      "audio_duration": 3.1105625,
+      "qa_duration": 3.1105625,
+      "stats_duration": 3.1105625,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2622,
+      "source_start": 25798.4144685,
+      "source_end": 25798.554468500002,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02622.wav",
+      "expected": "Giờ.",
+      "re_asr": "Giờ.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.114863782050346,
+      "audio_duration": 0.5797291666666666,
+      "qa_duration": 0.5797291666666666,
+      "stats_duration": 0.5797291666666666,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2661,
+      "source_start": 26311.1864685,
+      "source_end": 26335.9514685,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02661.wav",
+      "expected": "giao dịch theo phương pháp này. Từ khung bốn giờ, chúng ta xuống khung thấp hơn. Thực ra ở đây có một cú từ chối nên bias là bearish. Nhưng bạn luôn phải tìm các mức hợp lệ. Ví dụ, mình tìm một đỉnh bị lấy kèm vùng overlap. Bạn cũng có thể tìm sự từ chối từ các vùng overlap, nhưng đó là mức nâng cao. Ta có thể tìm giá từ chối tại các vùng đó, nghĩa là ta đã có...",
+      "re_asr": "Giao dịch theo phương pháp này, từ 04h chúng ta xuống khung thấp hơn. Thực ra ở đây có một cú từ chối, nên bias là bearish. Nhưng bạn luôn phải tìm các mức hợp lệ. Ví dụ mình tìm một đỉnh bị lấy kèm vùng overlap. Bạn cũng có thể tìm sự từ chối từ các vùng overlap, nhưng đó là mức nâng cao. Ta có thể tìm giá từ chối tại các vùng đó, nghĩa là ta đã có.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "bốn"
+      ],
+      "similarity": 0.9798270893371758,
+      "timing_ratio": 0.7225730071034934,
+      "audio_duration": 18.31,
+      "qa_duration": 18.31,
+      "stats_duration": 18.31,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2679,
+      "source_start": 26644.0464685,
+      "source_end": 26658.894468500002,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02679.wav",
+      "expected": "Ngay khi đang ở trong một bullish fair value gap trên khung bốn giờ thì bản thân nó đã tạo ra bias. Giờ tưởng tượng bạn đang nhìn khung bốn giờ và lại nằm trong một bullish fair value gap của khung tuần.",
+      "re_asr": "Ngay khi đang ở trong một Bullish Fair Value ghép trên khung 4 giờ thì bản thân nó đã tạo ra Pierce. Giờ tưởng tượng bạn đang nhìn khung 4 giờ và lại nằm trong một Bullish Fair Value ghép của khung tuần.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9655172413793103,
+      "timing_ratio": 0.6660984724316261,
+      "audio_duration": 10.16,
+      "qa_duration": 10.16,
+      "stats_duration": 10.16,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2756,
+      "source_start": 27922.944729,
+      "source_end": 27952.451728999997,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02756.wav",
+      "expected": "Giá đi vào đây rồi có CISD, hay thực ra là market shift, kèm displacement xuống dưới. Ở đây bạn thấy displacement lên trên, đóng cửa phía trên rồi tiếp tục tăng trong phiên London. Ngày này không phải ví dụ sạch nhất nhưng vẫn hoạt động. Ở đây cũng vậy: phiên Á từ đây đến đây, rồi giá đi vào fair value gap này. Đây cũng là fair value gap trên khung một giờ. Để xem nhé.",
+      "re_asr": "Giá đi vào đây rồi có CISD, hay thực ra là Market Shift, kèm Displacement xuống dưới. Ở đây bạn thấy Displacement lên trên, đóng cửa phía trên rồi tiếp tục tăng trong phiên London. Ngay này không phải ví dụ sạch nhất, nhưng vẫn hoạt động. Ở đây cũng vậy, phiên đã từ đây đến đây, rồi giá đi vào Fair Value Cap này. Đây cũng là Fair Value Cap trên khung 1 giờ. Để xem nhé.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9875173370319001,
+      "timing_ratio": 0.6545804056742429,
+      "audio_duration": 19.75,
+      "qa_duration": 19.75,
+      "stats_duration": 19.75,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2760,
+      "source_start": 28021.304729,
+      "source_end": 28045.207728999998,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02760.wav",
+      "expected": "Ta sẽ cài hai EMA chín và mười tám trên khung ngày, đó là cách tôi thích dùng. Nhưng nếu bạn trade khung khác, có thể xác định bias theo khung phù hợp. Ví dụ trade khung một phút thì có thể chuyển sang mười lăm phút để xem EMA, hoặc khung một giờ. Phần này khá linh hoạt.",
+      "re_asr": "Ta sẽ cài 2 MA9 và 18 trên khung này, đó là cách tôi thích dùng. Nhưng nếu bạn trade khung khác, có thể xác định bias theo khung phù hợp. Ví dụ trade khung 1 phút thì có thể chuyển sang 15 phút để xem MA hoặc khung 1 giờ. Phần này khá linh hoạt.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "chín"
+      ],
+      "similarity": 0.982725527831094,
+      "timing_ratio": 0.5544126932399772,
+      "audio_duration": 13.61,
+      "qa_duration": 13.61,
+      "stats_duration": 13.61,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2761,
+      "source_start": 28045.868728999998,
+      "source_end": 28066.377729,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02761.wav",
+      "expected": "Cách dùng như sau: nếu muốn bullish, tôi cần thấy giá nằm trên cả EMA chín và EMA 18. Nghĩa là bullish bias khi giá ở trên cả hai. Ngược lại, với bearish bias, tôi muốn giá nằm dưới cả EMA chín và EMA 18.",
+      "re_asr": "Cách dùng như sau, nếu muốn bullish, tôi cần thấy giá nằm trên cả MA9 và MA18. Nghĩa là bullish bias khi giá ở trên cả 2. Ngược lại với bearish bias, tôi muốn giá nằm dưới cả MA9 và MA18.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "18",
+        "chín"
+      ],
+      "similarity": 0.9417989417989419,
+      "timing_ratio": 0.5786002978089617,
+      "audio_duration": 12.24,
+      "qa_duration": 12.24,
+      "stats_duration": 12.24,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2762,
+      "source_start": 28067.778728999998,
+      "source_end": 28087.859728999996,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02762.wav",
+      "expected": "Nếu giá cứ đi ngang quanh EMA chín và mười tám thì không có bias rõ ràng. Nói cách khác, giá đang ranging chứ không expansion. Khi gặp trạng thái này, thị trường đang đi ngang, chop quanh và không có hướng chính rõ rệt.",
+      "re_asr": "Nếu giá cứ đi ngang quanh MA9 và 18 thì không có bias rõ ràng. Nói cách khác, giá đang ranging chứ không expansion. Khi gặp trạng thái này, thị trường đang đi ngang, trước quanh và không có hướng chính rõ rệt.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "chín"
+      ],
+      "similarity": 0.966824644549763,
+      "timing_ratio": 0.5194805194805546,
+      "audio_duration": 10.72,
+      "qa_duration": 10.72,
+      "stats_duration": 10.72,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2763,
+      "source_start": 28088.339729,
+      "source_end": 28108.901728999997,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02763.wav",
+      "expected": "Nó không giống lúc có displacement và expansion. Gặp trạng thái này thì có lẽ nên ngừng trade. Còn khi giá nằm dưới cả EMA chín và mười tám thì là bearish; ngược lại là bullish. Rất dễ theo dõi. Tôi khuyên người mới, nếu bạn chưa hiểu rõ về...",
+      "re_asr": "Đó không giống lúc có displacement và expansion. Gặp trạng thái này thì có lẽ nên ngừng trade. Còn khi giá nằm dưới cả MA9 và 18 thì là bearish, ngược lại là bullish. Rất dễ theo dõi. Tôi khuyên người mới, nếu bạn chưa hiểu rõ về,",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "chín"
+      ],
+      "similarity": 0.980561555075594,
+      "timing_ratio": 0.5956135151155487,
+      "audio_duration": 12.56,
+      "qa_duration": 12.56,
+      "stats_duration": 12.56,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2765,
+      "source_start": 28131.547728999998,
+      "source_end": 28157.221728999997,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02765.wav",
+      "expected": "Giờ ta lấy Eurodollar làm ví dụ, nhưng bạn có thể dùng bất kỳ asset nào. Vào indicator và cài cái tên Multi EMA. Trong phần input, đặt EMA chín và mười tám; phần style thì chọn màu bạn muốn rồi bật cả hai lên. Trên khung ngày, ta sẽ thấy như thế này. Ví dụ...",
+      "re_asr": "Giờ ta lấy Eurodollar làm ví dụ, nhưng bạn có thể dùng bất kỳ asset nào. Vào Indicator và cài cái tên Multi-MA. Trong phần Input, đặt MA 9 và 18. Phần Style thì chọn màu bạn muốn rồi bật cả 2 lên. Trên khung này, ta sẽ thấy như thế này. Ví dụ.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "mười tám"
+      ],
+      "similarity": 0.973305954825462,
+      "timing_ratio": 0.534568510573749,
+      "audio_duration": 14.08,
+      "qa_duration": 14.08,
+      "stats_duration": 14.08,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2768,
+      "source_start": 28189.751729,
+      "source_end": 28213.989728999997,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02768.wav",
+      "expected": "Giá đang tiến gần EMA, nhưng vẫn nằm trong một bearish fair value gap nên ta vẫn bearish. Sau đó giá bắt đầu tăng nhưng chop quanh vùng này, nên chưa thể tự tin cho đến khi có một cú đi rõ ràng. Tại điểm này, giá nằm trên cả EMA chín và mười tám, đồng thời có bullish fair value gap, nên từ đây tôi sẽ trade theo hướng tăng.",
+      "re_asr": "Giá đang tiến gần MA, nhưng vẫn nằm trong một bearish fair value gap, nên ta vẫn bearish. Sau đó giá bắt đầu tăng nhưng chốc quanh vùng này, nên chưa thể tự tin cho đến khi có một cú đi rõ ràng. Tại điểm này giá nằm trên cả MA9 và 18, đồng thời có bullish fair value gap, nên từ đây tôi sẽ trade theo hướng tăng.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "chín"
+      ],
+      "similarity": 0.9808306709265175,
+      "timing_ratio": 0.6585551941534525,
+      "audio_duration": 16.4,
+      "qa_duration": 16.4,
+      "stats_duration": 16.4,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2783,
+      "source_start": 28297.234728999996,
+      "source_end": 28298.035729,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02783.wav",
+      "expected": "Cái này đây.",
+      "re_asr": "Cảm ơn anh.",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch"
+      ],
+      "missing_critical": [],
+      "similarity": 0.38095238095238093,
+      "timing_ratio": 0.8747514910557784,
+      "audio_duration": 0.88,
+      "qa_duration": 0.88,
+      "stats_duration": 0.88,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2784,
+      "source_start": 28298.255728999997,
+      "source_end": 28298.655729,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02784.wav",
+      "expected": "Nó hỏng.",
+      "re_asr": "Nó hậu.",
+      "acoustic_checked": true,
+      "reasons": [
+        "transcript_mismatch"
+      ],
+      "missing_critical": [],
+      "similarity": 0.6153846153846154,
+      "timing_ratio": 0.9860074626837831,
+      "audio_duration": 0.660625,
+      "qa_duration": 0.660625,
+      "stats_duration": 0.660625,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2931,
+      "source_start": 30107.179895999998,
+      "source_end": 30107.379896,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02931.wav",
+      "expected": "Sao?",
+      "re_asr": "Chào!",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch",
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 0.2857142857142857,
+      "timing_ratio": 1.298625,
+      "audio_duration": 0.6493125,
+      "qa_duration": 0.6493125,
+      "stats_duration": 0.6493125,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 2950,
+      "source_start": 30213.306896,
+      "source_end": 30214.667896,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\02950.wav",
+      "expected": "SMT divergence là gì?",
+      "re_asr": "Ad Multi-Divisions là gì?",
+      "acoustic_checked": true,
+      "reasons": [
+        "transcript_mismatch"
+      ],
+      "missing_critical": [],
+      "similarity": 0.5909090909090908,
+      "timing_ratio": 1.008371586628235,
+      "audio_duration": 1.4278541666666666,
+      "qa_duration": 1.4278541666666666,
+      "stats_duration": 1.4278541666666666,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3000,
+      "source_start": 30651.075896,
+      "source_end": 30651.556896,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03000.wav",
+      "expected": "Lên premium.",
+      "re_asr": "Lên premium.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.0783791362852906,
+      "audio_duration": 0.961375,
+      "qa_duration": 0.961375,
+      "stats_duration": 0.961375,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3001,
+      "source_start": 30652.017895999998,
+      "source_end": 30652.577896,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03001.wav",
+      "expected": "Đó chính là chuyển động.",
+      "re_asr": "Đó chính là chuyển động.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.2019107697955682,
+      "audio_duration": 1.0955416666666666,
+      "qa_duration": 1.0955416666666666,
+      "stats_duration": 1.0955416666666666,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3141,
+      "source_start": 31551.633896,
+      "source_end": 31553.678895999998,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03141.wav",
+      "expected": "Sau khi đóng dưới, có fair value gap không?",
+      "re_asr": "Sau khi đóng dưới, có phe Value Gap không?",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9135802469135803,
+      "timing_ratio": 0.9980732177259491,
+      "audio_duration": 2.59,
+      "qa_duration": 2.59,
+      "stats_duration": 2.59,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3259,
+      "source_start": 32532.1561875,
+      "source_end": 32533.2771875,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03259.wav",
+      "expected": "mà phải là fair value gap hợp lệ.",
+      "re_asr": "mà phải là fair value gap hợp lệ.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.1155757272927644,
+      "audio_duration": 1.6744791666666667,
+      "qa_duration": 1.6744791666666667,
+      "stats_duration": 1.6744791666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3356,
+      "source_start": 33619.45448950001,
+      "source_end": 33646.25548950001,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03356.wav",
+      "expected": "...còn bên kia thì không, nên giữa hai cặp xuất hiện một SMT rất rõ. GU tôn trọng ép vi gi này, trong khi EU lại tiếp tục quét high thêm lần nữa. Như vậy xét cả ngoại bộ lẫn nội bộ, EU đều yếu hơn, còn GU mạnh hơn ở cả hai cấp. Vì thế trade GU sẽ hợp lý hơn.",
+      "re_asr": "Còn bên kia thì không, nên giữa hai cặp xuất hiện một SMT rất rõ. Wu tôn trọng FV này, trong khi EU lại tiếp tục quét 2 thêm lần nữa. Như vậy, xét cả ngoại bộ lẫn nội bộ, EU đều yếu hơn, còn Wu mạnh hơn ở cả hai cấp. Vì thế trade Wu sẽ hợp lý hơn.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "ép vi gi"
+      ],
+      "similarity": 0.9650924024640656,
+      "timing_ratio": 0.4913189378465589,
+      "audio_duration": 13.47,
+      "qa_duration": 13.47,
+      "stats_duration": 13.47,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3462,
+      "source_start": 35257.9700315,
+      "source_end": 35278.4060315,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03462.wav",
+      "expected": "có fair value gap ở khung thấp hơn và ta vào tại đây, vùng thanh khoản dễ bị hút tới đầu tiên sẽ là đỉnh có râu nến này. Đó là target đầu tiên, rồi bạn có thể kỳ vọng xa hơn lên phía trên. Nếu quay lại khung mười lăm phút và nhìn cùng ví dụ đó, ta có thể...",
+      "re_asr": "Có phe Valley Gap ở khung thấp hơn và ta vào tại đây, túng thanh khoản dễ bị hút tới đầu tiên sẽ là đỉnh có râu đến này. Đó là target đầu tiên, rồi bạn có thể kỳ vọng xa hơn lên phía trên. Nếu quay lại khung 15 phút và nhìn cùng ví dụ đó, ta có thể...",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9678714859437751,
+      "timing_ratio": 0.6369366380741724,
+      "audio_duration": 13.44,
+      "qa_duration": 13.44,
+      "stats_duration": 13.44,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3479,
+      "source_start": 35434.9470315,
+      "source_end": 35436.268031499996,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03479.wav",
+      "expected": "Còn bây giờ thì đã có change of state delivery.",
+      "re_asr": "Còn bây giờ thì đã có change of state delivery.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.3349444774902735,
+      "audio_duration": 2.2440416666666665,
+      "qa_duration": 2.2440416666666665,
+      "stats_duration": 2.2440416666666665,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3556,
+      "source_start": 36594.637708500006,
+      "source_end": 36616.33370850001,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03556.wav",
+      "expected": "fair value gap nội bộ ở đây. Nếu giá không tôn trọng vùng này thì nhiều khả năng sẽ đi lên đỉnh. Ta chờ xác nhận khung mười lăm phút, đôi khi là năm phút, rồi có thể vào lệnh từ đây. Một ví dụ khác là chỗ này. Đây là cấu trúc chính; khi giá đi lên, ta tạo ra...",
+      "re_asr": "Pair value cap nội bộ ở đây, nếu giá không tôn trọng vùng này thì nhiều khả năng sẽ đi lên đỉnh. Ta chờ xác nhận không 15 phút, đôi khi là 5 phút, đôi khi là 5 phút rồi có thể vào lệnh từ đây. Một ví dụ khác là chỗ này. Đây là cấu trúc chính. Khi giá đi lên, ta tạo ra.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.95,
+      "timing_ratio": 0.630231413097192,
+      "audio_duration": 14.08,
+      "qa_duration": 14.08,
+      "stats_duration": 14.08,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3574,
+      "source_start": 36944.00970850001,
+      "source_end": 36944.209708500006,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03574.wav",
+      "expected": "Sao?",
+      "re_asr": "Chào!",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch",
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 0.2857142857142857,
+      "timing_ratio": 2.2158805030886812,
+      "audio_duration": 0.5872083333333333,
+      "qa_duration": 0.5872083333333333,
+      "stats_duration": 0.5872083333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3698,
+      "source_start": 37839.4003855,
+      "source_end": 37846.3253855,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03698.wav",
+      "expected": "Ta sẽ bắt các cú quét thanh khoản hoặc fakeout xác suất cao trên khung mười lăm phút bằng chart một phút.",
+      "re_asr": "ta sẽ bắt các củ quét hành khoản hoặc phê cầu sát xuất cao trên khu 15 phút bằng chát 1 phút.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "quét thanh khoản"
+      ],
+      "similarity": 0.8627450980392157,
+      "timing_ratio": 0.7101248266290504,
+      "audio_duration": 5.12,
+      "qa_duration": 5.12,
+      "stats_duration": 5.12,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3770,
+      "source_start": 38628.053385499996,
+      "source_end": 38629.0733855,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03770.wav",
+      "expected": "Ta có một imbalance.",
+      "re_asr": "Ta có một imbalance.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.1279970760239677,
+      "audio_duration": 1.2859166666666666,
+      "qa_duration": 1.2859166666666666,
+      "stats_duration": 1.2859166666666666,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3800,
+      "source_start": 38850.2203855,
+      "source_end": 38877.9653855,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03800.wav",
+      "expected": "Từ hai mươi giờ đến nửa đêm. Tất cả đều là giờ EST; mọi mốc thời gian tôi nói trong video đều theo giờ New York. Về cơ bản, trước tiên tôi sẽ nhìn biên độ phiên Á. Tôi muốn phiên Á đi ngang trong một range chứ không có xu hướng, vì đó mới là trạng thái ta cần. Ta muốn phiên Á là một range, không muốn nó trending, để sau đó có thể...",
+      "re_asr": "Từ 20h đến nửa đêm, tất cả đều là giờ ST, mọi mốc thời gian tôi nói trong video đều theo giờ New York. Về cơ bản, trước tiên tôi sẽ nhìn biên độ phiên á. Tôi muốn phiên Á đi ngang cho một range không có xu hướng, vì đó mới là trạng thái ta cần. Ta muốn phiên Á là một range, không muốn nó trending để sau đó có thể.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "hai mươi"
+      ],
+      "similarity": 0.9617834394904459,
+      "timing_ratio": 0.5710257314065089,
+      "audio_duration": 16.2,
+      "qa_duration": 16.2,
+      "stats_duration": 16.2,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3848,
+      "source_start": 39308.054677,
+      "source_end": 39310.135677,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03848.wav",
+      "expected": "Còn change in state of delivery sẽ là kiểu Turtle Soup.",
+      "re_asr": "Còn change in state of delivery sẽ là kiểu Turtle Soup.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.213983050846089,
+      "audio_duration": 2.7575625,
+      "qa_duration": 2.7575625,
+      "stats_duration": 2.7575625,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3861,
+      "source_start": 39349.218677000004,
+      "source_end": 39352.639677,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03861.wav",
+      "expected": "Tôi không muốn bạn vào những lệnh nhắm tới R: R mười hay 15.",
+      "re_asr": "Tôi không mối bạn vào những lệnh nhắm tới giờ, giờ 12-15.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "mười"
+      ],
+      "similarity": 0.831858407079646,
+      "timing_ratio": 0.996018729798259,
+      "audio_duration": 3.4920416666666667,
+      "qa_duration": 3.4920416666666667,
+      "stats_duration": 3.4920416666666667,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3898,
+      "source_start": 39717.161677000004,
+      "source_end": 39717.401677,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03898.wav",
+      "expected": "Sao?",
+      "re_asr": "Chào!",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch",
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 0.2857142857142857,
+      "timing_ratio": 1.5405257936571988,
+      "audio_duration": 0.6470208333333334,
+      "qa_duration": 0.6470208333333334,
+      "stats_duration": 0.6470208333333334,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3935,
+      "source_start": 39938.698677,
+      "source_end": 39939.038677000004,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03935.wav",
+      "expected": "Sao?",
+      "re_asr": "Sao?",
+      "acoustic_checked": true,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.2236764705798555,
+      "audio_duration": 0.5200625,
+      "qa_duration": 0.5200625,
+      "stats_duration": 0.5200625,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3945,
+      "source_start": 40015.429677,
+      "source_end": 40016.989677,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03945.wav",
+      "expected": "Đây là fair value gap mười lăm phút.",
+      "re_asr": "Đây là fail value gáp 15 phút.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9428571428571427,
+      "timing_ratio": 1.0033449074098408,
+      "audio_duration": 1.8060208333333334,
+      "qa_duration": 1.8060208333333334,
+      "stats_duration": 1.8060208333333334,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3947,
+      "source_start": 40020.411677000004,
+      "source_end": 40040.769677000004,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03947.wav",
+      "expected": "Ta có một fair value gap một giờ ở đây. Đây là đáy thứ Tư, và hiện ta đang chuyển sang thứ Năm. Quay lại khung mười lăm phút, lúc nào ta tìm pha thao túng? Trước hết là mốc nửa đêm, tức midnight open.",
+      "re_asr": "Ta có một fair value gấp 1 giờ ở đây. Đây là đáy thứ 4 và hiện ta đang chuyển sang thứ 5. Quay lại khu 15 phút. Lúc nào ta tìm pha thao túng? Trước hết là mốc nửa đêm, tức Midnight Open.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9660574412532636,
+      "timing_ratio": 0.4675897091937043,
+      "audio_duration": 9.76,
+      "qa_duration": 9.76,
+      "stats_duration": 9.76,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3951,
+      "source_start": 40117.307677000004,
+      "source_end": 40134.066677,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03951.wav",
+      "expected": "Giờ quay xuống khung một phút. Trước đó ta lấy ví dụ ở khung ba phút, còn lần này dùng một phút. Ta đang chờ mức này bị lấy, đi vào fair value gap của khung một giờ và mười lăm phút.",
+      "re_asr": "Giờ quay xuống khung 1 phút, trước đó ta lấy ví dụ ở khung 3 phút, còn lần này dùng 1 phút, ta đang chờ mức này bị lấy, đi vào phe value gap của khung 1 giờ và 15 phút.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9801699716713881,
+      "timing_ratio": 0.5041190923545816,
+      "audio_duration": 8.72,
+      "qa_duration": 8.72,
+      "stats_duration": 8.72,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3954,
+      "source_start": 40139.417677,
+      "source_end": 40139.597677,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03954.wav",
+      "expected": "Sao?",
+      "re_asr": "Chào!",
+      "acoustic_checked": true,
+      "reasons": [
+        "severe_transcript_mismatch",
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 0.2857142857142857,
+      "timing_ratio": 2.332333333333333,
+      "audio_duration": 0.5830833333333333,
+      "qa_duration": 0.5830833333333333,
+      "stats_duration": 0.5830833333333333,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3988,
+      "source_start": 40392.835677,
+      "source_end": 40396.858677000004,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03988.wav",
+      "expected": "Entry theo change of delivery là sáu ăn một, rất lớn.",
+      "re_asr": "Entry theo Change of Delivery là 6-1 rất lớn.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "sáu"
+      ],
+      "similarity": 0.9278350515463917,
+      "timing_ratio": 0.6973956630710211,
+      "audio_duration": 3.2,
+      "qa_duration": 3.2,
+      "stats_duration": 3.2,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3993,
+      "source_start": 40465.257677,
+      "source_end": 40475.907677,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03993.wav",
+      "expected": "có vẻ ở đây đã có tin tức. Sang khung mười lăm phút thì rõ hơn một chút, vì ta thấy có fair value gap này đã được fill một phần, cùng với order block này.",
+      "re_asr": "Có vẻ ở đây đã có tin tức. Sao không 15 phút thì rõ hơn một chút vì ta thấy có phe value gap này đã được fill một phần cùng với order block này.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "fair value gap"
+      ],
+      "similarity": 0.9597315436241611,
+      "timing_ratio": 0.6965986394561501,
+      "audio_duration": 7.68,
+      "qa_duration": 7.68,
+      "stats_duration": 7.68,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 3997,
+      "source_start": 40536.812677,
+      "source_end": 40551.152677,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\03997.wav",
+      "expected": "Từ một giờ ba mươi, ngay đây, đến ba giờ ba mươi, ngay đây. Đây là khoảng thời gian chúng ta tìm pha manipulation trong price action. Giá đi lên, rồi đi xuống, đúng rồi, như thế này.",
+      "re_asr": "Từ 1h30 ngay đây đến 3h30 ngay đây. Đây là khoảng thời gian chúng ta tìm Farm Manipulation trong Price Action. Giá đi lên rồi đi xuống. Đúng rồi, như thế này.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "ba",
+        "ba mươi",
+        "một"
+      ],
+      "similarity": 0.8711656441717791,
+      "timing_ratio": 0.6441487546916026,
+      "audio_duration": 9.44,
+      "qa_duration": 9.44,
+      "stats_duration": 9.44,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 4028,
+      "source_start": 40848.239582999995,
+      "source_end": 40849.240583,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\04028.wav",
+      "expected": "Có thể là một cái râu nến.",
+      "re_asr": "Có thể là một cái râu nến.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.0466390237287244,
+      "audio_duration": 1.2936458333333334,
+      "qa_duration": 1.2936458333333334,
+      "stats_duration": 1.2936458333333334,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 4073,
+      "source_start": 41140.141583,
+      "source_end": 41162.552583,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\04073.wav",
+      "expected": "ta sẽ không vào lệnh. Trong ngày có thể có rất nhiều setup: năm, hai, ba, chỉ một, hoặc không có lệnh nào. Tuy nhiên có hai cơ hội trade xác suất cao có thể xuất hiện vào những thời điểm cụ thể trong ngày. Trước tiên hãy hiểu các phiên giao dịch. Phiên đầu tiên là phiên Á, từ hai mươi giờ đến nửa đêm.",
+      "re_asr": "Ta sẽ không vào lệnh, trong ngày có thể có rất nhiều setup 5, 2, 3, chỉ 1, hoặc không có lệnh nào. Tuy nhiên có 2 cơ hội trade sắp xuất cao có thể xuất hiện vào những thời điểm cụ thể trong ngày. Trước tiên hay hiểu các phiên giao dịch. Phiên đầu tiên là phiên A, từ 20h đến nửa đêm.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "hai mươi"
+      ],
+      "similarity": 0.956369982547993,
+      "timing_ratio": 0.6619767543476766,
+      "audio_duration": 15.15,
+      "qa_duration": 15.15,
+      "stats_duration": 15.15,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 4088,
+      "source_start": 41297.759583,
+      "source_end": 41301.002582999994,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\04088.wav",
+      "expected": "Đầu tiên, ta đánh dấu giá mở cửa lúc mười bảy giờ và lúc nửa đêm.",
+      "re_asr": "Đầu tiên ta đánh dấu giá mở cửa lúc 17h và lúc nửa đêm.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "mười bảy"
+      ],
+      "similarity": 0.8717948717948718,
+      "timing_ratio": 1.0014264374597492,
+      "audio_duration": 3.4078541666666666,
+      "qa_duration": 3.4078541666666666,
+      "stats_duration": 3.4078541666666666,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 4141,
+      "source_start": 41808.995582999996,
+      "source_end": 41809.475583,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\04141.wav",
+      "expected": "Xem nhé.",
+      "re_asr": "Xem nhé.",
+      "acoustic_checked": false,
+      "reasons": [
+        "timing_overflow"
+      ],
+      "missing_critical": [],
+      "similarity": 1.0,
+      "timing_ratio": 1.2961009174353455,
+      "audio_duration": 0.706375,
+      "qa_duration": 0.706375,
+      "stats_duration": 0.706375,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 4197,
+      "source_start": 42161.494583,
+      "source_end": 42184.370582999996,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\04197.wav",
+      "expected": "Mình sẽ lướt nhanh qua để cho bạn thấy tất cả setup có thể có. Rồi, đây là phiên Á, xem đến nửa đêm. Nửa đêm ở đây. Mình sẽ đánh dấu giá mở cửa. Nhớ nhé, với nến giảm thì giá mở cửa nằm phía trên. Và đây là giá mở cửa mười bảy, khoảng chỗ này.",
+      "re_asr": "Mình sẽ lướt nhanh qua để cho bạn thấy tất cả setup có thể có. Rồi đây là phiên á. Xem đến nửa đêm. Nửa đêm ở đây mình sẽ đánh dấu giá mở cửa. Nhớ nhé. Với nến giảm thì giá mở cửa nằm phía trên. Và đây là giá mở cửa 17. Khoảng chỗ này.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "mười bảy"
+      ],
+      "similarity": 0.9782608695652173,
+      "timing_ratio": 0.5665287317096006,
+      "audio_duration": 13.28,
+      "qa_duration": 13.28,
+      "stats_duration": 13.28,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    },
+    {
+      "segment_id": 4226,
+      "source_start": 42310.623583,
+      "source_end": 42335.328582999995,
+      "audio_path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21\\tts\\04226.wav",
+      "expected": "mốc mở cửa mười bảy giờ ở đây, còn mở cửa lúc nửa đêm ở đây. Ta có tín hiệu yếu rồi xác nhận ngay trước khi London bắt đầu, khoảng mười lăm phút. Kèo này thực ra vẫn hợp lệ, tôi sẽ lấy. Giờ vẫn còn vào được, nhưng bạn không nhất thiết phải vào. Tôi sẽ dùng mức năm mươi phần trăm, vì tôi nghĩ xác suất vẫn cao, nó chỉ vừa xảy ra khoảng mười lăm phút trước. Giờ tôi sẽ sell ở mức năm mươi phần trăm này rồi...",
+      "re_asr": "Mốc mở cửa 17h ở đây, còn mở cửa lúc nửa đêm ở đây. Ta có tín hiệu yếu rồi xác nhận ngay trước khi London bắt đầu, khoảng 15 phút. Keo này thực ra vẫn hợp lệ, tôi sẽ lấy. Giờ vẫn còn vào được, nhưng bạn không nhất thiết phải vào. Tôi sẽ dùng mức 50%, vì tôi nghĩ xác suất vẫn cao, nó chỉ vừa xảy ra khoảng 15 phút trước. Giờ tôi sẽ sell ở mức 50% này rồi.",
+      "acoustic_checked": true,
+      "reasons": [
+        "missing_critical"
+      ],
+      "missing_critical": [
+        "mười bảy"
+      ],
+      "similarity": 0.9781771501925546,
+      "timing_ratio": 0.785179345684248,
+      "audio_duration": 19.92,
+      "qa_duration": 19.92,
+      "stats_duration": 19.92,
+      "sample_rate": 48000,
+      "channels": 1,
+      "duration_matches_qa": true,
+      "human_verdict": null
+    }
+  ],
+  "human_listening_performed": false
+}

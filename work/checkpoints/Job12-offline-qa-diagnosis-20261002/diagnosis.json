@@ -1,0 +1,215 @@
+{
+  "format": "vi-job12-readonly-qa-diagnosis-v1",
+  "source_head": "3fc873f",
+  "job_id": "job-8dc51f8a892aba21",
+  "retained_artifact_sha256": {
+    "state.json": "68e85b389dcb44afd22e5b83b252701846bfdd283bdfabd47f245c7bb4446742",
+    "qa.json": "89b86cdf318190aa758ecb6e2593f6aed1e422ca77d4aafec4a59a7567829909",
+    "segment_qa.json": "f03fb3cbe2f3d14906493a37be0e77201304684b7f64673da77176c099437b21",
+    "segments_vi.json": "5723f01e475e433867c798ea00c5bceea6b34eb65cb0098cd883ccdedc6b9a9f",
+    "tts_stats.json": "3ea415ba9856b1d81d00c17bad4493d9ba977d71bc22dae3b33a0e50a7631e64",
+    "resolved_config.json": "60d45431f74d5da196b15e581de9a0879a82e4d1ac18a925bb00fd5e547a86df",
+    "terminology_qa.json": "329a790103901591ad507909c18600515af28403969651892e7fc09f96d20771",
+    "result.json": "9d1df257534ae1f2bf0fb5cb309cbb5ad699e767485ebf925de8207170c14bbc",
+    "mix_metrics.json": "3174cc305fbf08243c30274bc11138fe26552c60f660a76839a885b29cc3e34f",
+    "chunks/plan.json": "de93e284ca50f767c1ae00635482a44042f1b61ee6ac648c86482034d608ce50"
+  },
+  "artifact_hashes_unchanged": true,
+  "status": "completed",
+  "qa_passed": false,
+  "full_track_skipped": true,
+  "global_passed": null,
+  "summary_recomputed": {
+    "final_failed": 122,
+    "reason_counts_overlap": {
+      "missing_critical": 71,
+      "transcript_mismatch": 8,
+      "severe_transcript_mismatch": 17,
+      "timing_overflow": 43
+    },
+    "action_counts": {
+      "pronunciation_retry": 91,
+      "timing_rewrite": 31
+    },
+    "acoustic_checked": 519
+  },
+  "short_target_buckets": {
+    "0.5": {
+      "all": 15,
+      "failed": 12,
+      "overflow": 11
+    },
+    "1.0": {
+      "all": 149,
+      "failed": 33,
+      "overflow": 28
+    },
+    "1.2": {
+      "all": 260,
+      "failed": 39,
+      "overflow": 32
+    }
+  },
+  "cached_full_track_qa": {
+    "qa_raw_exists": false,
+    "acoustic_qa_manifest_exists": false
+  },
+  "repaired": [
+    {
+      "segment_id": 3997,
+      "status": "completed",
+      "initial_passed": false,
+      "final_passed": false,
+      "final_reasons": [
+        "missing_critical"
+      ]
+    },
+    {
+      "segment_id": 4050,
+      "status": "completed",
+      "initial_passed": false,
+      "final_passed": true,
+      "final_reasons": []
+    }
+  ],
+  "failed_by_chunk": {
+    "chunk_0001": 3,
+    "chunk_0002": 6,
+    "chunk_0003": 1,
+    "chunk_0004": 2,
+    "chunk_0005": 1,
+    "chunk_0006": 2,
+    "chunk_0007": 9,
+    "chunk_0008": 10,
+    "chunk_0009": 5,
+    "chunk_0010": 19,
+    "chunk_0011": 4,
+    "chunk_0012": 10,
+    "chunk_0013": 3,
+    "chunk_0014": 2,
+    "chunk_0015": 1,
+    "chunk_0016": 1,
+    "chunk_0018": 3,
+    "chunk_0019": 9,
+    "chunk_0021": 5,
+    "chunk_0022": 1,
+    "chunk_0023": 1,
+    "chunk_0024": 2,
+    "chunk_0025": 2,
+    "chunk_0026": 3,
+    "chunk_0027": 11,
+    "chunk_0028": 6
+  },
+  "terminology": {
+    "failed_segments": 0,
+    "passed": true,
+    "policy_version": 1,
+    "segments_checked": 4277,
+    "terms_checked": 1205
+  },
+  "profile_policy": {
+    "contract_version": 1,
+    "final_full_qa": false,
+    "hard_case_review": "overlap_or_multi_speaker",
+    "name": "balanced_fast",
+    "optional_lip_sync": false,
+    "overlap_assembly_policy": "equal_power",
+    "qa_depth": "risk",
+    "retry_budget": 2,
+    "segment_qa_scope": "risk",
+    "semantic_qa_enabled": true,
+    "translation_fanout": 1,
+    "translation_fanout_scope": "single",
+    "translation_prefit": true,
+    "tts_batch_policy": "quality_safe",
+    "tts_batch_size": 4,
+    "typesafe_policy": "verify_escalate"
+  },
+  "media": {
+    "final": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "av1",
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "duration": "42831.550000"
+        },
+        {
+          "index": 1,
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "sample_rate": "48000",
+          "channels": 2,
+          "duration": "42831.548000"
+        }
+      ],
+      "format": {
+        "duration": "42831.550000",
+        "size": "2279943309"
+      }
+    },
+    "voice": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "pcm_s16le",
+          "codec_type": "audio",
+          "sample_rate": "48000",
+          "channels": 1,
+          "duration": "42831.561000"
+        }
+      ],
+      "format": {
+        "duration": "42831.561000",
+        "size": "4111829900"
+      }
+    },
+    "canonical_source_audio": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "flac",
+          "codec_type": "audio",
+          "sample_rate": "48000",
+          "channels": 2,
+          "duration": "42831.553500"
+        }
+      ],
+      "format": {
+        "duration": "42831.553500",
+        "size": "4773029380"
+      }
+    }
+  },
+  "timeline": {
+    "segments": 4277,
+    "subtitle_cues": 4277,
+    "last_segment_end": 42827.744583,
+    "last_subtitle_end": 42827.745,
+    "video_duration": 42831.55,
+    "segments_start_ordered": true,
+    "nonpositive_windows": [],
+    "segments_after_final": [],
+    "header_duration_mismatches": []
+  },
+  "listening_priority_ids": [
+    313,
+    47,
+    1542,
+    2298,
+    3,
+    3997,
+    4050,
+    0,
+    2037
+  ],
+  "human_listening_performed": false
+}

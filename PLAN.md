@@ -87,6 +87,8 @@ Tỷ lệ similarity trên selected-risk segments hoặc terminology pass không
 
 Authority và resume preflight nằm ở [Job12 audit](../../planning/checkpoints/workspace-next-stage/JOB12-SAFE-AUDIT-20261001/CHECKPOINT.md) và [workspace RESUME](../../planning/checkpoints/workspace-next-stage/RESUME.md). Lịch sử “translation failed/no MP4” trong checkpoint trước đó đã bị artifact hiện tại thay thế, nhưng lịch sử vẫn được giữ. Chỉ resume retained job/config sau khi owner mở đúng scope provider/media/QA và có single-worker, source/config identity, disk, session health preflight.
 
+[Diagnosis read-only 02/10](work/checkpoints/Job12-offline-qa-diagnosis-20261002/CHECKPOINT.md) đã recompute 122 failed IDs, đối chiếu repair budget, ffprobe/header/timeline và chuẩn bị [9 clips cần nghe](work/checkpoints/Job12-offline-qa-diagnosis-20261002/LISTENING.md) từ file có sẵn. Đây là việc offline đã thực hiện, không cần provider gate; full-track re-ASR mới, repair/rerender và human verdict có scope/prerequisite riêng. Giữ nguyên retained QA/state.
+
 <a id="ui"></a>
 ## UI: triển khai đã có, việc còn mở
 
@@ -104,12 +106,14 @@ Authority và resume preflight nằm ở [Job12 audit](../../planning/checkpoint
 |---|---|---|
 | 1 — offline / harness closed | Cô lập `tests/test_web_e2e_playwright.py` khỏi retained jobs/provider; startup/teardown có owner, browser chỉ loopback. | Module 3/3, isolated reload 1/1, two controls 2/2 mỗi control, toàn suite offline 672 pass/1 skip; [receipt](work/checkpoints/UI-reload-fixture-repair-20261002/CHECKPOINT.md). Không claim sửa một lỗi Gradio production chưa được xác nhận. |
 | 2 — offline | Hoàn thiện evidence UI còn mở trong mục trên bằng fixture; không biến thành redesign hoặc viết lại các phase đã có. | Ready/stale/blocked, refresh/edit invalidation, Preview/Final/QA, VI/EN, 1440/768/390, keyboard/contrast, memory nơi có rủi ro. |
-| 3 — owner-gated | Review/repair 122 failed segments và full-track/human QA Job12. | Giữ provenance/receipt, không waive bằng processing completed; fresh preflight và đúng retained job. |
+| 3 — diagnosis done / inference-listening còn mở | Read-only QA/media diagnosis và listening packet đã có; tiếp real listening, bounded full-track inference hoặc exact repair scope khi đủ prerequisite. | Giữ provenance/receipt, không waive bằng processing completed; fresh preflight và đúng retained job. |
 | 4 — owner-gated | Đóng repeated whole-job 33m và whole-pipeline 6h+ P23. | Correctness + resource/reliability + repeated paired benchmark; chỉ claim speedup khi evidence đủ. |
 
 Trước code UI tiếp theo, ghi bounded slice ngay trong PLAN này: files, oracle, rollback và evidence path. Không tạo thêm PLAN cho mỗi lượt. Baseline lỗi fixture: [audit 30/09](../../planning/checkpoints/workspace-next-stage/VI-safe-continuation-20260930/CHECKPOINT.md); kết quả lịch sử `671 passed, 1 skipped, 1 failed` được giữ, harness repair 02/10 có receipt riêng.
 
 **Slice được giao 02/10/2026 — offline fixture-order repair:** chỉ sở hữu `tests/test_web_e2e_playwright.py` và receipt ở `work/checkpoints/UI-reload-fixture-repair-20261002/`. Đối chiếu cả module 3 tests, reload riêng, hai controls và M3/catalog contracts; dùng workspace tạm, model catalog fixture và browser loopback để không chạm retained jobs/provider. Không đổi UI/pipeline để che lỗi harness; rollback bằng revert commit của slice. Kết quả kiểm chứng và root cause sẽ ghi trong receipt, không mở M0-VI-ready/M5 hoặc media/listening gate.
+
+**Slice tiếp 02/10/2026 — Job12 artifact diagnosis:** đọc JSON QA/config/segments/stats/manifests, ffprobe metadata và header audio đã có; ghi diagnosis và listening packet tại `work/checkpoints/Job12-offline-qa-diagnosis-20261002/`. Oracle: recompute 122 unique failed IDs/reason overlaps/repair effects, identity và timeline/media availability, giữ nguyên hash artifact trước/sau. Không transcript/re-ASR full-track mới, render/extract clip, provider, upload hoặc sửa state/cache; packet dùng file TTS có sẵn và mốc trong video Final. Read-only diagnosis được phép trong scope hiện tại; sửa âm thanh/QA inference dài và human listening giữ prerequisite riêng. Rollback chỉ revert receipt, không chạm retained job.
 
 <a id="runtime-gates"></a>
 ## Runtime và authority
