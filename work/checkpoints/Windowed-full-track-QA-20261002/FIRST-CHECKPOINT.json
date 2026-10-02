@@ -1,0 +1,66 @@
+{
+  "captured_at": "2026-10-02T20:33:59.7438914+07:00",
+  "status": "running",
+  "worker_pid": 3260,
+  "launcher_pid": 10892,
+  "fingerprint": "0377b44a4f48bf1388fa90ff98302bd9eb830248cdd1ec5a1f8da60de8740b5d",
+  "completed_windows": 8,
+  "total_windows": 143,
+  "covered_source_seconds": 2400.0,
+  "first_chunk": {
+    "boundary_reason": "safe_cut",
+    "chunk_id": "chunk_0001",
+    "context_end": 302.0,
+    "context_start": 0.0,
+    "index": 0,
+    "source_end": 300.0,
+    "source_start": 0.0
+  },
+  "first_chunk_segment_count": 12,
+  "first_segment_start": 0.031,
+  "last_segment_end": 301.975,
+  "first_chunk_segments_sha256": "bf6df08f78cec3d5c180cc26ec81492c8c198354b68e7d926e16e601f472428c",
+  "resource_observation": {
+    "started_at": "2026-10-02T20:32:31.586325+07:00",
+    "launcher_pid": 10892,
+    "fingerprint": "0377b44a4f48bf1388fa90ff98302bd9eb830248cdd1ec5a1f8da60de8740b5d",
+    "interval_seconds": 2.0,
+    "scope": "Observed process-tree RSS and Windows PDH dedicated GPU memory; sampled peaks are lower bounds, not whole-pipeline acceptance.",
+    "gpu_method": "windows-pdh-dedicated-usage",
+    "gpu_error": null,
+    "samples": 44,
+    "valid_gpu_samples": 44,
+    "peak_rss_bytes": 1546485760,
+    "peak_gpu_bytes": 6470918144,
+    "maximum_sample_gap_seconds": 2.0469999999913853,
+    "last_sample": {
+      "timestamp": "2026-10-02T20:33:58.866135+07:00",
+      "elapsed_seconds": 87.265,
+      "pids": [
+        3260,
+        10892,
+        19032
+      ],
+      "rss_bytes": 1499230208,
+      "gpu_bytes": 5866934272,
+      "completed_windows": 7,
+      "checkpoint_status": "running"
+    }
+  },
+  "preflight": {
+    "ram_free_kib": 19056864,
+    "gpu_free_mib": 6922,
+    "disk_free_bytes": 77170794496,
+    "retained_job_lock_exists": false,
+    "matching_producer_exists": false,
+    "target_output_exists": false
+  },
+  "score": null,
+  "canonical_acceptance_promoted": false,
+  "human_listening_performed": false,
+  "limitations": [
+    "Sampling began ~56s after launch; model loading and earlier allocation peaks were not observed",
+    "Sampled process-tree peaks are lower bounds; this is local ASR diagnostic scope only",
+    "Retained qa.passed remains false and all122 failed segments remain retained"
+  ]
+}

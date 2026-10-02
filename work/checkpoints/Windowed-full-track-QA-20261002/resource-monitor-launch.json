@@ -1,0 +1,10 @@
+{
+  "pid": 21444,
+  "started_at": "2026-10-02T20:32:30.4670080+07:00",
+  "command": "work/checkpoints/Windowed-full-track-QA-20261002/resource-monitor.py",
+  "interval_seconds": 2,
+  "output": "resource-observation.json",
+  "samples": "resource-samples.jsonl",
+  "final": "resource-observation-final.json",
+  "scope": "read-only process tree observer; no inference or media generation"
+}

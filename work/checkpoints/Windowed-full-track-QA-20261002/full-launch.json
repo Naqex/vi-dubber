@@ -1,0 +1,24 @@
+{
+  "pid": 10892,
+  "started_at": "2026-10-02T20:31:35.8787798+07:00",
+  "executable": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\.venv\\Scripts\\python.exe",
+  "working_directory": "D:/ANNAM/TradingWorkspace/projects/vi-dubber",
+  "arguments": [
+    "scripts/check_full_track_qa.py",
+    "--job-dir",
+    "work/job-8dc51f8a892aba21",
+    "--output",
+    "work/artifacts/full-track-qa-job12-20261002",
+    "--window-seconds",
+    "300",
+    "--context-seconds",
+    "2",
+    "--all-windows"
+  ],
+  "output": "work/artifacts/full-track-qa-job12-20261002",
+  "stdout": "work/checkpoints/Windowed-full-track-QA-20261002/full-stdout.txt",
+  "stderr": "work/checkpoints/Windowed-full-track-QA-20261002/full-stderr.txt",
+  "source_commit": "fc81a26a0b9426e8e79e0a72efa94612a0f55bc1",
+  "fingerprint": "0377b44a4f48bf1388fa90ff98302bd9eb830248cdd1ec5a1f8da60de8740b5d",
+  "preflight": "work/artifacts/full-track-qa-preflight-20261002.json"
+}
