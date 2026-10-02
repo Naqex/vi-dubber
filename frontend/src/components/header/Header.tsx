@@ -61,7 +61,7 @@ export const Header: React.FC = () => {
               <span className="font-bold text-xs tracking-tight text-slate-900 dark:text-slate-100 font-mono">
                 VI-DUBBER
               </span>
-              <span className="hidden sm:inline text-[10px] font-semibold px-1.5 py-0.2 rounded bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/30 font-mono">
+              <span className="hidden sm:inline text-[10px] font-semibold px-1.5 py-0.2 rounded bg-orange-500/10 text-orange-700 dark:text-orange-400 border border-orange-500/30 font-mono">
                 v2.0-PRO
               </span>
               <span className="text-xs text-slate-600 dark:text-slate-300 hidden xl:inline font-sans">
@@ -177,7 +177,7 @@ export const Header: React.FC = () => {
           <button
             onClick={() => setIsCreatorOpen(true)}
             aria-label={t('creator.new_job')}
-            className="relative flex items-center gap-1.5 h-8 px-4 bg-gradient-to-r from-orange-600 via-orange-500 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white rounded-md text-xs sm:text-sm font-bold shadow-lg shadow-orange-600/40 hover:scale-[1.03] transition-all font-mono cursor-pointer border border-orange-400/50"
+            className="relative flex items-center gap-1.5 h-8 px-4 bg-orange-700 hover:bg-orange-800 text-white rounded-md text-xs sm:text-sm font-bold shadow-lg shadow-orange-600/40 hover:scale-[1.03] transition-all font-mono cursor-pointer border border-orange-400/50"
             title={t('creator.new_job')}
           >
             <UploadCloud className="w-4 h-4" />
@@ -189,7 +189,7 @@ export const Header: React.FC = () => {
             <a
               href={`/api/jobs/${activeJob.id}/download`}
               download
-              className="relative flex items-center gap-1.5 h-8 px-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-md text-xs sm:text-sm font-bold shadow-lg shadow-emerald-600/40 hover:scale-[1.03] transition-all font-mono cursor-pointer border border-emerald-400/50"
+              className="relative flex items-center gap-1.5 h-8 px-3.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-md text-xs sm:text-sm font-bold shadow-lg shadow-emerald-600/40 hover:scale-[1.03] transition-all font-mono cursor-pointer border border-emerald-400/50"
               title={t('common.download_video')}
               aria-label={t('common.download_video')}
             >

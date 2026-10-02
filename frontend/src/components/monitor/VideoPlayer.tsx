@@ -33,6 +33,8 @@ export const VideoPlayer: React.FC = () => {
     setIsPlaying,
     selectedPreview: rememberedPreview,
     setSelectedPreview,
+    previewPlaybackBlockedJobId,
+    setPreviewPlaybackBlockedJobId,
     setIsCreatorOpen,
     setDroppedFile,
   } = useJob();
@@ -77,8 +79,13 @@ export const VideoPlayer: React.FC = () => {
     // paths or constructing a URL that cannot exist under /work/{jobId}.
     finalVideoSrc = `/api/jobs/${encodeURIComponent(activeJob.id)}/download`;
   }
-  const videoSrc = selectedPreview?.play_url || finalVideoSrc;
-  const sourceKind = selectedPreview ? 'preview' : finalVideoSrc ? 'final' : 'none';
+  const previewPlaybackBlocked = previewPlaybackBlockedJobId === activeJob?.id
+    || Boolean(activeJob?.metadata?.longform?.enabled && !selectedPreview
+      && window.localStorage.getItem(`vi_dubber_preview_${activeJob.id}`));
+  const videoSrc = selectedPreview?.play_url || (previewPlaybackBlocked ? null : finalVideoSrc);
+  const sourceKind = selectedPreview ? 'preview' : videoSrc ? 'final' : 'none';
+  const qa = activeJob?.result?.qa;
+  const qaVerdict = t(qa?.passed === false ? 'qa.failed' : qa?.passed === true ? 'qa.passed' : 'qa.unverified');
 
   useEffect(() => {
     setVideoDuration(0);
@@ -87,7 +94,7 @@ export const VideoPlayer: React.FC = () => {
   // Playback simulation ticker when video file is not an external mp4
   useEffect(() => {
     let interval: any;
-    if (isPlaying && !videoSrc && totalDuration !== null) {
+    if (isPlaying && !videoSrc && !previewPlaybackBlocked && totalDuration !== null) {
       interval = setInterval(() => {
         setCurrentTime((prev: number) => {
           const next = prev + 0.1 * playbackSpeed;
@@ -103,7 +110,7 @@ export const VideoPlayer: React.FC = () => {
       }, 100);
     }
     return () => clearInterval(interval);
-  }, [isPlaying, playbackSpeed, isLoopingSegment, activeSegment, totalDuration, setCurrentTime, setIsPlaying, videoSrc]);
+  }, [isPlaying, playbackSpeed, isLoopingSegment, activeSegment, totalDuration, setCurrentTime, setIsPlaying, videoSrc, previewPlaybackBlocked]);
 
   useEffect(() => {
     if (!videoRef.current || !seekRequest || totalDuration === null) return;
@@ -230,6 +237,13 @@ export const VideoPlayer: React.FC = () => {
         className="hidden"
       />
 
+      {sourceKind === 'final' && (
+        <div role="status" className="flex flex-wrap items-center gap-x-3 gap-y-1 bg-slate-900 px-3 py-1.5 text-[11px]">
+          <span className={`font-semibold ${qa?.passed === false ? 'text-rose-300' : qa?.passed === true ? 'text-emerald-300' : 'text-slate-300'}`}>{qaVerdict}</span>
+          {(qa?.full_track_skipped === true || qa?.global_passed === null) && <span className="text-amber-300">{t('qa.full_track_unchecked')}</span>}
+        </div>
+      )}
+
       {/* Video Screen / Canvas Viewport with Drag & Drop (Compact Reference Monitor) */}
       <div
         onDragOver={handleDragOver}
@@ -305,7 +319,7 @@ export const VideoPlayer: React.FC = () => {
                 PREVIEW · Part {selectedPreview.index + 1}/{activeJob?.metadata?.longform?.preview_total_chunks || activeJob?.metadata?.longform?.total_chunks || '?'} · {formatSeconds(selectedPreview.start)}–{formatSeconds(selectedPreview.end)}
               </div>
             ) : sourceKind === 'final' ? (
-              <div className="rounded bg-emerald-500/90 px-2 py-0.5 text-[10px] font-bold text-slate-950 shadow-sm">
+              <div className="rounded bg-slate-200/90 px-2 py-0.5 text-[10px] font-bold text-slate-950 shadow-sm">
                 FINAL
               </div>
             ) : null}
@@ -319,14 +333,14 @@ export const VideoPlayer: React.FC = () => {
                 e.stopPropagation();
                 void openCreator();
               }}
-              className="flex items-center gap-1 px-2.5 py-1 rounded bg-orange-600 hover:bg-orange-500 backdrop-blur-md border border-orange-400 text-[11px] text-white font-bold shadow-md shadow-orange-600/30 hover:scale-105 transition cursor-pointer"
+              className="flex items-center gap-1 px-2.5 py-1 rounded bg-orange-700 hover:bg-orange-800 backdrop-blur-md border border-orange-400 text-[11px] text-white font-bold shadow-md shadow-orange-600/30 hover:scale-105 transition cursor-pointer"
               title={t('import.import_video')}
             >
               <Upload className="w-3.5 h-3.5" />
               <span>{t('import.import_video')}</span>
             </button>
 
-            {selectedPreview && finalVideoSrc ? (
+            {(selectedPreview || previewPlaybackBlocked) && finalVideoSrc ? (
               <button
                 type="button"
                 onClick={() => {
@@ -334,10 +348,11 @@ export const VideoPlayer: React.FC = () => {
                     window.localStorage.removeItem(`vi_dubber_preview_${activeJob.id}`);
                   }
                   setSelectedPreview(null);
+                  setPreviewPlaybackBlockedJobId(null);
                   requestSeek(0);
                   setIsPlaying(false);
                 }}
-                className="flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-600 hover:bg-emerald-500 backdrop-blur-md border border-emerald-400 text-[11px] text-white font-bold shadow-md shadow-emerald-600/30 transition cursor-pointer"
+                className="flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-700 hover:bg-emerald-800 backdrop-blur-md border border-emerald-400 text-[11px] text-white font-bold shadow-md shadow-emerald-600/30 transition cursor-pointer"
                 title="Chuyển sang bản Final"
               >
                 FINAL READY
@@ -346,7 +361,7 @@ export const VideoPlayer: React.FC = () => {
               <a
                 href={`/api/jobs/${activeJob.id}/download`}
                 download
-                className="flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-600 hover:bg-emerald-500 backdrop-blur-md border border-emerald-400 text-[11px] text-white font-bold shadow-md shadow-emerald-600/30 hover:scale-105 transition cursor-pointer"
+                className="flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-700 hover:bg-emerald-800 backdrop-blur-md border border-emerald-400 text-[11px] text-white font-bold shadow-md shadow-emerald-600/30 hover:scale-105 transition cursor-pointer"
                 title={t('common.download_video')}
               >
                 <Download className="w-3 h-3" />
@@ -383,6 +398,7 @@ export const VideoPlayer: React.FC = () => {
         {/* Center Play Button on Hover */}
         <button
           onClick={() => setIsPlaying(!isPlaying)}
+          disabled={previewPlaybackBlocked}
           className="absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
           title={isPlaying ? t('common.pause') : t('hotkeys.play_pause')}
         >
@@ -394,25 +410,26 @@ export const VideoPlayer: React.FC = () => {
 
       {/* Scrub Bar & Timeline */}
       <div className="px-3 pt-1.5 bg-slate-900 border-t border-slate-800">
-        <div
-          className="relative w-full h-1.5 bg-slate-800 rounded-full cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/60"
-          role="slider"
-          tabIndex={totalDuration === null ? -1 : 0}
-          aria-label={language === 'vi' ? 'Thanh tua video' : 'Video seek bar'}
-          aria-valuemin={0}
-          aria-valuemax={totalDuration ?? undefined}
-          aria-valuenow={timelineLocalTime ?? undefined}
-          aria-valuetext={timelineLocalTime === null ? unavailable : formatSeconds(timelineLocalTime)}
-          aria-disabled={totalDuration === null}
-          onKeyDown={handleTimelineKeyDown}
-          onClick={(e) => {
-            if (totalDuration === null) return;
-            const rect = e.currentTarget.getBoundingClientRect();
-            const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-            const newTime = timelineStart + pct * totalDuration;
-            requestSeek(newTime);
-          }}
-        >
+        <div className="relative w-full h-1.5">
+          <div
+            className="relative w-full h-1.5 bg-slate-800 rounded-full cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/60"
+            role="slider"
+            tabIndex={totalDuration === null ? -1 : 0}
+            aria-label={language === 'vi' ? 'Thanh tua video' : 'Video seek bar'}
+            aria-valuemin={0}
+            aria-valuemax={totalDuration ?? undefined}
+            aria-valuenow={timelineLocalTime ?? undefined}
+            aria-valuetext={timelineLocalTime === null ? unavailable : formatSeconds(timelineLocalTime)}
+            aria-disabled={totalDuration === null}
+            onKeyDown={handleTimelineKeyDown}
+            onClick={(e) => {
+              if (totalDuration === null) return;
+              const rect = e.currentTarget.getBoundingClientRect();
+              const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+              const newTime = timelineStart + pct * totalDuration;
+              requestSeek(newTime);
+            }}
+          />
           {/* Segment Markers on Seek Bar */}
           {totalDuration !== null && timelineEnd !== null && visibleSegments.map(seg => {
             const clippedStart = Math.max(seg.start, timelineStart);
@@ -443,7 +460,7 @@ export const VideoPlayer: React.FC = () => {
 
           {/* Current Playhead */}
           <div
-            className="absolute top-0 bottom-0 bg-orange-500 rounded-full"
+            className="absolute top-0 bottom-0 bg-orange-500 rounded-full pointer-events-none"
             style={{ width: totalDuration === null ? '0%' : `${Math.min(100, Math.max(0, ((currentTime - timelineStart) / totalDuration) * 100))}%` }}
           />
         </div>
@@ -455,6 +472,7 @@ export const VideoPlayer: React.FC = () => {
           {/* Play / Pause */}
           <button
             onClick={() => setIsPlaying(!isPlaying)}
+            disabled={previewPlaybackBlocked}
             className="p-1.5 rounded hover:bg-slate-800 text-slate-200 hover:text-white transition cursor-pointer"
             title={isPlaying ? t('common.pause') : t('hotkeys.play_pause')}
           >
@@ -502,6 +520,7 @@ export const VideoPlayer: React.FC = () => {
         <div className="flex items-center gap-2">
           {/* Speed Selector */}
           <select
+            aria-label={t('monitor.speed')}
             value={playbackSpeed}
             onChange={(e) => setPlaybackSpeed(parseFloat(e.target.value))}
             className="bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded px-1.5 py-1 focus:outline-none focus:border-orange-500 cursor-pointer"

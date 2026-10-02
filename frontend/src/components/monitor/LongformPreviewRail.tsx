@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, CheckCircle2, Download, LoaderCircle, Play, RotateCcw } from 'lucide-react';
 import { useJob } from '@/context/JobContext';
+import { useTranslation } from '@/context/I18nContext';
 import { fetchJobPreviews, rerenderJob } from '@/lib/api';
 import type { PreviewArtifact } from '@/types';
 import { formatSeconds, isPreviewReady } from '@/lib/utils';
@@ -11,12 +12,16 @@ export const LongformPreviewRail: React.FC = () => {
     refreshJobs,
     selectedPreview,
     setSelectedPreview,
+    setPreviewPlaybackBlockedJobId,
     requestSeek,
     setIsPlaying,
   } = useJob();
   const [previews, setPreviews] = useState<PreviewArtifact[]>([]);
   const [selectedChunkId, setSelectedChunkId] = useState<string>('');
   const [rerendering, setRerendering] = useState(false);
+  const [fetchFailed, setFetchFailed] = useState(false);
+  const [retryVersion, setRetryVersion] = useState(0);
+  const { t } = useTranslation();
   const longform = activeJob?.metadata?.longform;
   const enabled = Boolean(longform?.enabled);
 
@@ -24,6 +29,8 @@ export const LongformPreviewRail: React.FC = () => {
     if (!activeJob || !enabled) {
       setPreviews([]);
       setSelectedChunkId('');
+      setFetchFailed(false);
+      setPreviewPlaybackBlockedJobId(null);
       return;
     }
     let cancelled = false;
@@ -31,6 +38,7 @@ export const LongformPreviewRail: React.FC = () => {
       try {
         const next = await fetchJobPreviews(activeJob.id);
         if (cancelled) return;
+        setFetchFailed(false);
         setPreviews(next);
         const playable = next.filter(item => isPreviewReady(item, longform));
         const storageKey = `vi_dubber_preview_${activeJob.id}`;
@@ -40,12 +48,23 @@ export const LongformPreviewRail: React.FC = () => {
         const hadSelection = Boolean(selectedPreview?.chunk_id || remembered);
         const chosen = candidate || (!hadSelection && activeJob.status !== 'completed' ? playable[0]?.chunk_id || '' : '');
         const artifact = playable.find(item => item.chunk_id === chosen) || null;
+        setPreviewPlaybackBlockedJobId(hadSelection && !artifact ? activeJob.id : null);
         setSelectedPreview(artifact);
         setSelectedChunkId(chosen);
         if (chosen) window.localStorage.setItem(storageKey, chosen);
-        else window.localStorage.removeItem(storageKey);
+        else if (!hadSelection) window.localStorage.removeItem(storageKey);
       } catch (error) {
-        if (!cancelled) console.error('Failed fetching long-form previews:', error);
+        if (!cancelled) {
+          setFetchFailed(true);
+          if (selectedPreview || window.localStorage.getItem(`vi_dubber_preview_${activeJob.id}`)) {
+            setPreviewPlaybackBlockedJobId(activeJob.id);
+          }
+          setPreviews([]);
+          setSelectedChunkId('');
+          setSelectedPreview(null);
+          setIsPlaying(false);
+          console.error('Failed fetching long-form previews:', error);
+        }
       }
     };
     refresh();
@@ -54,7 +73,7 @@ export const LongformPreviewRail: React.FC = () => {
       cancelled = true;
       if (interval !== undefined) window.clearInterval(interval);
     };
-  }, [activeJob?.id, activeJob?.status, activeJob?.updated_at, enabled, longform, selectedPreview?.chunk_id, setSelectedPreview]);
+  }, [activeJob?.id, activeJob?.status, activeJob?.updated_at, enabled, longform, selectedPreview?.chunk_id, setSelectedPreview, setPreviewPlaybackBlockedJobId, setIsPlaying, retryVersion]);
 
   const previewById = useMemo(
     () => new Map(previews.map(item => [item.chunk_id, item])),
@@ -95,7 +114,7 @@ export const LongformPreviewRail: React.FC = () => {
         <div className="min-w-0">
           <div className="flex items-center gap-2 text-[11px] font-semibold text-slate-800 dark:text-slate-100">
             <span>Long-form chunks</span>
-            <span className="rounded bg-amber-500/15 px-1.5 py-0.5 text-[9px] font-bold tracking-wide text-amber-700 dark:text-amber-300">
+            <span className="rounded bg-amber-500/15 px-1.5 py-0.5 text-[9px] font-bold tracking-wide text-amber-800 dark:text-amber-300">
               PREVIEW
             </span>
             {activeJob.status === 'completed' && (
@@ -121,7 +140,16 @@ export const LongformPreviewRail: React.FC = () => {
         )}
       </div>
 
-      <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1">
+      {fetchFailed && (
+        <div role="alert" className="mt-1.5 flex flex-wrap items-center justify-between gap-2 text-[11px] text-rose-700 dark:text-rose-300">
+          <span>{t('preview.load_failed')}</span>
+          <button type="button" onClick={() => setRetryVersion(value => value + 1)} className="rounded px-1.5 py-1 font-semibold underline">
+            {t('preview.retry')}
+          </button>
+        </div>
+      )}
+
+      <div tabIndex={0} aria-label={t('preview.chunk_list')} className="mt-2 flex gap-1.5 overflow-x-auto pb-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500">
         {allChunkIds.map(chunkId => {
           const preview = previewById.get(chunkId);
           const isStale = stale.has(chunkId);
@@ -129,7 +157,9 @@ export const LongformPreviewRail: React.FC = () => {
           const isReady = isPreviewReady(preview, longform);
           const isCurrent = currentChunk === chunkId && !isReady && !isStale && !isBlocked;
           const active = selectedChunkId === chunkId;
-          const statusLabel = isStale
+          const statusLabel = fetchFailed
+            ? t('common.unavailable')
+            : isStale
             ? 'STALE'
             : isBlocked
               ? 'QA BLOCK'
@@ -160,7 +190,7 @@ export const LongformPreviewRail: React.FC = () => {
               <span className="block text-[10px] font-semibold text-slate-700 dark:text-slate-200">
                 {chunkId.replace('chunk_', '#')}
               </span>
-              <span className="mt-0.5 flex items-center gap-1 text-[9px] text-slate-500 dark:text-slate-400">
+              <span className="mt-0.5 flex items-center gap-1 text-[9px] text-slate-600 dark:text-slate-400">
                 {isStale || isBlocked ? (
                   <AlertTriangle className="h-2.5 w-2.5" />
                 ) : isReady ? (
@@ -181,7 +211,7 @@ export const LongformPreviewRail: React.FC = () => {
           <span className="min-w-0 flex-1 truncate text-[10px] font-medium text-slate-700 dark:text-slate-200">
             Đang xem {selected.chunk_id.replace('chunk_', 'Part ')} trên monitor
           </span>
-          <span className="hidden whitespace-nowrap text-[9px] text-slate-500 xl:inline">
+          <span className="hidden whitespace-nowrap text-[9px] text-slate-600 dark:text-slate-400 xl:inline">
             {formatSeconds(selected.start)}–{formatSeconds(selected.end)}
           </span>
           {selected.download_available === true ? (

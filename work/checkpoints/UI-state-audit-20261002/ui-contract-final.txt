@@ -1,0 +1,5 @@
+
+> vi-dubber-frontend@1.0.0 test:ui-contract
+> node scripts/verify_ui_contract.mjs
+
+{"status":"PASS","checks":4}

@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "D:\ANNAM\TradingWorkspace\projects\vi-dubber\work\checkpoints\UI-state-audit-20261002\audit_ui.py", line 175, in <module>
+    run(parser.parse_args().output)
+  File "D:\ANNAM\TradingWorkspace\projects\vi-dubber\work\checkpoints\UI-state-audit-20261002\audit_ui.py", line 138, in run
+    expect(page.locator("video[src$='/download']")).to_have_count(1)
+  File "D:\ANNAM\TradingWorkspace\projects\vi-dubber\.venv\Lib\site-packages\playwright\sync_api\_generated.py", line 22534, in to_have_count
+    self._sync(
+  File "D:\ANNAM\TradingWorkspace\projects\vi-dubber\.venv\Lib\site-packages\playwright\_impl\_sync_base.py", line 115, in _sync
+    return task.result()
+           ^^^^^^^^^^^^^
+  File "D:\ANNAM\TradingWorkspace\projects\vi-dubber\.venv\Lib\site-packages\playwright\_impl\_assertions.py", line 465, in to_have_count
+    await self._expect_impl(
+  File "D:\ANNAM\TradingWorkspace\projects\vi-dubber\.venv\Lib\site-packages\playwright\_impl\_assertions.py", line 128, in _expect_impl
+    _record_soft_or_raise(
+  File "D:\ANNAM\TradingWorkspace\projects\vi-dubber\.venv\Lib\site-packages\playwright\_impl\_assertions.py", line 60, in _record_soft_or_raise
+    raise error
+AssertionError: Locator expected to have count '1'
+Actual value: 0 
+Call log:
+  - Expect "to_have_count" locator("video[src$='/download']") with timeout 5000ms
+  - waiting for locator("video[src$='/download']")
+    14 × locator resolved to 0 elements
+       - unexpected value "0"
+

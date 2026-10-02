@@ -1,0 +1,207 @@
+[
+  {
+    "width": 390,
+    "language": "vi",
+    "theme": "light",
+    "state": "preview-matrix",
+    "preview_video": 1,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nM3 Watch Review Fixture\nVI\nBước 5/7: Tổng hợp giọng nói (TTS) · 62%\nChưa có dữ liệu\n/\nChưa có dữ liệu\nSPEAKER_00\nPREVIEW · Part 1/4 · 00:00.0–00:10.0\nImport Video / YouTube\nCâu dịch đầu tiên.\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n1/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\n#0001\nREADY\n#0002\nQA BLOCK\n#0003\nTTS\n#0004\nSTALE\nĐang xem Part 0001 trên monitor\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nSEG #0 // 00:01.0 - 00:02.0\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n4 TOTAL\nDuyệt tất cả (4)\nTất cả đoạn thoại\n4\nCó cảnh báo\n0\nCần kiểm tra\n1\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nThời lượng mục tiêu: 4.28s\n18 ký tự (-31%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nThời lượng mục tiêu: 4.28s\n30 ký tự (+15%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nCần duyệt\nThe blocked chunk stays unavailable.\nThời lượng mục tiêu: 4.28s\n31 ký tự (-14%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nThời lượng mục tiêu: 4.28s\n29 ký tự (-24%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\nBảng kỹ thuật",
+    "geometry": {
+      "scrollX": 0,
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".border-orange-500 > .mt-0\\.5.text-\\[9px\\].text-slate-500"
+              ],
+              "html": "<span class=\"mt-0.5 flex items-center gap-1 text-[9px] text-slate-500 dark:text-slate-400\">",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.29 (foreground color: #64748b, background color: #fef1e8, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".bg-sky-600 > .truncate"
+              ],
+              "html": "<span class=\"truncate\">Giọng lồng Tiếng Việt (B)</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.09 (foreground color: #ffffff, background color: #0284c7, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 1
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 7
+        },
+        {
+          "id": "video-caption",
+          "nodes": 1
+        }
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "language": "vi",
+    "theme": "light",
+    "state": "preview-403",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nM3 Watch Review Fixture\nVI\nBước 5/7: Tổng hợp giọng nói (TTS) · 62%\nChưa có dữ liệu\n/\nChưa có dữ liệu\nChưa tải video cho tác vụ này\nM3 Watch Review Fixture\nSPEAKER_00\nImport Video / YouTube\nChưa có dữ liệu\nCâu dịch đầu tiên.\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / Chưa có dữ liệu\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nKhông tải được preview. Tạm khóa phát.\nThử tải preview lại\n#0001\nChưa có dữ liệu\n#0002\nChưa có dữ liệu\n#0003\nChưa có dữ liệu\n#0004\nChưa có dữ liệu\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nSEG #0 // 00:01.0 - 00:02.0\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n4 TOTAL\nDuyệt tất cả (4)\nTất cả đoạn thoại\n4\nCó cảnh báo\n0\nCần kiểm tra\n1\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nThời lượng mục tiêu: 4.28s\n18 ký tự (-31%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nThời lượng mục tiêu: 4.28s\n30 ký tự (+15%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nCần duyệt\nThe blocked chunk stays unavailable.\nThời lượng mục tiêu: 4.28s\n31 ký tự (-14%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nThời lượng mục tiêu: 4.28s\n29 ký tự (-24%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\nBảng kỹ thuật",
+    "geometry": {
+      "scrollX": 0,
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "language": "vi",
+    "theme": "light",
+    "state": "preview-500",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nM3 Watch Review Fixture\nVI\nBước 5/7: Tổng hợp giọng nói (TTS) · 62%\nChưa có dữ liệu\n/\nChưa có dữ liệu\nChưa tải video cho tác vụ này\nM3 Watch Review Fixture\nSPEAKER_00\nImport Video / YouTube\nChưa có dữ liệu\nCâu dịch đầu tiên.\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / Chưa có dữ liệu\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nKhông tải được preview. Tạm khóa phát.\nThử tải preview lại\n#0001\nChưa có dữ liệu\n#0002\nChưa có dữ liệu\n#0003\nChưa có dữ liệu\n#0004\nChưa có dữ liệu\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nSEG #0 // 00:01.0 - 00:02.0\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n4 TOTAL\nDuyệt tất cả (4)\nTất cả đoạn thoại\n4\nCó cảnh báo\n0\nCần kiểm tra\n1\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nThời lượng mục tiêu: 4.28s\n18 ký tự (-31%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nThời lượng mục tiêu: 4.28s\n30 ký tự (+15%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nCần duyệt\nThe blocked chunk stays unavailable.\nThời lượng mục tiêu: 4.28s\n31 ký tự (-14%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nThời lượng mục tiêu: 4.28s\n29 ký tự (-24%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\nBảng kỹ thuật",
+    "geometry": {
+      "scrollX": 0,
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "language": "vi",
+    "theme": "light",
+    "state": "final-qa-failed",
+    "preview_video": 0,
+    "final_video": 1,
+    "body_text": "VI-DUBBER\nM3 Watch Review Fixture\nVI\nBước 7/7: Kiểm định chất lượng (QA) · 100%\nChưa có dữ liệu\n/\nHOÀN TẤT\nCOMPLETED\nQA chưa đạt\nChưa kiểm tra toàn track\nSPEAKER_00\nFINAL\nImport Video / YouTube\nTải Video\nCâu dịch đầu tiên.\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\nFINAL READY\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nTải Final\n#0001\nQA BLOCK\n#0002\nQA BLOCK\n#0003\nTTS\n#0004\nSTALE\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nSEG #0 // 00:01.0 - 00:02.0\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n4 TOTAL\nDuyệt tất cả (4)\nSRT\nTất cả đoạn thoại\n4\nCó cảnh báo\n0\nCần kiểm tra\n1\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nThời lượng mục tiêu: 4.28s\n18 ký tự (-31%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nThời lượng mục tiêu: 4.28s\n30 ký tự (+15%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nCần duyệt\nThe blocked chunk stays unavailable.\nThời lượng mục tiêu: 4.28s\n31 ký tự (-14%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nThời lượng mục tiêu: 4.28s\n29 ký tự (-24%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\nBảng kỹ thuật\n[CUDA VRAM]\n[Độ trễ]\n[LUFS / Peak]\n[Tokens]\n[Raw JSON]\nQA chưa đạt\n122 đoạn chưa đạt\nChưa kiểm tra toàn track\nTYPESAFE AI COGNITIVE TELEMETRY\nJEV v1.4\nToken xác thực TypeSafe\nChưa có dữ liệu\nSố lần viết lại khớp âm tiết\nChưa có dữ liệu lần\nĐộ tương đồng QA\n98.0%\nCache Trúng/Trượt\nChưa có dữ liệu / Chưa có dữ liệu\nSố lô dịch WebGPT:\nChưa có dữ liệu lô gửi (:8080)",
+    "geometry": {
+      "scrollX": 0,
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".border-orange-500\\/50 > span"
+              ],
+              "html": "<span>[Tokens]</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.09 (foreground color: #ea580c, background color: #f9ede6, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".text-sky-600"
+              ],
+              "html": "<span class=\"font-bold text-sky-600 dark:text-sky-400 text-sm mt-0.5 block\">Chưa có dữ liệu</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.91 (foreground color: #0284c7, background color: #f8fafc, font size: 10.5pt (14px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".text-amber-600"
+              ],
+              "html": "<span class=\"font-bold text-amber-600 dark:text-amber-400 text-sm mt-0.5 block\">Chưa có dữ liệu lần</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.04 (foreground color: #d97706, background color: #f8fafc, font size: 10.5pt (14px), font weight: bold). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "scrollable-region-focusable",
+          "impact": "serious",
+          "description": "Ensure elements that have scrollable content are accessible by keyboard",
+          "nodes": [
+            {
+              "target": [
+                ".mt-2"
+              ],
+              "html": "<div class=\"mt-2 flex gap-1.5 overflow-x-auto pb-1\">",
+              "failureSummary": "Fix any of the following:\n  Element should have focusable content\n  Element should be focusable"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 1
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 6
+        },
+        {
+          "id": "video-caption",
+          "nodes": 1
+        }
+      ]
+    }
+  }
+]

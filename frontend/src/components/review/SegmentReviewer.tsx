@@ -8,6 +8,7 @@ import { isFinalJobReady } from '@/lib/utils';
 
 export const SegmentReviewer: React.FC = () => {
   const {
+    previewPlaybackBlockedJobId,
     activeJob,
     segments,
     activeSegmentIndex,
@@ -96,7 +97,7 @@ export const SegmentReviewer: React.FC = () => {
       // 1. Space: Toggle playback when not typing
       if (e.key === ' ' && !isTyping) {
         e.preventDefault();
-        setIsPlaying(!isPlaying);
+        if (previewPlaybackBlockedJobId !== activeJob?.id) setIsPlaying(!isPlaying);
         return;
       }
 
@@ -153,6 +154,8 @@ export const SegmentReviewer: React.FC = () => {
     window.addEventListener('keydown', handleGlobalKeyDown);
     return () => window.removeEventListener('keydown', handleGlobalKeyDown);
   }, [
+    previewPlaybackBlockedJobId,
+    activeJob?.id,
     isPlaying,
     activeSegmentIndex,
     segments,
@@ -219,7 +222,7 @@ export const SegmentReviewer: React.FC = () => {
               className={`flex items-center gap-1.5 h-7 px-2.5 rounded-lg text-xs font-mono font-semibold transition cursor-pointer ${
                 acceptedCount === segments.length
                   ? 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-800 cursor-default'
-                  : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-xs'
+                  : 'bg-emerald-700 hover:bg-emerald-800 text-white shadow-xs'
               }`}
               title={t('review.accept_all')}
             >
@@ -233,7 +236,7 @@ export const SegmentReviewer: React.FC = () => {
                 <a
                   href={`/api/jobs/${activeJob.id}/download`}
                   download
-                  className="flex items-center gap-1.5 h-7 px-2.5 rounded-lg text-xs font-mono font-semibold bg-emerald-600 hover:bg-emerald-500 text-white shadow-xs transition cursor-pointer"
+                  className="flex items-center gap-1.5 h-7 px-2.5 rounded-lg text-xs font-mono font-semibold bg-emerald-700 hover:bg-emerald-800 text-white shadow-xs transition cursor-pointer"
                   title={t('common.download_video')}
                   aria-label={t('common.download_video')}
                 >
@@ -335,7 +338,7 @@ export const SegmentReviewer: React.FC = () => {
       </div>
 
       {/* Body: Scrollable list of segment cards */}
-      <div className="flex-1 min-h-0 overflow-y-auto p-2 space-y-2 scroll-smooth">
+      <div tabIndex={0} aria-label={t('review.title')} className="flex-1 min-h-0 overflow-y-auto p-2 space-y-2 scroll-smooth">
         {filteredSegments.length === 0 ? (
           <div className="text-center py-16 text-slate-500 dark:text-slate-400 font-mono text-xs">
             {t('review.no_results')}

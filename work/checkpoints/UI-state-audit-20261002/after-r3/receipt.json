@@ -1,0 +1,9 @@
+{
+  "records": 30,
+  "axe_scans": 18,
+  "failures": 3,
+  "source_before": "33b18d4565e6123a5c74be61c9ce74699c534231317e7356637208a635eaca2c",
+  "source_after": "33b18d4565e6123a5c74be61c9ce74699c534231317e7356637208a635eaca2c",
+  "synthetic_server_stopped": true,
+  "scope": "loopback synthetic fixture; no provider, retained job or full WCAG acceptance"
+}

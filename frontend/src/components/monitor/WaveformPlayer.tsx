@@ -187,7 +187,7 @@ export const WaveformPlayer: React.FC = () => {
           onClick={() => setSelectedAudioTrack('b')}
           className={`flex items-center justify-center gap-1.5 h-8 px-2 rounded-md transition-all font-semibold whitespace-nowrap cursor-pointer ${
             selectedAudioTrack === 'b'
-              ? 'bg-sky-600 text-white shadow-xs'
+              ? 'bg-sky-700 text-white shadow-xs'
               : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/60 dark:hover:bg-slate-800/60'
           }`}
           title={t('monitor.track_b')}

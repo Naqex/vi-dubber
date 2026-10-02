@@ -182,6 +182,7 @@ export const SegmentCard: React.FC<SegmentCardProps> = ({
         </span>
         <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500">·</span>
         <select
+          aria-label={t('review.segment_speaker', { id: segment.id })}
           value={selectedSpeaker}
           onChange={handleSpeakerChange}
           onClick={(e) => e.stopPropagation()}
@@ -259,8 +260,8 @@ export const SegmentCard: React.FC<SegmentCardProps> = ({
               expansionPct > 25
                 ? 'text-amber-600 dark:text-amber-400'
                 : expansionPct < -25
-                ? 'text-sky-600 dark:text-sky-400'
-                : 'text-emerald-600 dark:text-emerald-400'
+                ? 'text-sky-700 dark:text-sky-400'
+                : 'text-emerald-700 dark:text-emerald-400'
             }`}
           >
             {viLen} {t('review.char_expansion')} ({expansionPct >= 0 ? `+${expansionPct}%` : `${expansionPct}%`})
@@ -299,7 +300,7 @@ export const SegmentCard: React.FC<SegmentCardProps> = ({
               <button
                 onClick={handleSave}
                 disabled={isBusy}
-                className="flex items-center gap-1 h-7 px-2 rounded bg-orange-600 hover:bg-orange-500 disabled:opacity-50 text-white font-semibold transition shadow-xs cursor-pointer"
+                className="flex items-center gap-1 h-7 px-2 rounded bg-orange-700 hover:bg-orange-800 disabled:opacity-50 text-white font-semibold transition shadow-xs cursor-pointer"
                 title={t('review.save')}
               >
                 <Save className="w-3.5 h-3.5" />
@@ -324,7 +325,7 @@ export const SegmentCard: React.FC<SegmentCardProps> = ({
             className={`flex items-center gap-1 h-7 px-2.5 rounded font-bold transition shadow-xs cursor-pointer ${
               segment.review_status === 'accepted'
                 ? 'bg-emerald-600/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/50 hover:bg-emerald-600/25'
-                : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/30'
+                : 'bg-emerald-700 hover:bg-emerald-800 text-white shadow-emerald-600/30'
             }`}
             title={t('review.accept_segment')}
           >

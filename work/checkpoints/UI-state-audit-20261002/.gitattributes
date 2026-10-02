@@ -1,0 +1,4 @@
+* -text
+*.txt whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+*.json whitespace=cr-at-eol
+*.py whitespace=cr-at-eol

@@ -109,7 +109,7 @@ export const ProTelemetryGrid: React.FC = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-1.5 h-7 px-2.5 rounded-md text-xs font-semibold whitespace-nowrap transition-all cursor-pointer border ${
                   isActive
-                    ? 'bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/50 shadow-xs'
+                    ? 'bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-500/50 shadow-xs'
                     : 'border-transparent text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
               >
@@ -159,7 +159,7 @@ export const ProTelemetryGrid: React.FC = () => {
             <div className="grid grid-cols-3 gap-2">
               <div className="bg-slate-50 dark:bg-slate-950 p-2 rounded-lg border border-slate-200 dark:border-slate-800">
                 <span className="text-slate-600 dark:text-slate-300 block text-[10px]">{t('telemetry.vram_allocated')}</span>
-                <span className="font-bold text-sky-600 dark:text-sky-400 text-xs sm:text-sm mt-0.5 block">{allocated === null ? unavailable : formatBytes(allocated)}</span>
+                <span className="font-bold text-sky-700 dark:text-sky-400 text-xs sm:text-sm mt-0.5 block">{allocated === null ? unavailable : formatBytes(allocated)}</span>
                 <span className="text-slate-500 dark:text-slate-400 text-[9px]">{allocatedPct === null ? unavailable : `${allocatedPct}% ${language === 'vi' ? 'sử dụng' : 'utilization'}`}</span>
               </div>
               <div className="bg-slate-50 dark:bg-slate-950 p-2 rounded-lg border border-slate-200 dark:border-slate-800">
@@ -169,7 +169,7 @@ export const ProTelemetryGrid: React.FC = () => {
               </div>
               <div className="bg-slate-50 dark:bg-slate-950 p-2 rounded-lg border border-slate-200 dark:border-slate-800">
                 <span className="text-slate-600 dark:text-slate-300 block text-[10px]">{t('telemetry.vram_peak')}</span>
-                <span className="font-bold text-amber-600 dark:text-amber-400 text-xs sm:text-sm mt-0.5 block">{peak === null ? unavailable : formatBytes(peak)}</span>
+                <span className="font-bold text-amber-700 dark:text-amber-400 text-xs sm:text-sm mt-0.5 block">{peak === null ? unavailable : formatBytes(peak)}</span>
                 <span className="text-slate-500 dark:text-slate-400 text-[9px]">{language === 'vi' ? 'Mức đỉnh' : 'High watermark'}</span>
               </div>
             </div>
@@ -267,6 +267,13 @@ export const ProTelemetryGrid: React.FC = () => {
         {/* Tab 4: TypeSafe Tokens */}
         {activeTab === 'tokens' && (
           <div className="space-y-3">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px]">
+              <span className={`font-semibold ${qa?.passed === false ? 'text-rose-700 dark:text-rose-300' : qa?.passed === true ? 'text-emerald-700 dark:text-emerald-300' : 'text-slate-700 dark:text-slate-300'}`}>
+                {t(qa?.passed === false ? 'qa.failed' : qa?.passed === true ? 'qa.passed' : 'qa.unverified')}
+              </span>
+              {nonNegativeFinite(qa?.segment_summary?.final_failed) && <span className="text-slate-700 dark:text-slate-300">{t('qa.failed_segments', { count: qa.segment_summary.final_failed })}</span>}
+              {(qa?.full_track_skipped === true || qa?.global_passed === null) && <span className="text-amber-800 dark:text-amber-300">{t('qa.full_track_unchecked')}</span>}
+            </div>
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
               <span className="text-xs text-slate-800 dark:text-slate-200 font-bold">
                 TYPESAFE AI COGNITIVE TELEMETRY
@@ -277,21 +284,21 @@ export const ProTelemetryGrid: React.FC = () => {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800">
                 <span className="text-slate-600 dark:text-slate-300 block text-[11px]">{t('telemetry.typesafe_tokens')}</span>
-                <span className="font-bold text-sky-600 dark:text-sky-400 text-sm mt-0.5 block">
+                <span className="font-bold text-sky-700 dark:text-sky-400 text-sm mt-0.5 block">
                   {formatCount(counters?.typesafe_tokens)}
                 </span>
               </div>
 
               <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800">
                 <span className="text-slate-600 dark:text-slate-300 block text-[11px]">{t('telemetry.rewrite_calls')}</span>
-                <span className="font-bold text-amber-600 dark:text-amber-400 text-sm mt-0.5 block">
+                <span className="font-bold text-amber-700 dark:text-amber-400 text-sm mt-0.5 block">
                   {formatCount(counters?.rewrite_calls)} {language === 'vi' ? 'lần' : 'calls'}
                 </span>
               </div>
 
               <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800">
                 <span className="text-slate-600 dark:text-slate-300 block text-[11px]">{language === 'vi' ? 'Độ tương đồng QA' : 'QA Similarity'}</span>
-                <span className="font-bold text-emerald-600 dark:text-emerald-400 text-sm mt-0.5 block">
+                <span className="font-bold text-slate-800 dark:text-slate-200 text-sm mt-0.5 block">
                   {finiteNumber(qa?.similarity) ? `${(qa.similarity * 100).toFixed(1)}%` : unavailable}
                 </span>
               </div>
@@ -306,7 +313,7 @@ export const ProTelemetryGrid: React.FC = () => {
 
             <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
               <span className="text-slate-600 dark:text-slate-300">{language === 'vi' ? 'Số lô dịch WebGPT:' : 'WebGPT Sol Batches:'}</span>
-              <span className="font-bold text-orange-600 dark:text-orange-400">
+              <span className="font-bold text-orange-700 dark:text-orange-400">
                 {formatCount(counters?.webgpt_batches)} {language === 'vi' ? 'lô gửi (:8080)' : 'batch dispatched (:8080)'}
               </span>
             </div>

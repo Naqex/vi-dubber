@@ -51,6 +51,8 @@ interface JobContextType {
   setIsPlaying: (playing: boolean) => void;
   selectedPreview: PreviewArtifact | null;
   setSelectedPreview: (preview: PreviewArtifact | null) => void;
+  previewPlaybackBlockedJobId: string | null;
+  setPreviewPlaybackBlockedJobId: React.Dispatch<React.SetStateAction<string | null>>;
   selectedAudioTrack: 'a' | 'b' | 'bgm';
   setSelectedAudioTrack: (track: 'a' | 'b' | 'bgm') => void;
   systemStatus: SystemStatus;
@@ -84,6 +86,7 @@ export const JobProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [seekRequest, setSeekRequest] = useState<SeekRequest | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [selectedPreview, setSelectedPreview] = useState<PreviewArtifact | null>(null);
+  const [previewPlaybackBlockedJobId, setPreviewPlaybackBlockedJobId] = useState<string | null>(null);
   const [selectedAudioTrack, setSelectedAudioTrack] = useState<'a' | 'b' | 'bgm'>('b');
   const [systemStatus, setSystemStatus] = useState<SystemStatus>(USE_MOCK ? MOCK_SYSTEM_STATUS : EMPTY_SYSTEM_STATUS);
   const [loading, setLoading] = useState<boolean>(false);
@@ -165,6 +168,7 @@ export const JobProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     if (!activeJobId) return;
     setSelectedPreview(null);
+    setPreviewPlaybackBlockedJobId(null);
     setReviewMutations({});
     lastReviewMutationRef.current = {};
     reviewMutationTokenRef.current = {};
@@ -403,6 +407,8 @@ export const JobProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setIsPlaying,
         selectedPreview,
         setSelectedPreview,
+        previewPlaybackBlockedJobId,
+        setPreviewPlaybackBlockedJobId,
         selectedAudioTrack,
         setSelectedAudioTrack,
         systemStatus,

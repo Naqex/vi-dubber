@@ -55,7 +55,7 @@ export const SegmentFilterBar: React.FC<SegmentFilterBarProps> = ({
               onClick={() => onSelectFilter(id)}
               className={`flex items-center gap-1 h-7 px-2.5 min-w-[56px] rounded-md text-[11px] transition font-semibold cursor-pointer shrink-0 whitespace-nowrap ${
                 isActive
-                  ? 'bg-orange-600 text-white font-bold shadow-xs'
+                  ? 'bg-orange-700 text-white font-bold shadow-xs'
                   : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'
               }`}
             >

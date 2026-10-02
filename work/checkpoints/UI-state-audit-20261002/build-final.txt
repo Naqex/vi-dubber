@@ -1,0 +1,13 @@
+
+> vi-dubber-frontend@1.0.0 build
+> tsc && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 1618 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   1.58 kB │ gzip:   0.83 kB
+dist/assets/index-2_bE7OCb.css   52.63 kB │ gzip:   9.31 kB
+dist/assets/index-Cn9QrsL7.js   372.95 kB │ gzip: 104.69 kB
+✓ built in 5.92s

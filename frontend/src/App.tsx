@@ -37,7 +37,7 @@ export const App: React.FC = () => {
         {/* Left Column: 16:9 Video Monitor + A/B Waveform Player */}
         <section
           aria-label="Media Monitor & Telemetry Rack"
-          className="col-span-12 lg:col-span-4 h-full overflow-hidden flex flex-col gap-2 min-h-0"
+          className="col-span-12 lg:col-span-4 h-full overflow-y-auto flex flex-col gap-2 min-h-0"
         >
           {/* Upper: 16:9 Studio Master Video Monitor with Drag & Drop */}
           <VideoPlayer />

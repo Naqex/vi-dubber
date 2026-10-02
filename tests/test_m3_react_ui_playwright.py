@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 import socket
 import subprocess
 import threading
@@ -335,11 +336,109 @@ def _layout_metrics(page: Page) -> dict[str, int | bool]:
     )
 
 
+@pytest.mark.parametrize("passed", [False, True, None])
+def test_final_processing_artifact_reports_qa_verdict_separately(
+    page: Page, m3_react_server: tuple[str, str, Path], passed: bool | None,
+) -> None:
+    base_url, target_id, work = m3_react_server
+    page.context.route("**/*", lambda route: route.continue_()
+                       if route.request.url.startswith(base_url + "/")
+                       or route.request.url.startswith(("data:", "blob:")) else route.abort())
+    page.route("**/api/system", lambda route: route.fulfill(
+        status=200, content_type="application/json", body="{}"))
+    page.add_init_script("localStorage.setItem('vi_dubber_lang', 'en')")
+    qa = {"similarity": 0.98, "passed": passed, "global_passed": None,
+          "full_track_skipped": True, "mode": "risk_segments",
+          "segment_summary": {"final_failed": 122 if passed is False else 0}}
+    final_path = work / target_id / "output.mp4"
+    shutil.copyfile(work / target_id / "chunks/chunk_0001/preview/PREVIEW_chunk_0001.mp4", final_path)
+    update_job_state(work / target_id, status="completed", stage="complete", progress=1.0,
+                     result={"output": str(final_path), "duration_seconds": 10.0, "qa": qa}, message="Final QA fixture")
+    page.goto(base_url, wait_until="networkidle")
+    verdict = {False: "QA failed", True: "QA passed", None: "QA unverified"}[passed]
+    expect(page.get_by_text(verdict, exact=True)).to_be_visible()
+    expect(page.get_by_text("Full track not checked", exact=True)).to_be_visible()
+    # Processing completion still exposes the artifact for review; a QA flag
+    # must neither become a pass badge nor silently deny review downloads.
+    expect(page.locator("video[src$='/download']")).to_have_count(1)
+    expect(page.get_by_role("region", name="Media Monitor & Telemetry Rack").get_by_title("Download Video")).to_be_visible()
+    assert page.request.get(f"{base_url}/api/jobs/{target_id}/download").status == 200
+    page.get_by_role("button", name="Engineer Telemetry").click()
+    page.get_by_role("button", name="[Tokens]", exact=True).click()
+    expect(page.get_by_text(verdict, exact=True)).to_have_count(2)
+    if passed is False:
+        expect(page.get_by_text("122 segments failed", exact=True)).to_be_visible()
+
+
+@pytest.mark.parametrize("code", [403, 500])
+@pytest.mark.parametrize("status", ["paused", "completed"])
+def test_preview_fetch_failure_clears_playback_and_can_retry(
+    page: Page, m3_react_server: tuple[str, str, Path], code: int, status: str,
+) -> None:
+    base_url, target_id, work = m3_react_server
+    page.context.route("**/*", lambda route: route.continue_()
+                       if route.request.url.startswith(base_url + "/")
+                       or route.request.url.startswith(("data:", "blob:")) else route.abort())
+    page.route("**/api/system", lambda route: route.fulfill(
+        status=200, content_type="application/json", body="{}"))
+    page.add_init_script("localStorage.setItem('vi_dubber_lang', 'en')")
+    result = None
+    if status == "completed":
+        final_path = work / target_id / "output.mp4"
+        shutil.copyfile(work / target_id / "chunks/chunk_0001/preview/PREVIEW_chunk_0001.mp4", final_path)
+        result = {"output": str(final_path), "duration_seconds": 10.0, "qa": {"passed": False}}
+    update_job_state(work / target_id, status=status, result=result, message="Preview error fixture")
+    page.goto(base_url, wait_until="networkidle")
+    ready = page.locator("button:has-text('#0001'):has-text('READY')")
+    expect(ready).to_be_enabled()
+    ready.click()
+    expect(page.locator("video[src*='/previews/']")).to_have_count(1)
+    preview_route = f"**/api/jobs/{target_id}/previews"
+    page.route(preview_route, lambda route: route.fulfill(status=code, body="fixture error"))
+    update_job_state(work / target_id, message=f"Preview denied {code}")
+    expect(page.get_by_role("alert").filter(has_text="Could not load previews")).to_be_visible(timeout=10000)
+    expect(page.locator("video")).to_have_count(0)
+    plays = page.get_by_title("Play / Pause", exact=True)
+    expect(plays).to_have_count(2)
+    for play in plays.all():
+        expect(play).to_be_disabled()
+    page.locator("body").press("Space")
+    assert page.locator("audio").evaluate("el => el.paused")
+    expect(ready).to_have_count(0)
+    expect(page.get_by_title("Tải preview chunk")).to_have_count(0)
+    if status == "completed":
+        page.get_by_title("Chuyển sang bản Final", exact=True).click()
+        expect(page.locator("video[src$='/download']")).to_have_count(1)
+        expect(page.get_by_text("QA failed", exact=True)).to_be_visible()
+    page.unroute(preview_route)
+    page.get_by_role("button", name="Retry previews", exact=True).click()
+    expect(ready).to_be_enabled()
+    ready.click()
+    expect(page.locator("video[src*='/previews/']")).to_have_count(1)
+    expect(page.get_by_role("alert").filter(has_text="Could not load previews")).to_have_count(0)
+    if status == "completed":
+        page.get_by_title("Chuyển sang bản Final", exact=True).click()
+        page.route(preview_route, lambda route: route.fulfill(status=code, body="fixture error"))
+        update_job_state(work / target_id, message=f"Final selected; previews denied {code}")
+        expect(page.get_by_role("alert").filter(has_text="Could not load previews")).to_be_visible(timeout=10000)
+        expect(page.locator("video[src$='/download']")).to_have_count(1)
+        header = page.get_by_role("banner")
+        selector = header.get_by_role("button", name="M3 Watch Review Fixture", exact=True)
+        selector.focus()
+        selector.press("Enter")
+        page.get_by_role("menuitem", name="M3 Library Entry").click()
+        expect(header.get_by_role("button", name="M3 Library Entry", exact=True)).to_be_visible()
+        expect(page.locator("video")).to_have_attribute("src", "/api/jobs/job-m3-library-entry/download")
+        expect(page.get_by_role("alert").filter(has_text="Could not load previews")).to_have_count(0)
+
+
 @pytest.mark.parametrize("readiness", ["blocked", "stale", "queued"])
+@pytest.mark.parametrize("status", ["paused", "completed"])
 def test_persisted_preview_readiness_overrides_existing_artifact(
     page: Page,
     m3_react_server: tuple[str, str, Path],
     readiness: str,
+    status: str,
 ) -> None:
     base_url, target_id, work = m3_react_server
     page.context.route(
@@ -353,9 +452,15 @@ def test_persisted_preview_readiness_overrides_existing_artifact(
         "**/api/system",
         lambda route: route.fulfill(status=200, content_type="application/json", body="{}"),
     )
+    if status == "completed":
+        final_path = work / target_id / "output.mp4"
+        shutil.copyfile(work / target_id / "chunks/chunk_0001/preview/PREVIEW_chunk_0001.mp4", final_path)
+        update_job_state(work / target_id, status=status,
+                         result={"output": str(final_path), "duration_seconds": 10.0, "qa": {"passed": False}})
     page.goto(base_url, wait_until="networkidle", timeout=30000)
-    page.get_by_text("M3 Library Entry", exact=True).first.hover()
-    page.get_by_text("M3 Watch Review Fixture", exact=True).first.click()
+    if status == "paused":
+        page.get_by_text("M3 Library Entry", exact=True).first.hover()
+        page.get_by_text("M3 Watch Review Fixture", exact=True).first.click()
     ready = page.locator("button:has-text('#0001'):has-text('READY')")
     expect(ready).to_be_enabled()
     ready.click()
@@ -382,7 +487,7 @@ def test_persisted_preview_readiness_overrides_existing_artifact(
     label = {"blocked": "QA BLOCK", "stale": "STALE", "queued": "QUEUED"}[readiness]
     chunk = page.locator(f"button:has-text('#0001'):has-text('{label}')")
     expect(chunk).to_be_disabled(timeout=10000)
-    expect(page.locator("video[src*='/previews/']")).to_have_count(0)
+    expect(page.locator("video")).to_have_count(0)
     expect(page.get_by_title("Tải preview chunk")).to_have_count(0)
     expect(page.get_by_text("1080p DUB READY", exact=True)).to_have_count(0)
 
@@ -392,8 +497,41 @@ def test_persisted_preview_readiness_overrides_existing_artifact(
     )
     page.reload(wait_until="networkidle", timeout=30000)
     expect(chunk).to_be_disabled(timeout=10000)
-    expect(page.locator("video[src*='/previews/']")).to_have_count(0)
+    expect(page.locator("video")).to_have_count(0)
     expect(page.get_by_title("Tải preview chunk")).to_have_count(0)
+
+
+def test_narrow_monitor_scroll_and_timeline_keyboard_remain_usable(
+    page: Page, m3_react_server: tuple[str, str, Path],
+) -> None:
+    base_url, target_id, work = m3_react_server
+    page.context.route("**/*", lambda route: route.continue_()
+                       if route.request.url.startswith(base_url + "/")
+                       or route.request.url.startswith(("data:", "blob:")) else route.abort())
+    page.route("**/api/system", lambda route: route.fulfill(
+        status=200, content_type="application/json", body="{}"))
+    page.add_init_script("localStorage.setItem('vi_dubber_lang', 'en')")
+    page.set_viewport_size({"width": 390, "height": 900})
+    update_job_state(work / target_id, message="Narrow scroll fixture")
+    page.goto(base_url, wait_until="networkidle")
+    monitor = page.get_by_role("region", name="Media Monitor & Telemetry Rack")
+    waveform = monitor.get_by_role("button", name="Dubbed Vietnamese (B)")
+    waveform.scroll_into_view_if_needed()
+    bounds = monitor.evaluate("el => ({top:el.getBoundingClientRect().top,bottom:el.getBoundingClientRect().bottom,scroll:el.scrollTop})")
+    box = waveform.bounding_box()
+    assert bounds["scroll"] > 0 and box and bounds["top"] <= box["y"] and box["y"] + box["height"] <= bounds["bottom"]
+    slider = monitor.get_by_role("slider", name="Video seek bar")
+    slider.scroll_into_view_if_needed()
+    expect(slider.get_by_role("button")).to_have_count(0)
+    slider.focus()
+    slider.press("ArrowRight")
+    page.wait_for_function("() => document.querySelector('video').currentTime > 0")
+    segment = monitor.get_by_role("button", name="Segment 1: SPEAKER_00", exact=True)
+    segment.focus()
+    segment.press("Enter")
+    page.wait_for_function("() => Math.abs(document.querySelector('video').currentTime - 4) < 0.1")
+    expect(page.get_by_role("combobox", name="Speaker for segment 0", exact=True)).to_have_value("SPEAKER_00")
+    assert page.evaluate("scrollX") == 0
 
 
 @pytest.mark.parametrize("width", [390, 768, 1440])

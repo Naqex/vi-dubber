@@ -135,6 +135,10 @@ Kết quả [ticker receipt](work/checkpoints/UI-narrow-ticker-20261002/CHECKPOI
 
 Kết quả [header receipt](work/checkpoints/UI-narrow-header-20261002/CHECKPOINT.md): fail-before controls ra ngoàiviewport390; Header nay wrap, dropdown bám phải ởcompact, actual language/theme/catalog/import/job-selection giữ scrollX0 và keyboard/modal focus ở390/768/1440. Focused3/full browser11 pass, build/UI/telemetry contracts pass. UI tổng thể vẫn mở: cần preview matrix/finalQA/i18n/contrast/touch và near12h waveform memory riêng; không coi ba focused fixes là fullUI acceptance.
 
+**Slice UI tiếp 02/10/2026 — bounded state/accessibility audit:** reuse FastAPI/M3 synthetic fixture và axe-core4.10.3 đã có; matrix6 kết hợp VI/EN, light/dark,390/768/1440 cho ready/stale/blocked, Final QA-failed, empty và preview403/500. Sửa lỗi semantic/readiness/contrast có fail-before trong player/rail/telemetry, Header/review/Badge/locale và regression M3; `App.tsx` mở scroll monitor ở390, `WaveformPlayer.tsx` chỉ đổi selected-B contrast một class. Review finding mở rộng `JobContext.tsx` bằng typed job-scoped playback block: preview unavailable không tự chuyển sang Final, nhớ intent để retry/refresh/reload; explicit Final và job switch reset đúng. Không redesign/shared UI hoặc thay policy QA. Evidence về `work/checkpoints/UI-state-audit-20261002/`; rollback revert slice commit. Waveform decode/lifecycle không đổi, không decode track12h.
+
+Kết quả [state/accessibility receipt](work/checkpoints/UI-state-audit-20261002/CHECKPOINT.md): final22browser tests pass;30state captures/18axe scans,zero violations và scrollX/overflow0 trên frozen raw source98e0975e…. Final thể hiện QA verdict/122failures/full-track chưa kiểm riêng với artifact và similarity. Completed selected-preview403/500 fail-before đã tái hiện; lỗi nay dừng preview, giữ Final khi người dùng đã chọn Final và clear đúng khi đổi job. Retry/explicitFinal/blocked-stale-queued refresh/reload/Space và timeline keyboard đã kiểm. Incompletes/caption, đầy đủ i18n/touch/manualWCAG và near12h waveform/P23/listening vẫn mở; không gọi đây là wholeUI acceptance.
+
 <a id="runtime-gates"></a>
 ## Runtime và authority
 

@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "D:\ANNAM\TradingWorkspace\projects\vi-dubber\work\checkpoints\UI-state-audit-20261002\audit_ui.py", line 175, in <module>
+    run(parser.parse_args().output)
+  File "D:\ANNAM\TradingWorkspace\projects\vi-dubber\work\checkpoints\UI-state-audit-20261002\audit_ui.py", line 168, in run
+    assert len(records) == 30 and source_before == source_after and not failures, receipt
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'records': 30, 'axe_scans': 18, 'failures': 3, 'source_before': '33b18d4565e6123a5c74be61c9ce74699c534231317e7356637208a635eaca2c', 'source_after': '33b18d4565e6123a5c74be61c9ce74699c534231317e7356637208a635eaca2c', 'synthetic_server_stopped': True, 'scope': 'loopback synthetic fixture; no provider, retained job or full WCAG acceptance'}

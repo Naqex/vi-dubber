@@ -1,0 +1,5 @@
+
+> vi-dubber-frontend@1.0.0 test:telemetry-contract
+> node --experimental-strip-types scripts/verify_telemetry_contract.mjs
+
+{"status":"PASS","cases":5}

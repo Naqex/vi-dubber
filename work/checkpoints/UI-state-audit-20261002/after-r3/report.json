@@ -1,0 +1,1139 @@
+[
+  {
+    "width": 390,
+    "language": "vi",
+    "theme": "light",
+    "state": "preview-matrix",
+    "preview_video": 1,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nM3 Watch Review Fixture\nVI\nBước 5/7: Tổng hợp giọng nói (TTS) · 62%\nChưa có dữ liệu\n/\nChưa có dữ liệu\nSPEAKER_00\nPREVIEW · Part 1/4 · 00:00.0–00:10.0\nImport Video / YouTube\nCâu dịch đầu tiên.\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n1/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\n#0001\nREADY\n#0002\nQA BLOCK\n#0003\nTTS\n#0004\nSTALE\nĐang xem Part 0001 trên monitor\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nSEG #0 // 00:01.0 - 00:02.0\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n4 TOTAL\nDuyệt tất cả (4)\nTất cả đoạn thoại\n4\nCó cảnh báo\n0\nCần kiểm tra\n1\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nThời lượng mục tiêu: 4.28s\n18 ký tự (-31%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nThời lượng mục tiêu: 4.28s\n30 ký tự (+15%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nCần duyệt\nThe blocked chunk stays unavailable.\nThời lượng mục tiêu: 4.28s\n31 ký tự (-14%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nThời lượng mục tiêu: 4.28s\n29 ký tự (-24%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\nBảng kỹ thuật",
+    "geometry": {
+      "scrollX": 0,
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 7
+        },
+        {
+          "id": "video-caption",
+          "nodes": 1
+        }
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "language": "vi",
+    "theme": "light",
+    "state": "preview-403",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nM3 Watch Review Fixture\nVI\nBước 5/7: Tổng hợp giọng nói (TTS) · 62%\nChưa có dữ liệu\n/\nChưa có dữ liệu\nChưa tải video cho tác vụ này\nM3 Watch Review Fixture\nSPEAKER_00\nImport Video / YouTube\nChưa có dữ liệu\nCâu dịch đầu tiên.\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / Chưa có dữ liệu\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nKhông tải được preview. Tạm khóa phát preview.\nThử tải preview lại\n#0001\nChưa có dữ liệu\n#0002\nChưa có dữ liệu\n#0003\nChưa có dữ liệu\n#0004\nChưa có dữ liệu\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nSEG #0 // 00:01.0 - 00:02.0\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n4 TOTAL\nDuyệt tất cả (4)\nTất cả đoạn thoại\n4\nCó cảnh báo\n0\nCần kiểm tra\n1\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nThời lượng mục tiêu: 4.28s\n18 ký tự (-31%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nThời lượng mục tiêu: 4.28s\n30 ký tự (+15%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nCần duyệt\nThe blocked chunk stays unavailable.\nThời lượng mục tiêu: 4.28s\n31 ký tự (-14%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nThời lượng mục tiêu: 4.28s\n29 ký tự (-24%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\nBảng kỹ thuật",
+    "geometry": {
+      "scrollX": 0,
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "language": "vi",
+    "theme": "light",
+    "state": "preview-500",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nM3 Watch Review Fixture\nVI\nBước 5/7: Tổng hợp giọng nói (TTS) · 62%\nChưa có dữ liệu\n/\nChưa có dữ liệu\nChưa tải video cho tác vụ này\nM3 Watch Review Fixture\nSPEAKER_00\nImport Video / YouTube\nChưa có dữ liệu\nCâu dịch đầu tiên.\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / Chưa có dữ liệu\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nKhông tải được preview. Tạm khóa phát preview.\nThử tải preview lại\n#0001\nChưa có dữ liệu\n#0002\nChưa có dữ liệu\n#0003\nChưa có dữ liệu\n#0004\nChưa có dữ liệu\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nSEG #0 // 00:01.0 - 00:02.0\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n4 TOTAL\nDuyệt tất cả (4)\nTất cả đoạn thoại\n4\nCó cảnh báo\n0\nCần kiểm tra\n1\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nThời lượng mục tiêu: 4.28s\n18 ký tự (-31%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nThời lượng mục tiêu: 4.28s\n30 ký tự (+15%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nCần duyệt\nThe blocked chunk stays unavailable.\nThời lượng mục tiêu: 4.28s\n31 ký tự (-14%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nThời lượng mục tiêu: 4.28s\n29 ký tự (-24%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\nBảng kỹ thuật",
+    "geometry": {
+      "scrollX": 0,
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "language": "vi",
+    "theme": "light",
+    "state": "final-qa-failed",
+    "preview_video": 0,
+    "final_video": 1,
+    "body_text": "VI-DUBBER\nM3 Watch Review Fixture\nVI\nBước 7/7: Kiểm định chất lượng (QA) · 100%\nChưa có dữ liệu\n/\nHOÀN TẤT\nCOMPLETED\nQA chưa đạt\nChưa kiểm tra toàn track\nSPEAKER_00\nFINAL\nImport Video / YouTube\nTải Video\nCâu dịch đầu tiên.\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\nFINAL READY\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nTải Final\n#0001\nQA BLOCK\n#0002\nQA BLOCK\n#0003\nTTS\n#0004\nSTALE\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nSEG #0 // 00:01.0 - 00:02.0\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n4 TOTAL\nDuyệt tất cả (4)\nSRT\nTất cả đoạn thoại\n4\nCó cảnh báo\n0\nCần kiểm tra\n1\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nThời lượng mục tiêu: 4.28s\n18 ký tự (-31%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nThời lượng mục tiêu: 4.28s\n30 ký tự (+15%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nCần duyệt\nThe blocked chunk stays unavailable.\nThời lượng mục tiêu: 4.28s\n31 ký tự (-14%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nThời lượng mục tiêu: 4.28s\n29 ký tự (-24%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\nBảng kỹ thuật\n[CUDA VRAM]\n[Độ trễ]\n[LUFS / Peak]\n[Tokens]\n[Raw JSON]\nQA chưa đạt\n122 đoạn chưa đạt\nChưa kiểm tra toàn track\nTYPESAFE AI COGNITIVE TELEMETRY\nJEV v1.4\nToken xác thực TypeSafe\nChưa có dữ liệu\nSố lần viết lại khớp âm tiết\nChưa có dữ liệu lần\nĐộ tương đồng QA\n98.0%\nCache Trúng/Trượt\nChưa có dữ liệu / Chưa có dữ liệu\nSố lô dịch WebGPT:\nChưa có dữ liệu lô gửi (:8080)",
+    "geometry": {
+      "scrollX": 0,
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 6
+        },
+        {
+          "id": "video-caption",
+          "nodes": 1
+        }
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "language": "vi",
+    "theme": "light",
+    "state": "empty",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nTác vụ đang chọn\nVI\nChưa có dữ liệu: Chưa có dữ liệu · Chưa có dữ liệu\nChưa có dữ liệu\n/\nChưa có dữ liệu\nChưa tải video cho tác vụ này\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\nImport Video / YouTube\nChưa có dữ liệu\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / Chưa có dữ liệu\n0.75x\n1.0x\n1.25x\n1.5x\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n0 TOTAL\nDuyệt tất cả (0)\nTất cả đoạn thoại\n0\nCó cảnh báo\n0\nCần kiểm tra\n0\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\nKhông tìm thấy đoạn nào phù hợp với bộ lọc.\nBảng kỹ thuật\n[CUDA VRAM]\n[Độ trễ]\n[LUFS / Peak]\n[Tokens]\n[Raw JSON]\nChưa có dữ liệu\nTORCH CUDA ALLOCATOR\nAllocated / Reserved / Total:\nChưa có dữ liệu / Chưa có dữ liệu / Chưa có dữ liệu\nVRAM đã cấp phát\nChưa có dữ liệu\nChưa có dữ liệu\nVRAM đang giữ (Reserved)\nChưa có dữ liệu\nChưa có dữ liệu\nVRAM Đỉnh (Peak)\nChưa có dữ liệu\nMức đỉnh",
+    "geometry": {
+      "scrollX": 0,
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 1
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 4
+        }
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "language": "en",
+    "theme": "dark",
+    "state": "preview-matrix",
+    "preview_video": 1,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nM3 Watch Review Fixture\nEN\nStage 5/7: TTS Voice Synthesis · 100%\nUnavailable\n/\nUnavailable\nSPEAKER_00\nPREVIEW · Part 1/4 · 00:00.0–00:10.0\nImport Video / YouTube\nCâu dịch đầu tiên.\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n1/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\n#0001\nREADY\n#0002\nQA BLOCK\n#0003\nTTS\n#0004\nSTALE\nĐang xem Part 0001 trên monitor\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nA/B TRACK AUDITION\nSEG #0 // 00:01.0 - 00:02.0\nOriginal Vocal (A)\nDubbed Vietnamese (B)\nBGM & Ambience\n-14 LUFS TARGET\nBILINGUAL SEGMENT REVIEWER\n4 TOTAL\nAccept All (4)\nAll Segments\n4\nFlagged Issues\n0\nNeeds Review\n1\nAccepted\n0\nDuration Overflow\n0\nMulti-Speaker\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nTarget Duration: 4.28s\n18 chars (-31%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nTarget Duration: 4.28s\n30 chars (+15%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nReview Required\nThe blocked chunk stays unavailable.\nTarget Duration: 4.28s\n31 chars (-14%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nTarget Duration: 4.28s\n29 chars (-24%)\nRe-render TTS\nAccept (Ctrl+Enter)\nEngineer Telemetry",
+    "geometry": {
+      "scrollX": 0,
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 7
+        },
+        {
+          "id": "video-caption",
+          "nodes": 1
+        }
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "language": "en",
+    "theme": "dark",
+    "state": "preview-403",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nM3 Watch Review Fixture\nEN\nStage 5/7: TTS Voice Synthesis · 100%\nUnavailable\n/\nUnavailable\nNo video loaded for current job\nM3 Watch Review Fixture\nSPEAKER_00\nImport Video / YouTube\nUnavailable\nCâu dịch đầu tiên.\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nCould not load previews. Preview playback is unavailable.\nRetry previews\n#0001\nUnavailable\n#0002\nUnavailable\n#0003\nUnavailable\n#0004\nUnavailable\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nA/B TRACK AUDITION\nSEG #0 // 00:01.0 - 00:02.0\nOriginal Vocal (A)\nDubbed Vietnamese (B)\nBGM & Ambience\n-14 LUFS TARGET\nBILINGUAL SEGMENT REVIEWER\n4 TOTAL\nAccept All (4)\nAll Segments\n4\nFlagged Issues\n0\nNeeds Review\n1\nAccepted\n0\nDuration Overflow\n0\nMulti-Speaker\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nTarget Duration: 4.28s\n18 chars (-31%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nTarget Duration: 4.28s\n30 chars (+15%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nReview Required\nThe blocked chunk stays unavailable.\nTarget Duration: 4.28s\n31 chars (-14%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nTarget Duration: 4.28s\n29 chars (-24%)\nRe-render TTS\nAccept (Ctrl+Enter)\nEngineer Telemetry",
+    "geometry": {
+      "scrollX": 0,
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "language": "en",
+    "theme": "dark",
+    "state": "preview-500",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nM3 Watch Review Fixture\nEN\nStage 5/7: TTS Voice Synthesis · 100%\nUnavailable\n/\nUnavailable\nNo video loaded for current job\nM3 Watch Review Fixture\nSPEAKER_00\nImport Video / YouTube\nUnavailable\nCâu dịch đầu tiên.\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nCould not load previews. Preview playback is unavailable.\nRetry previews\n#0001\nUnavailable\n#0002\nUnavailable\n#0003\nUnavailable\n#0004\nUnavailable\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nA/B TRACK AUDITION\nSEG #0 // 00:01.0 - 00:02.0\nOriginal Vocal (A)\nDubbed Vietnamese (B)\nBGM & Ambience\n-14 LUFS TARGET\nBILINGUAL SEGMENT REVIEWER\n4 TOTAL\nAccept All (4)\nAll Segments\n4\nFlagged Issues\n0\nNeeds Review\n1\nAccepted\n0\nDuration Overflow\n0\nMulti-Speaker\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nTarget Duration: 4.28s\n18 chars (-31%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nTarget Duration: 4.28s\n30 chars (+15%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nReview Required\nThe blocked chunk stays unavailable.\nTarget Duration: 4.28s\n31 chars (-14%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nTarget Duration: 4.28s\n29 chars (-24%)\nRe-render TTS\nAccept (Ctrl+Enter)\nEngineer Telemetry",
+    "geometry": {
+      "scrollX": 0,
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "language": "en",
+    "theme": "dark",
+    "state": "final-qa-failed",
+    "preview_video": 0,
+    "final_video": 1,
+    "body_text": "VI-DUBBER\nM3 Watch Review Fixture\nEN\nStage 7/7: QA & Acoustic Verification · 100%\nUnavailable\n/\nCOMPLETED\nCOMPLETED\nQA failed\nFull track not checked\nSPEAKER_00\nFINAL\nImport Video / YouTube\nDownload Video\nCâu dịch đầu tiên.\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\nFINAL READY\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nTải Final\n#0001\nQA BLOCK\n#0002\nQA BLOCK\n#0003\nTTS\n#0004\nSTALE\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nA/B TRACK AUDITION\nSEG #0 // 00:01.0 - 00:02.0\nOriginal Vocal (A)\nDubbed Vietnamese (B)\nBGM & Ambience\n-14 LUFS TARGET\nBILINGUAL SEGMENT REVIEWER\n4 TOTAL\nAccept All (4)\nSRT\nAll Segments\n4\nFlagged Issues\n0\nNeeds Review\n1\nAccepted\n0\nDuration Overflow\n0\nMulti-Speaker\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nTarget Duration: 4.28s\n18 chars (-31%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nTarget Duration: 4.28s\n30 chars (+15%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nReview Required\nThe blocked chunk stays unavailable.\nTarget Duration: 4.28s\n31 chars (-14%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nTarget Duration: 4.28s\n29 chars (-24%)\nRe-render TTS\nAccept (Ctrl+Enter)\nEngineer Telemetry\n[CUDA VRAM]\n[Latency]\n[LUFS / Peak]\n[Tokens]\n[Raw JSON]\nQA failed\n122 segments failed\nFull track not checked\nTYPESAFE AI COGNITIVE TELEMETRY\nJEV v1.4\nTypeSafe Verification Tokens\nUnavailable\nPrefit Syllable Rewrites\nUnavailable calls\nQA Similarity\n98.0%\nCache Hits/Miss\nUnavailable / Unavailable\nWebGPT Sol Batches:\nUnavailable batch dispatched (:8080)",
+    "geometry": {
+      "scrollX": 0,
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 6
+        },
+        {
+          "id": "video-caption",
+          "nodes": 1
+        }
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "language": "en",
+    "theme": "dark",
+    "state": "empty",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nActive Job\nEN\nUnavailable: Unavailable · Unavailable\nUnavailable\n/\nUnavailable\nNo video loaded for current job\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\nImport Video / YouTube\nUnavailable\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\n00:00.0 / Unavailable\n0.75x\n1.0x\n1.25x\n1.5x\nA/B TRACK AUDITION\nOriginal Vocal (A)\nDubbed Vietnamese (B)\nBGM & Ambience\n-14 LUFS TARGET\nBILINGUAL SEGMENT REVIEWER\n0 TOTAL\nAccept All (0)\nAll Segments\n0\nFlagged Issues\n0\nNeeds Review\n0\nAccepted\n0\nDuration Overflow\n0\nMulti-Speaker\n0\nNo segments match current filter.\nEngineer Telemetry\n[CUDA VRAM]\n[Latency]\n[LUFS / Peak]\n[Tokens]\n[Raw JSON]\nUnavailable\nTORCH CUDA ALLOCATOR\nAllocated / Reserved / Total:\nUnavailable / Unavailable / Unavailable\nAllocated VRAM\nUnavailable\nUnavailable\nReserved VRAM\nUnavailable\nUnavailable\nPeak VRAM\nUnavailable\nHigh watermark",
+    "geometry": {
+      "scrollX": 0,
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 1
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 5
+        }
+      ]
+    }
+  },
+  {
+    "width": 768,
+    "language": "vi",
+    "theme": "dark",
+    "state": "preview-matrix",
+    "preview_video": 1,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nM3 Watch Review Fixture\n+ Import Video / YouTube\nVI\nBước 5/7: Tổng hợp giọng nói (TTS) · 100%\nChưa có dữ liệu\n/\nChưa có dữ liệu\nPOLLING 1.5s\nTiếp tục\nHủy tác vụ\nSPEAKER_00\nPREVIEW · Part 1/4 · 00:00.0–00:10.0\nImport Video / YouTube\nCâu dịch đầu tiên.\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n1/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\n#0001\nREADY\n#0002\nQA BLOCK\n#0003\nTTS\n#0004\nSTALE\nĐang xem Part 0001 trên monitor\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nSEG #0 // 00:01.0 - 00:02.0\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n4 TOTAL\nDuyệt tất cả (4)\nPhím tắt Studio\nTất cả đoạn thoại\n4\nCó cảnh báo\n0\nCần kiểm tra\n1\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nThời lượng mục tiêu: 4.28s\n18 ký tự (-31%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nThời lượng mục tiêu: 4.28s\n30 ký tự (+15%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nCần duyệt\nThe blocked chunk stays unavailable.\nThời lượng mục tiêu: 4.28s\n31 ký tự (-14%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nThời lượng mục tiêu: 4.28s\n29 ký tự (-24%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\nBảng kỹ thuật",
+    "geometry": {
+      "scrollX": 0,
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 9
+        },
+        {
+          "id": "video-caption",
+          "nodes": 1
+        }
+      ]
+    }
+  },
+  {
+    "width": 768,
+    "language": "vi",
+    "theme": "dark",
+    "state": "preview-403",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nM3 Watch Review Fixture\n+ Import Video / YouTube\nVI\nBước 5/7: Tổng hợp giọng nói (TTS) · 100%\nChưa có dữ liệu\n/\nChưa có dữ liệu\nPOLLING 1.5s\nTiếp tục\nHủy tác vụ\nChưa tải video cho tác vụ này\nM3 Watch Review Fixture\nSPEAKER_00\nImport Video / YouTube\nChưa có dữ liệu\nCâu dịch đầu tiên.\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nKhông tải được preview. Tạm khóa phát preview.\nThử tải preview lại\n#0001\nChưa có dữ liệu\n#0002\nChưa có dữ liệu\n#0003\nChưa có dữ liệu\n#0004\nChưa có dữ liệu\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nSEG #0 // 00:01.0 - 00:02.0\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n4 TOTAL\nDuyệt tất cả (4)\nPhím tắt Studio\nTất cả đoạn thoại\n4\nCó cảnh báo\n0\nCần kiểm tra\n1\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nThời lượng mục tiêu: 4.28s\n18 ký tự (-31%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nThời lượng mục tiêu: 4.28s\n30 ký tự (+15%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nCần duyệt\nThe blocked chunk stays unavailable.\nThời lượng mục tiêu: 4.28s\n31 ký tự (-14%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nThời lượng mục tiêu: 4.28s\n29 ký tự (-24%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\nBảng kỹ thuật",
+    "geometry": {
+      "scrollX": 0,
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ]
+    }
+  },
+  {
+    "width": 768,
+    "language": "vi",
+    "theme": "dark",
+    "state": "preview-500",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nM3 Watch Review Fixture\n+ Import Video / YouTube\nVI\nBước 5/7: Tổng hợp giọng nói (TTS) · 100%\nChưa có dữ liệu\n/\nChưa có dữ liệu\nPOLLING 1.5s\nTiếp tục\nHủy tác vụ\nChưa tải video cho tác vụ này\nM3 Watch Review Fixture\nSPEAKER_00\nImport Video / YouTube\nChưa có dữ liệu\nCâu dịch đầu tiên.\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nKhông tải được preview. Tạm khóa phát preview.\nThử tải preview lại\n#0001\nChưa có dữ liệu\n#0002\nChưa có dữ liệu\n#0003\nChưa có dữ liệu\n#0004\nChưa có dữ liệu\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nSEG #0 // 00:01.0 - 00:02.0\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n4 TOTAL\nDuyệt tất cả (4)\nPhím tắt Studio\nTất cả đoạn thoại\n4\nCó cảnh báo\n0\nCần kiểm tra\n1\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nThời lượng mục tiêu: 4.28s\n18 ký tự (-31%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nThời lượng mục tiêu: 4.28s\n30 ký tự (+15%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nCần duyệt\nThe blocked chunk stays unavailable.\nThời lượng mục tiêu: 4.28s\n31 ký tự (-14%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nThời lượng mục tiêu: 4.28s\n29 ký tự (-24%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\nBảng kỹ thuật",
+    "geometry": {
+      "scrollX": 0,
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ]
+    }
+  },
+  {
+    "width": 768,
+    "language": "vi",
+    "theme": "dark",
+    "state": "final-qa-failed",
+    "preview_video": 0,
+    "final_video": 1,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nM3 Watch Review Fixture\n+ Import Video / YouTube\nTải Video\nVI\nBước 7/7: Kiểm định chất lượng (QA) · 100%\nChưa có dữ liệu\n/\nHOÀN TẤT\nPOLLING 1.5s\nCOMPLETED\nQA chưa đạt\nChưa kiểm tra toàn track\nSPEAKER_00\nFINAL\nImport Video / YouTube\nTải Video\nCâu dịch đầu tiên.\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\nFINAL READY\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nTải Final\n#0001\nQA BLOCK\n#0002\nQA BLOCK\n#0003\nTTS\n#0004\nSTALE\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nSEG #0 // 00:01.0 - 00:02.0\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n4 TOTAL\nDuyệt tất cả (4)\nTải Video\nSRT\nPhím tắt Studio\nTất cả đoạn thoại\n4\nCó cảnh báo\n0\nCần kiểm tra\n1\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nThời lượng mục tiêu: 4.28s\n18 ký tự (-31%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nThời lượng mục tiêu: 4.28s\n30 ký tự (+15%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nCần duyệt\nThe blocked chunk stays unavailable.\nThời lượng mục tiêu: 4.28s\n31 ký tự (-14%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nThời lượng mục tiêu: 4.28s\n29 ký tự (-24%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\nBảng kỹ thuật\n[CUDA VRAM]\n[Độ trễ]\n[LUFS / Peak]\n[Tokens]\n[Raw JSON]\nENGINEER // LIVE\nQA chưa đạt\n122 đoạn chưa đạt\nChưa kiểm tra toàn track\nTYPESAFE AI COGNITIVE TELEMETRY\nJEV v1.4\nToken xác thực TypeSafe\nChưa có dữ liệu\nSố lần viết lại khớp âm tiết\nChưa có dữ liệu lần\nĐộ tương đồng QA\n98.0%\nCache Trúng/Trượt\nChưa có dữ liệu / Chưa có dữ liệu\nSố lô dịch WebGPT:\nChưa có dữ liệu lô gửi (:8080)",
+    "geometry": {
+      "scrollX": 0,
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 6
+        },
+        {
+          "id": "video-caption",
+          "nodes": 1
+        }
+      ]
+    }
+  },
+  {
+    "width": 768,
+    "language": "vi",
+    "theme": "dark",
+    "state": "empty",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nTác vụ đang chọn\n+ Import Video / YouTube\nVI\nChưa có dữ liệu: Chưa có dữ liệu · Chưa có dữ liệu\nChưa có dữ liệu\n/\nChưa có dữ liệu\nPOLLING 1.5s\nChưa tải video cho tác vụ này\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\nImport Video / YouTube\nChưa có dữ liệu\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / Chưa có dữ liệu\n0.75x\n1.0x\n1.25x\n1.5x\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n0 TOTAL\nDuyệt tất cả (0)\nPhím tắt Studio\nTất cả đoạn thoại\n0\nCó cảnh báo\n0\nCần kiểm tra\n0\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\nKhông tìm thấy đoạn nào phù hợp với bộ lọc.\nBảng kỹ thuật\n[CUDA VRAM]\n[Độ trễ]\n[LUFS / Peak]\n[Tokens]\n[Raw JSON]\nENGINEER // LIVE\nChưa có dữ liệu\nTORCH CUDA ALLOCATOR\nAllocated / Reserved / Total:\nChưa có dữ liệu / Chưa có dữ liệu / Chưa có dữ liệu\nVRAM đã cấp phát\nChưa có dữ liệu\nChưa có dữ liệu\nVRAM đang giữ (Reserved)\nChưa có dữ liệu\nChưa có dữ liệu\nVRAM Đỉnh (Peak)\nChưa có dữ liệu\nMức đỉnh",
+    "geometry": {
+      "scrollX": 0,
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 1
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 5
+        }
+      ]
+    }
+  },
+  {
+    "width": 768,
+    "language": "en",
+    "theme": "light",
+    "state": "preview-matrix",
+    "preview_video": 1,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nM3 Watch Review Fixture\nImport Video / YouTube\nEN\nStage 5/7: TTS Voice Synthesis · 100%\nUnavailable\n/\nUnavailable\nPOLLING 1.5s\nResume Pipeline\nAbort Job\nSPEAKER_00\nPREVIEW · Part 1/4 · 00:00.0–00:10.0\nImport Video / YouTube\nCâu dịch đầu tiên.\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n1/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\n#0001\nREADY\n#0002\nQA BLOCK\n#0003\nTTS\n#0004\nSTALE\nĐang xem Part 0001 trên monitor\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nA/B TRACK AUDITION\nSEG #0 // 00:01.0 - 00:02.0\nOriginal Vocal (A)\nDubbed Vietnamese (B)\nBGM & Ambience\n-14 LUFS TARGET\nBILINGUAL SEGMENT REVIEWER\n4 TOTAL\nAccept All (4)\nStudio Hotkeys\nAll Segments\n4\nFlagged Issues\n0\nNeeds Review\n1\nAccepted\n0\nDuration Overflow\n0\nMulti-Speaker\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nTarget Duration: 4.28s\n18 chars (-31%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nTarget Duration: 4.28s\n30 chars (+15%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nReview Required\nThe blocked chunk stays unavailable.\nTarget Duration: 4.28s\n31 chars (-14%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nTarget Duration: 4.28s\n29 chars (-24%)\nRe-render TTS\nAccept (Ctrl+Enter)\nEngineer Telemetry",
+    "geometry": {
+      "scrollX": 0,
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 9
+        },
+        {
+          "id": "video-caption",
+          "nodes": 1
+        }
+      ]
+    }
+  },
+  {
+    "width": 768,
+    "language": "en",
+    "theme": "light",
+    "state": "preview-403",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nM3 Watch Review Fixture\nImport Video / YouTube\nEN\nStage 5/7: TTS Voice Synthesis · 100%\nUnavailable\n/\nUnavailable\nPOLLING 1.5s\nResume Pipeline\nAbort Job\nNo video loaded for current job\nM3 Watch Review Fixture\nSPEAKER_00\nImport Video / YouTube\nUnavailable\nCâu dịch đầu tiên.\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nCould not load previews. Preview playback is unavailable.\nRetry previews\n#0001\nUnavailable\n#0002\nUnavailable\n#0003\nUnavailable\n#0004\nUnavailable\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nA/B TRACK AUDITION\nSEG #0 // 00:01.0 - 00:02.0\nOriginal Vocal (A)\nDubbed Vietnamese (B)\nBGM & Ambience\n-14 LUFS TARGET\nBILINGUAL SEGMENT REVIEWER\n4 TOTAL\nAccept All (4)\nStudio Hotkeys\nAll Segments\n4\nFlagged Issues\n0\nNeeds Review\n1\nAccepted\n0\nDuration Overflow\n0\nMulti-Speaker\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nTarget Duration: 4.28s\n18 chars (-31%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nTarget Duration: 4.28s\n30 chars (+15%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nReview Required\nThe blocked chunk stays unavailable.\nTarget Duration: 4.28s\n31 chars (-14%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nTarget Duration: 4.28s\n29 chars (-24%)\nRe-render TTS\nAccept (Ctrl+Enter)\nEngineer Telemetry",
+    "geometry": {
+      "scrollX": 0,
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    }
+  },
+  {
+    "width": 768,
+    "language": "en",
+    "theme": "light",
+    "state": "preview-500",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nM3 Watch Review Fixture\nImport Video / YouTube\nEN\nStage 5/7: TTS Voice Synthesis · 100%\nUnavailable\n/\nUnavailable\nPOLLING 1.5s\nResume Pipeline\nAbort Job\nNo video loaded for current job\nM3 Watch Review Fixture\nSPEAKER_00\nImport Video / YouTube\nUnavailable\nCâu dịch đầu tiên.\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nCould not load previews. Preview playback is unavailable.\nRetry previews\n#0001\nUnavailable\n#0002\nUnavailable\n#0003\nUnavailable\n#0004\nUnavailable\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nA/B TRACK AUDITION\nSEG #0 // 00:01.0 - 00:02.0\nOriginal Vocal (A)\nDubbed Vietnamese (B)\nBGM & Ambience\n-14 LUFS TARGET\nBILINGUAL SEGMENT REVIEWER\n4 TOTAL\nAccept All (4)\nStudio Hotkeys\nAll Segments\n4\nFlagged Issues\n0\nNeeds Review\n1\nAccepted\n0\nDuration Overflow\n0\nMulti-Speaker\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nTarget Duration: 4.28s\n18 chars (-31%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nTarget Duration: 4.28s\n30 chars (+15%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nReview Required\nThe blocked chunk stays unavailable.\nTarget Duration: 4.28s\n31 chars (-14%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nTarget Duration: 4.28s\n29 chars (-24%)\nRe-render TTS\nAccept (Ctrl+Enter)\nEngineer Telemetry",
+    "geometry": {
+      "scrollX": 0,
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    }
+  },
+  {
+    "width": 768,
+    "language": "en",
+    "theme": "light",
+    "state": "final-qa-failed",
+    "preview_video": 0,
+    "final_video": 1,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nM3 Watch Review Fixture\nImport Video / YouTube\nDownload Video\nEN\nStage 7/7: QA & Acoustic Verification · 100%\nUnavailable\n/\nCOMPLETED\nPOLLING 1.5s\nCOMPLETED\nQA failed\nFull track not checked\nSPEAKER_00\nFINAL\nImport Video / YouTube\nDownload Video\nCâu dịch đầu tiên.\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\nFINAL READY\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nTải Final\n#0001\nQA BLOCK\n#0002\nQA BLOCK\n#0003\nTTS\n#0004\nSTALE\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nA/B TRACK AUDITION\nSEG #0 // 00:01.0 - 00:02.0\nOriginal Vocal (A)\nDubbed Vietnamese (B)\nBGM & Ambience\n-14 LUFS TARGET\nBILINGUAL SEGMENT REVIEWER\n4 TOTAL\nAccept All (4)\nDownload Video\nSRT\nStudio Hotkeys\nAll Segments\n4\nFlagged Issues\n0\nNeeds Review\n1\nAccepted\n0\nDuration Overflow\n0\nMulti-Speaker\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nTarget Duration: 4.28s\n18 chars (-31%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nTarget Duration: 4.28s\n30 chars (+15%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nReview Required\nThe blocked chunk stays unavailable.\nTarget Duration: 4.28s\n31 chars (-14%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nTarget Duration: 4.28s\n29 chars (-24%)\nRe-render TTS\nAccept (Ctrl+Enter)\nEngineer Telemetry\n[CUDA VRAM]\n[Latency]\n[LUFS / Peak]\n[Tokens]\n[Raw JSON]\nENGINEER // LIVE\nQA failed\n122 segments failed\nFull track not checked\nTYPESAFE AI COGNITIVE TELEMETRY\nJEV v1.4\nTypeSafe Verification Tokens\nUnavailable\nPrefit Syllable Rewrites\nUnavailable calls\nQA Similarity\n98.0%\nCache Hits/Miss\nUnavailable / Unavailable\nWebGPT Sol Batches:\nUnavailable batch dispatched (:8080)",
+    "geometry": {
+      "scrollX": 0,
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".text-orange-600.dark\\:text-orange-400.font-bold"
+              ],
+              "html": "<span class=\"font-bold text-orange-600 dark:text-orange-400\">Unavailable batch dispatched (:8080)</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.4 (foreground color: #ea580c, background color: #f8fafc, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 6
+        },
+        {
+          "id": "video-caption",
+          "nodes": 1
+        }
+      ]
+    }
+  },
+  {
+    "width": 768,
+    "language": "en",
+    "theme": "light",
+    "state": "empty",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nActive Job\nImport Video / YouTube\nEN\nUnavailable: Unavailable · Unavailable\nUnavailable\n/\nUnavailable\nPOLLING 1.5s\nNo video loaded for current job\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\nImport Video / YouTube\nUnavailable\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\n00:00.0 / Unavailable\n0.75x\n1.0x\n1.25x\n1.5x\nA/B TRACK AUDITION\nOriginal Vocal (A)\nDubbed Vietnamese (B)\nBGM & Ambience\n-14 LUFS TARGET\nBILINGUAL SEGMENT REVIEWER\n0 TOTAL\nAccept All (0)\nStudio Hotkeys\nAll Segments\n0\nFlagged Issues\n0\nNeeds Review\n0\nAccepted\n0\nDuration Overflow\n0\nMulti-Speaker\n0\nNo segments match current filter.\nEngineer Telemetry\n[CUDA VRAM]\n[Latency]\n[LUFS / Peak]\n[Tokens]\n[Raw JSON]\nENGINEER // LIVE\nUnavailable\nTORCH CUDA ALLOCATOR\nAllocated / Reserved / Total:\nUnavailable / Unavailable / Unavailable\nAllocated VRAM\nUnavailable\nUnavailable\nReserved VRAM\nUnavailable\nUnavailable\nPeak VRAM\nUnavailable\nHigh watermark",
+    "geometry": {
+      "scrollX": 0,
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 1
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 5
+        }
+      ]
+    }
+  },
+  {
+    "width": 1440,
+    "language": "vi",
+    "theme": "light",
+    "state": "preview-matrix",
+    "preview_video": 1,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nHệ thống lồng tiếng Video AI & Xử lý âm thanh đa kênh\nM3 Watch Review Fixture\nCatalog\nConnect\n+ Import Video / YouTube\nVI\nBước 5/7: Tổng hợp giọng nói (TTS) · 100%\nChưa có dữ liệu\n/\nChưa có dữ liệu\nPOLLING 1.5s\nTiếp tục\nHủy tác vụ\nSPEAKER_00\nPREVIEW · Part 1/4 · 00:00.0–00:10.0\nImport Video / YouTube\nCâu dịch đầu tiên.\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n1/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\n#0001\nREADY\n#0002\nQA BLOCK\n#0003\nTTS\n#0004\nSTALE\nĐang xem Part 0001 trên monitor\n00:00.0–00:10.0\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nSEG #0 // 00:01.0 - 00:02.0\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n4 TOTAL\nĐã duyệt: 0 / 4\nDuyệt tất cả (4)\nPhím tắt Studio\nTất cả đoạn thoại\n4\nCó cảnh báo\n0\nCần kiểm tra\n1\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nThời lượng mục tiêu: 4.28s\n18 ký tự (-31%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nThời lượng mục tiêu: 4.28s\n30 ký tự (+15%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nCần duyệt\nThe blocked chunk stays unavailable.\nThời lượng mục tiêu: 4.28s\n31 ký tự (-14%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nThời lượng mục tiêu: 4.28s\n29 ký tự (-24%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\nBảng kỹ thuật",
+    "geometry": {
+      "scrollX": 0,
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 14
+        },
+        {
+          "id": "video-caption",
+          "nodes": 1
+        }
+      ]
+    }
+  },
+  {
+    "width": 1440,
+    "language": "vi",
+    "theme": "light",
+    "state": "preview-403",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nHệ thống lồng tiếng Video AI & Xử lý âm thanh đa kênh\nM3 Watch Review Fixture\nCatalog\nConnect\n+ Import Video / YouTube\nVI\nBước 5/7: Tổng hợp giọng nói (TTS) · 100%\nChưa có dữ liệu\n/\nChưa có dữ liệu\nPOLLING 1.5s\nTiếp tục\nHủy tác vụ\nChưa tải video cho tác vụ này\nM3 Watch Review Fixture\nSPEAKER_00\nImport Video / YouTube\nChưa có dữ liệu\nCâu dịch đầu tiên.\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nKhông tải được preview. Tạm khóa phát preview.\nThử tải preview lại\n#0001\nChưa có dữ liệu\n#0002\nChưa có dữ liệu\n#0003\nChưa có dữ liệu\n#0004\nChưa có dữ liệu\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nSEG #0 // 00:01.0 - 00:02.0\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n4 TOTAL\nĐã duyệt: 0 / 4\nDuyệt tất cả (4)\nPhím tắt Studio\nTất cả đoạn thoại\n4\nCó cảnh báo\n0\nCần kiểm tra\n1\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nThời lượng mục tiêu: 4.28s\n18 ký tự (-31%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nThời lượng mục tiêu: 4.28s\n30 ký tự (+15%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nCần duyệt\nThe blocked chunk stays unavailable.\nThời lượng mục tiêu: 4.28s\n31 ký tự (-14%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nThời lượng mục tiêu: 4.28s\n29 ký tự (-24%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\nBảng kỹ thuật",
+    "geometry": {
+      "scrollX": 0,
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    }
+  },
+  {
+    "width": 1440,
+    "language": "vi",
+    "theme": "light",
+    "state": "preview-500",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nHệ thống lồng tiếng Video AI & Xử lý âm thanh đa kênh\nM3 Watch Review Fixture\nCatalog\nConnect\n+ Import Video / YouTube\nVI\nBước 5/7: Tổng hợp giọng nói (TTS) · 100%\nChưa có dữ liệu\n/\nChưa có dữ liệu\nPOLLING 1.5s\nTiếp tục\nHủy tác vụ\nChưa tải video cho tác vụ này\nM3 Watch Review Fixture\nSPEAKER_00\nImport Video / YouTube\nChưa có dữ liệu\nCâu dịch đầu tiên.\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nKhông tải được preview. Tạm khóa phát preview.\nThử tải preview lại\n#0001\nChưa có dữ liệu\n#0002\nChưa có dữ liệu\n#0003\nChưa có dữ liệu\n#0004\nChưa có dữ liệu\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nSEG #0 // 00:01.0 - 00:02.0\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n4 TOTAL\nĐã duyệt: 0 / 4\nDuyệt tất cả (4)\nPhím tắt Studio\nTất cả đoạn thoại\n4\nCó cảnh báo\n0\nCần kiểm tra\n1\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nThời lượng mục tiêu: 4.28s\n18 ký tự (-31%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nThời lượng mục tiêu: 4.28s\n30 ký tự (+15%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nCần duyệt\nThe blocked chunk stays unavailable.\nThời lượng mục tiêu: 4.28s\n31 ký tự (-14%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nThời lượng mục tiêu: 4.28s\n29 ký tự (-24%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\nBảng kỹ thuật",
+    "geometry": {
+      "scrollX": 0,
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    }
+  },
+  {
+    "width": 1440,
+    "language": "vi",
+    "theme": "light",
+    "state": "final-qa-failed",
+    "preview_video": 0,
+    "final_video": 1,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nHệ thống lồng tiếng Video AI & Xử lý âm thanh đa kênh\nM3 Watch Review Fixture\nCatalog\nConnect\n+ Import Video / YouTube\nTải Video\nVI\nBước 7/7: Kiểm định chất lượng (QA) · 100%\nChưa có dữ liệu\n/\nHOÀN TẤT\nPOLLING 1.5s\nCOMPLETED\nQA chưa đạt\nChưa kiểm tra toàn track\nSPEAKER_00\nFINAL\nImport Video / YouTube\nTải Video\nCâu dịch đầu tiên.\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\nFINAL READY\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nTải Final\n#0001\nQA BLOCK\n#0002\nQA BLOCK\n#0003\nTTS\n#0004\nSTALE\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nSEG #0 // 00:01.0 - 00:02.0\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n4 TOTAL\nĐã duyệt: 0 / 4\nDuyệt tất cả (4)\nTải Video\nSRT\nPhím tắt Studio\nTất cả đoạn thoại\n4\nCó cảnh báo\n0\nCần kiểm tra\n1\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nThời lượng mục tiêu: 4.28s\n18 ký tự (-31%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nThời lượng mục tiêu: 4.28s\n30 ký tự (+15%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nCần duyệt\nThe blocked chunk stays unavailable.\nThời lượng mục tiêu: 4.28s\n31 ký tự (-14%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nThời lượng mục tiêu: 4.28s\n29 ký tự (-24%)\nRender lại TTS\nDuyệt (Ctrl+Enter)\nBảng kỹ thuật\n[CUDA VRAM]\n[Độ trễ]\n[LUFS / Peak]\n[Tokens]\n[Raw JSON]\nENGINEER // LIVE\nQA chưa đạt\n122 đoạn chưa đạt\nChưa kiểm tra toàn track\nTYPESAFE AI COGNITIVE TELEMETRY\nJEV v1.4\nToken xác thực TypeSafe\nChưa có dữ liệu\nSố lần viết lại khớp âm tiết\nChưa có dữ liệu lần\nĐộ tương đồng QA\n98.0%\nCache Trúng/Trượt\nChưa có dữ liệu / Chưa có dữ liệu\nSố lô dịch WebGPT:\nChưa có dữ liệu lô gửi (:8080)",
+    "geometry": {
+      "scrollX": 0,
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".text-orange-600.dark\\:text-orange-400.font-bold"
+              ],
+              "html": "<span class=\"font-bold text-orange-600 dark:text-orange-400\">Chưa có dữ liệu lô gửi (:8080)</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.4 (foreground color: #ea580c, background color: #f8fafc, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 10
+        },
+        {
+          "id": "video-caption",
+          "nodes": 1
+        }
+      ]
+    }
+  },
+  {
+    "width": 1440,
+    "language": "vi",
+    "theme": "light",
+    "state": "empty",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nHệ thống lồng tiếng Video AI & Xử lý âm thanh đa kênh\nTác vụ đang chọn\nCatalog\nConnect\n+ Import Video / YouTube\nVI\nChưa có dữ liệu: Chưa có dữ liệu · Chưa có dữ liệu\nChưa có dữ liệu\n/\nChưa có dữ liệu\nPOLLING 1.5s\nChưa tải video cho tác vụ này\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\nImport Video / YouTube\nChưa có dữ liệu\nKéo thả tệp video (.mp4, .mkv, .mov) vào đây hoặc bấm để chọn tệp\n00:00.0 / Chưa có dữ liệu\n0.75x\n1.0x\n1.25x\n1.5x\nNGHE KIỂM ÂM ĐỐI CHIẾU A/B\nGiọng gốc Tiếng Anh (A)\nGiọng lồng Tiếng Việt (B)\nNhạc nền & Hiệu ứng\n-14 LUFS TARGET\nBIÊN TẬP & KIỂM ĐỊNH TỪNG ĐOẠN THOẠI\n0 TOTAL\nĐã duyệt: 0 / 0\nDuyệt tất cả (0)\nPhím tắt Studio\nTất cả đoạn thoại\n0\nCó cảnh báo\n0\nCần kiểm tra\n0\nĐã duyệt\n0\nTràn độ dài (Overflow)\n0\nĐa người nói\n0\nKhông tìm thấy đoạn nào phù hợp với bộ lọc.\nBảng kỹ thuật\n[CUDA VRAM]\n[Độ trễ]\n[LUFS / Peak]\n[Tokens]\n[Raw JSON]\nENGINEER // LIVE\nChưa có dữ liệu\nTORCH CUDA ALLOCATOR\nAllocated / Reserved / Total:\nChưa có dữ liệu / Chưa có dữ liệu / Chưa có dữ liệu\nVRAM đã cấp phát\nChưa có dữ liệu\nChưa có dữ liệu\nVRAM đang giữ (Reserved)\nChưa có dữ liệu\nChưa có dữ liệu\nVRAM Đỉnh (Peak)\nChưa có dữ liệu\nMức đỉnh",
+    "geometry": {
+      "scrollX": 0,
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(15, 23, 42)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 1
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 6
+        }
+      ]
+    }
+  },
+  {
+    "width": 1440,
+    "language": "en",
+    "theme": "dark",
+    "state": "preview-matrix",
+    "preview_video": 1,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nNeural Video Dubbing & Acoustic Mastering Suite\nM3 Watch Review Fixture\nCatalog\nConnect\nImport Video / YouTube\nEN\nStage 5/7: TTS Voice Synthesis · 100%\nUnavailable\n/\nUnavailable\nPOLLING 1.5s\nResume Pipeline\nAbort Job\nSPEAKER_00\nPREVIEW · Part 1/4 · 00:00.0–00:10.0\nImport Video / YouTube\nCâu dịch đầu tiên.\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n1/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\n#0001\nREADY\n#0002\nQA BLOCK\n#0003\nTTS\n#0004\nSTALE\nĐang xem Part 0001 trên monitor\n00:00.0–00:10.0\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nA/B TRACK AUDITION\nSEG #0 // 00:01.0 - 00:02.0\nOriginal Vocal (A)\nDubbed Vietnamese (B)\nBGM & Ambience\n-14 LUFS TARGET\nBILINGUAL SEGMENT REVIEWER\n4 TOTAL\nApproved: 0 / 4\nAccept All (4)\nStudio Hotkeys\nAll Segments\n4\nFlagged Issues\n0\nNeeds Review\n1\nAccepted\n0\nDuration Overflow\n0\nMulti-Speaker\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nTarget Duration: 4.28s\n18 chars (-31%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nTarget Duration: 4.28s\n30 chars (+15%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nReview Required\nThe blocked chunk stays unavailable.\nTarget Duration: 4.28s\n31 chars (-14%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nTarget Duration: 4.28s\n29 chars (-24%)\nRe-render TTS\nAccept (Ctrl+Enter)\nEngineer Telemetry",
+    "geometry": {
+      "scrollX": 0,
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".xl\\:inline.text-\\[9px\\].whitespace-nowrap"
+              ],
+              "html": "<span class=\"hidden whitespace-nowrap text-[9px] text-slate-500 xl:inline\">00:00.0–00:10.0</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.19 (foreground color: #64748b, background color: #040817, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 13
+        },
+        {
+          "id": "video-caption",
+          "nodes": 1
+        }
+      ]
+    }
+  },
+  {
+    "width": 1440,
+    "language": "en",
+    "theme": "dark",
+    "state": "preview-403",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nNeural Video Dubbing & Acoustic Mastering Suite\nM3 Watch Review Fixture\nCatalog\nConnect\nImport Video / YouTube\nEN\nStage 5/7: TTS Voice Synthesis · 100%\nUnavailable\n/\nUnavailable\nPOLLING 1.5s\nResume Pipeline\nAbort Job\nNo video loaded for current job\nM3 Watch Review Fixture\nSPEAKER_00\nImport Video / YouTube\nUnavailable\nCâu dịch đầu tiên.\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nCould not load previews. Preview playback is unavailable.\nRetry previews\n#0001\nUnavailable\n#0002\nUnavailable\n#0003\nUnavailable\n#0004\nUnavailable\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nA/B TRACK AUDITION\nSEG #0 // 00:01.0 - 00:02.0\nOriginal Vocal (A)\nDubbed Vietnamese (B)\nBGM & Ambience\n-14 LUFS TARGET\nBILINGUAL SEGMENT REVIEWER\n4 TOTAL\nApproved: 0 / 4\nAccept All (4)\nStudio Hotkeys\nAll Segments\n4\nFlagged Issues\n0\nNeeds Review\n1\nAccepted\n0\nDuration Overflow\n0\nMulti-Speaker\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nTarget Duration: 4.28s\n18 chars (-31%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nTarget Duration: 4.28s\n30 chars (+15%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nReview Required\nThe blocked chunk stays unavailable.\nTarget Duration: 4.28s\n31 chars (-14%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nTarget Duration: 4.28s\n29 chars (-24%)\nRe-render TTS\nAccept (Ctrl+Enter)\nEngineer Telemetry",
+    "geometry": {
+      "scrollX": 0,
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ]
+    }
+  },
+  {
+    "width": 1440,
+    "language": "en",
+    "theme": "dark",
+    "state": "preview-500",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nNeural Video Dubbing & Acoustic Mastering Suite\nM3 Watch Review Fixture\nCatalog\nConnect\nImport Video / YouTube\nEN\nStage 5/7: TTS Voice Synthesis · 100%\nUnavailable\n/\nUnavailable\nPOLLING 1.5s\nResume Pipeline\nAbort Job\nNo video loaded for current job\nM3 Watch Review Fixture\nSPEAKER_00\nImport Video / YouTube\nUnavailable\nCâu dịch đầu tiên.\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nCould not load previews. Preview playback is unavailable.\nRetry previews\n#0001\nUnavailable\n#0002\nUnavailable\n#0003\nUnavailable\n#0004\nUnavailable\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nA/B TRACK AUDITION\nSEG #0 // 00:01.0 - 00:02.0\nOriginal Vocal (A)\nDubbed Vietnamese (B)\nBGM & Ambience\n-14 LUFS TARGET\nBILINGUAL SEGMENT REVIEWER\n4 TOTAL\nApproved: 0 / 4\nAccept All (4)\nStudio Hotkeys\nAll Segments\n4\nFlagged Issues\n0\nNeeds Review\n1\nAccepted\n0\nDuration Overflow\n0\nMulti-Speaker\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nTarget Duration: 4.28s\n18 chars (-31%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nTarget Duration: 4.28s\n30 chars (+15%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nReview Required\nThe blocked chunk stays unavailable.\nTarget Duration: 4.28s\n31 chars (-14%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nTarget Duration: 4.28s\n29 chars (-24%)\nRe-render TTS\nAccept (Ctrl+Enter)\nEngineer Telemetry",
+    "geometry": {
+      "scrollX": 0,
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ]
+    }
+  },
+  {
+    "width": 1440,
+    "language": "en",
+    "theme": "dark",
+    "state": "final-qa-failed",
+    "preview_video": 0,
+    "final_video": 1,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nNeural Video Dubbing & Acoustic Mastering Suite\nM3 Watch Review Fixture\nCatalog\nConnect\nImport Video / YouTube\nDownload Video\nEN\nStage 7/7: QA & Acoustic Verification · 100%\nUnavailable\n/\nCOMPLETED\nPOLLING 1.5s\nCOMPLETED\nQA failed\nFull track not checked\nSPEAKER_00\nFINAL\nImport Video / YouTube\nDownload Video\nCâu dịch đầu tiên.\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\n00:00.0 / 00:10.0\n0.75x\n1.0x\n1.25x\n1.5x\nLong-form chunks\nPREVIEW\nFINAL READY\n\n0/4 preview đã publish · #0003 TTS · ETA 02:25.0\n\nTải Final\n#0001\nQA BLOCK\n#0002\nQA BLOCK\n#0003\nTTS\n#0004\nSTALE\n1 chunk stale sau edit; preview cũ đã bị khóa.\nRender lại\nA/B TRACK AUDITION\nSEG #0 // 00:01.0 - 00:02.0\nOriginal Vocal (A)\nDubbed Vietnamese (B)\nBGM & Ambience\n-14 LUFS TARGET\nBILINGUAL SEGMENT REVIEWER\n4 TOTAL\nApproved: 0 / 4\nAccept All (4)\nDownload Video\nSRT\nStudio Hotkeys\nAll Segments\n4\nFlagged Issues\n0\nNeeds Review\n1\nAccepted\n0\nDuration Overflow\n0\nMulti-Speaker\n0\n#000\n▶ 00:01.0 - 00:02.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe first source sentence.\nTarget Duration: 4.28s\n18 chars (-31%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#001\n▶ 00:04.0 - 00:05.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe second ready sentence.\nTarget Duration: 4.28s\n30 chars (+15%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#002\n▶ 00:11.0 - 00:12.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nReview Required\nThe blocked chunk stays unavailable.\nTarget Duration: 4.28s\n31 chars (-14%)\nRe-render TTS\nAccept (Ctrl+Enter)\n#003\n▶ 00:21.0 - 00:22.0 (1.00s)\n·\nSPEAKER_00\nSPEAKER_01\nSPEAKER_02\nThe current chunk is still processing.\nTarget Duration: 4.28s\n29 chars (-24%)\nRe-render TTS\nAccept (Ctrl+Enter)\nEngineer Telemetry\n[CUDA VRAM]\n[Latency]\n[LUFS / Peak]\n[Tokens]\n[Raw JSON]\nENGINEER // LIVE\nQA failed\n122 segments failed\nFull track not checked\nTYPESAFE AI COGNITIVE TELEMETRY\nJEV v1.4\nTypeSafe Verification Tokens\nUnavailable\nPrefit Syllable Rewrites\nUnavailable calls\nQA Similarity\n98.0%\nCache Hits/Miss\nUnavailable / Unavailable\nWebGPT Sol Batches:\nUnavailable batch dispatched (:8080)",
+    "geometry": {
+      "scrollX": 0,
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 10
+        },
+        {
+          "id": "video-caption",
+          "nodes": 1
+        }
+      ]
+    }
+  },
+  {
+    "width": 1440,
+    "language": "en",
+    "theme": "dark",
+    "state": "empty",
+    "preview_video": 0,
+    "final_video": 0,
+    "body_text": "VI-DUBBER\nv2.0-PRO\nNeural Video Dubbing & Acoustic Mastering Suite\nActive Job\nCatalog\nConnect\nImport Video / YouTube\nEN\nUnavailable: Unavailable · Unavailable\nUnavailable\n/\nUnavailable\nPOLLING 1.5s\nNo video loaded for current job\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\nImport Video / YouTube\nUnavailable\nDrag & drop video (.mp4, .mkv, .mov) here or click to browse\n00:00.0 / Unavailable\n0.75x\n1.0x\n1.25x\n1.5x\nA/B TRACK AUDITION\nOriginal Vocal (A)\nDubbed Vietnamese (B)\nBGM & Ambience\n-14 LUFS TARGET\nBILINGUAL SEGMENT REVIEWER\n0 TOTAL\nApproved: 0 / 0\nAccept All (0)\nStudio Hotkeys\nAll Segments\n0\nFlagged Issues\n0\nNeeds Review\n0\nAccepted\n0\nDuration Overflow\n0\nMulti-Speaker\n0\nNo segments match current filter.\nEngineer Telemetry\n[CUDA VRAM]\n[Latency]\n[LUFS / Peak]\n[Tokens]\n[Raw JSON]\nENGINEER // LIVE\nUnavailable\nTORCH CUDA ALLOCATOR\nAllocated / Reserved / Total:\nUnavailable / Unavailable / Unavailable\nAllocated VRAM\nUnavailable\nUnavailable\nReserved VRAM\nUnavailable\nUnavailable\nPeak VRAM\nUnavailable\nHigh watermark",
+    "geometry": {
+      "scrollX": 0,
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "stable_theme_style": {
+      "before": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ],
+      "after": [
+        "rgb(9, 13, 22)",
+        "rgb(241, 245, 249)"
+      ]
+    },
+    "axe": {
+      "version": "4.10.3",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 1
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 5
+        }
+      ]
+    }
+  }
+]

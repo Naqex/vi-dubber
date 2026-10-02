@@ -1,0 +1,202 @@
+..............F...F...                                                   [100%]
+================================== FAILURES ===================================
+_ test_preview_fetch_failure_clears_playback_and_can_retry[chromium-completed-403] _
+
+page = <Page url='http://127.0.0.1:65009/'>
+m3_react_server = ('http://127.0.0.1:65009', 'job-m3-watch-review', WindowsPath('C:/Users/MIIKEY/AppData/Local/Temp/pytest-of-MIIKEY/pytest-1072/test_preview_fetch_failure_cle2/work'))
+code = 403, status = 'completed'
+
+    @pytest.mark.parametrize("code", [403, 500])
+    @pytest.mark.parametrize("status", ["paused", "completed"])
+    def test_preview_fetch_failure_clears_playback_and_can_retry(
+        page: Page, m3_react_server: tuple[str, str, Path], code: int, status: str,
+    ) -> None:
+        base_url, target_id, work = m3_react_server
+        page.context.route("**/*", lambda route: route.continue_()
+                           if route.request.url.startswith(base_url + "/")
+                           or route.request.url.startswith(("data:", "blob:")) else route.abort())
+        page.route("**/api/system", lambda route: route.fulfill(
+            status=200, content_type="application/json", body="{}"))
+        page.add_init_script("localStorage.setItem('vi_dubber_lang', 'en')")
+        result = None
+        if status == "completed":
+            final_path = work / target_id / "output.mp4"
+            shutil.copyfile(work / target_id / "chunks/chunk_0001/preview/PREVIEW_chunk_0001.mp4", final_path)
+            result = {"output": str(final_path), "duration_seconds": 10.0, "qa": {"passed": False}}
+        update_job_state(work / target_id, status=status, result=result, message="Preview error fixture")
+        page.goto(base_url, wait_until="networkidle")
+        ready = page.locator("button:has-text('#0001'):has-text('READY')")
+        expect(ready).to_be_enabled()
+        ready.click()
+        expect(page.locator("video[src*='/previews/']")).to_have_count(1)
+        preview_route = f"**/api/jobs/{target_id}/previews"
+        page.route(preview_route, lambda route: route.fulfill(status=code, body="fixture error"))
+        update_job_state(work / target_id, message=f"Preview denied {code}")
+        expect(page.get_by_role("alert").filter(has_text="Could not load previews")).to_be_visible(timeout=10000)
+        expect(page.locator("video")).to_have_count(0)
+        for play in page.get_by_title("Play/Pause (Space)", exact=True).all():
+            expect(play).to_be_disabled()
+        page.locator("body").press("Space")
+        assert page.locator("audio").evaluate("el => el.paused")
+        expect(ready).to_have_count(0)
+        expect(page.get_by_title("Tải preview chunk")).to_have_count(0)
+        if status == "completed":
+            page.get_by_title("Chuyển sang bản Final", exact=True).click()
+            expect(page.locator("video[src$='/download']")).to_have_count(1)
+            expect(page.get_by_text("QA failed", exact=True)).to_be_visible()
+        page.unroute(preview_route)
+        page.get_by_role("button", name="Retry previews", exact=True).click()
+        expect(ready).to_be_enabled()
+        ready.click()
+        expect(page.locator("video[src*='/previews/']")).to_have_count(1)
+        expect(page.get_by_role("alert").filter(has_text="Could not load previews")).to_have_count(0)
+        if status == "completed":
+            page.get_by_title("Chuyển sang bản Final", exact=True).click()
+            page.route(preview_route, lambda route: route.fulfill(status=code, body="fixture error"))
+            update_job_state(work / target_id, message=f"Final selected; previews denied {code}")
+            expect(page.get_by_role("alert").filter(has_text="Could not load previews")).to_be_visible(timeout=10000)
+            expect(page.locator("video[src$='/download']")).to_have_count(1)
+            header = page.get_by_role("banner")
+            header.get_by_role("button", name="M3 Watch Review Fixture", exact=True).click()
+>           page.get_by_role("button", name="M3 Library Entry").click()
+
+tests\test_m3_react_ui_playwright.py:425: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\playwright\sync_api\_generated.py:18032: in click
+    self._sync(
+.venv\Lib\site-packages\playwright\_impl\_locator.py:165: in click
+    return await self._frame._click(self._selector, strict=True, **params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\playwright\_impl\_frame.py:594: in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+.venv\Lib\site-packages\playwright\_impl\_connection.py:76: in send
+    return await self._connection.wrap_api_call(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <playwright._impl._connection.Connection object at 0x000001E1EE9DCFE0>
+cb = <function Channel.send.<locals>.<lambda> at 0x000001E1F0096E80>
+is_internal = False, title = None
+
+    async def wrap_api_call(
+        self, cb: Callable[[], Any], is_internal: bool = False, title: str = None
+    ) -> Any:
+        if self._api_zone.get():
+            return await cb()
+        task = asyncio.current_task(self._loop)
+        parsed_st = _attach_api_call_information(
+            getattr(task, "__pw_stack__", None) or _capture_stack_trace(),
+            is_internal,
+            title,
+        )
+        self._api_zone.set(parsed_st)
+        try:
+            return await cb()
+        except Exception as error:
+>           raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E           playwright._impl._errors.TimeoutError: Locator.click: Timeout 30000ms exceeded.
+E           Call log:
+E             - waiting for get_by_role("button", name="M3 Library Entry")
+
+.venv\Lib\site-packages\playwright\_impl\_connection.py:632: TimeoutError
+_ test_preview_fetch_failure_clears_playback_and_can_retry[chromium-completed-500] _
+
+page = <Page url='http://127.0.0.1:61025/'>
+m3_react_server = ('http://127.0.0.1:61025', 'job-m3-watch-review', WindowsPath('C:/Users/MIIKEY/AppData/Local/Temp/pytest-of-MIIKEY/pytest-1072/test_preview_fetch_failure_cle3/work'))
+code = 500, status = 'completed'
+
+    @pytest.mark.parametrize("code", [403, 500])
+    @pytest.mark.parametrize("status", ["paused", "completed"])
+    def test_preview_fetch_failure_clears_playback_and_can_retry(
+        page: Page, m3_react_server: tuple[str, str, Path], code: int, status: str,
+    ) -> None:
+        base_url, target_id, work = m3_react_server
+        page.context.route("**/*", lambda route: route.continue_()
+                           if route.request.url.startswith(base_url + "/")
+                           or route.request.url.startswith(("data:", "blob:")) else route.abort())
+        page.route("**/api/system", lambda route: route.fulfill(
+            status=200, content_type="application/json", body="{}"))
+        page.add_init_script("localStorage.setItem('vi_dubber_lang', 'en')")
+        result = None
+        if status == "completed":
+            final_path = work / target_id / "output.mp4"
+            shutil.copyfile(work / target_id / "chunks/chunk_0001/preview/PREVIEW_chunk_0001.mp4", final_path)
+            result = {"output": str(final_path), "duration_seconds": 10.0, "qa": {"passed": False}}
+        update_job_state(work / target_id, status=status, result=result, message="Preview error fixture")
+        page.goto(base_url, wait_until="networkidle")
+        ready = page.locator("button:has-text('#0001'):has-text('READY')")
+        expect(ready).to_be_enabled()
+        ready.click()
+        expect(page.locator("video[src*='/previews/']")).to_have_count(1)
+        preview_route = f"**/api/jobs/{target_id}/previews"
+        page.route(preview_route, lambda route: route.fulfill(status=code, body="fixture error"))
+        update_job_state(work / target_id, message=f"Preview denied {code}")
+        expect(page.get_by_role("alert").filter(has_text="Could not load previews")).to_be_visible(timeout=10000)
+        expect(page.locator("video")).to_have_count(0)
+        for play in page.get_by_title("Play/Pause (Space)", exact=True).all():
+            expect(play).to_be_disabled()
+        page.locator("body").press("Space")
+        assert page.locator("audio").evaluate("el => el.paused")
+        expect(ready).to_have_count(0)
+        expect(page.get_by_title("Tải preview chunk")).to_have_count(0)
+        if status == "completed":
+            page.get_by_title("Chuyển sang bản Final", exact=True).click()
+            expect(page.locator("video[src$='/download']")).to_have_count(1)
+            expect(page.get_by_text("QA failed", exact=True)).to_be_visible()
+        page.unroute(preview_route)
+        page.get_by_role("button", name="Retry previews", exact=True).click()
+        expect(ready).to_be_enabled()
+        ready.click()
+        expect(page.locator("video[src*='/previews/']")).to_have_count(1)
+        expect(page.get_by_role("alert").filter(has_text="Could not load previews")).to_have_count(0)
+        if status == "completed":
+            page.get_by_title("Chuyển sang bản Final", exact=True).click()
+            page.route(preview_route, lambda route: route.fulfill(status=code, body="fixture error"))
+            update_job_state(work / target_id, message=f"Final selected; previews denied {code}")
+            expect(page.get_by_role("alert").filter(has_text="Could not load previews")).to_be_visible(timeout=10000)
+            expect(page.locator("video[src$='/download']")).to_have_count(1)
+            header = page.get_by_role("banner")
+            header.get_by_role("button", name="M3 Watch Review Fixture", exact=True).click()
+>           page.get_by_role("button", name="M3 Library Entry").click()
+
+tests\test_m3_react_ui_playwright.py:425: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\playwright\sync_api\_generated.py:18032: in click
+    self._sync(
+.venv\Lib\site-packages\playwright\_impl\_locator.py:165: in click
+    return await self._frame._click(self._selector, strict=True, **params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\playwright\_impl\_frame.py:594: in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+.venv\Lib\site-packages\playwright\_impl\_connection.py:76: in send
+    return await self._connection.wrap_api_call(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <playwright._impl._connection.Connection object at 0x000001E1EE9DCFE0>
+cb = <function Channel.send.<locals>.<lambda> at 0x000001E1F07E7600>
+is_internal = False, title = None
+
+    async def wrap_api_call(
+        self, cb: Callable[[], Any], is_internal: bool = False, title: str = None
+    ) -> Any:
+        if self._api_zone.get():
+            return await cb()
+        task = asyncio.current_task(self._loop)
+        parsed_st = _attach_api_call_information(
+            getattr(task, "__pw_stack__", None) or _capture_stack_trace(),
+            is_internal,
+            title,
+        )
+        self._api_zone.set(parsed_st)
+        try:
+            return await cb()
+        except Exception as error:
+>           raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E           playwright._impl._errors.TimeoutError: Locator.click: Timeout 30000ms exceeded.
+E           Call log:
+E             - waiting for get_by_role("button", name="M3 Library Entry")
+
+.venv\Lib\site-packages\playwright\_impl\_connection.py:632: TimeoutError
+=========================== short test summary info ===========================
+FAILED tests/test_m3_react_ui_playwright.py::test_preview_fetch_failure_clears_playback_and_can_retry[chromium-completed-403]
+FAILED tests/test_m3_react_ui_playwright.py::test_preview_fetch_failure_clears_playback_and_can_retry[chromium-completed-500]
+2 failed, 20 passed in 176.22s (0:02:56)
