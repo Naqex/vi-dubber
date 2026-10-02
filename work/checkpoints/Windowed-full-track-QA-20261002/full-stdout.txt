@@ -1,0 +1,160 @@
+2026-10-02 20:32:11 - whisperx.vads.pyannote - INFO - Performing voice activity detection using Pyannote...
+QA diagnostic checkpoint chunk_0001: 1/143
+QA diagnostic checkpoint chunk_0002: 2/143
+QA diagnostic checkpoint chunk_0003: 3/143
+QA diagnostic checkpoint chunk_0004: 4/143
+QA diagnostic checkpoint chunk_0005: 5/143
+QA diagnostic checkpoint chunk_0006: 6/143
+QA diagnostic checkpoint chunk_0007: 7/143
+QA diagnostic checkpoint chunk_0008: 8/143
+QA diagnostic checkpoint chunk_0009: 9/143
+QA diagnostic checkpoint chunk_0010: 10/143
+QA diagnostic checkpoint chunk_0011: 11/143
+QA diagnostic checkpoint chunk_0012: 12/143
+QA diagnostic checkpoint chunk_0013: 13/143
+QA diagnostic checkpoint chunk_0014: 14/143
+QA diagnostic checkpoint chunk_0015: 15/143
+QA diagnostic checkpoint chunk_0016: 16/143
+QA diagnostic checkpoint chunk_0017: 17/143
+QA diagnostic checkpoint chunk_0018: 18/143
+QA diagnostic checkpoint chunk_0019: 19/143
+QA diagnostic checkpoint chunk_0020: 20/143
+QA diagnostic checkpoint chunk_0021: 21/143
+QA diagnostic checkpoint chunk_0022: 22/143
+QA diagnostic checkpoint chunk_0023: 23/143
+QA diagnostic checkpoint chunk_0024: 24/143
+QA diagnostic checkpoint chunk_0025: 25/143
+QA diagnostic checkpoint chunk_0026: 26/143
+QA diagnostic checkpoint chunk_0027: 27/143
+QA diagnostic checkpoint chunk_0028: 28/143
+QA diagnostic checkpoint chunk_0029: 29/143
+QA diagnostic checkpoint chunk_0030: 30/143
+QA diagnostic checkpoint chunk_0031: 31/143
+QA diagnostic checkpoint chunk_0032: 32/143
+QA diagnostic checkpoint chunk_0033: 33/143
+QA diagnostic checkpoint chunk_0034: 34/143
+QA diagnostic checkpoint chunk_0035: 35/143
+QA diagnostic checkpoint chunk_0036: 36/143
+QA diagnostic checkpoint chunk_0037: 37/143
+QA diagnostic checkpoint chunk_0038: 38/143
+QA diagnostic checkpoint chunk_0039: 39/143
+QA diagnostic checkpoint chunk_0040: 40/143
+QA diagnostic checkpoint chunk_0041: 41/143
+QA diagnostic checkpoint chunk_0042: 42/143
+QA diagnostic checkpoint chunk_0043: 43/143
+QA diagnostic checkpoint chunk_0044: 44/143
+QA diagnostic checkpoint chunk_0045: 45/143
+QA diagnostic checkpoint chunk_0046: 46/143
+QA diagnostic checkpoint chunk_0047: 47/143
+QA diagnostic checkpoint chunk_0048: 48/143
+QA diagnostic checkpoint chunk_0049: 49/143
+QA diagnostic checkpoint chunk_0050: 50/143
+QA diagnostic checkpoint chunk_0051: 51/143
+QA diagnostic checkpoint chunk_0052: 52/143
+QA diagnostic checkpoint chunk_0053: 53/143
+QA diagnostic checkpoint chunk_0054: 54/143
+QA diagnostic checkpoint chunk_0055: 55/143
+QA diagnostic checkpoint chunk_0056: 56/143
+QA diagnostic checkpoint chunk_0057: 57/143
+QA diagnostic checkpoint chunk_0058: 58/143
+QA diagnostic checkpoint chunk_0059: 59/143
+QA diagnostic checkpoint chunk_0060: 60/143
+QA diagnostic checkpoint chunk_0061: 61/143
+QA diagnostic checkpoint chunk_0062: 62/143
+QA diagnostic checkpoint chunk_0063: 63/143
+QA diagnostic checkpoint chunk_0064: 64/143
+QA diagnostic checkpoint chunk_0065: 65/143
+QA diagnostic checkpoint chunk_0066: 66/143
+QA diagnostic checkpoint chunk_0067: 67/143
+QA diagnostic checkpoint chunk_0068: 68/143
+QA diagnostic checkpoint chunk_0069: 69/143
+QA diagnostic checkpoint chunk_0070: 70/143
+QA diagnostic checkpoint chunk_0071: 71/143
+QA diagnostic checkpoint chunk_0072: 72/143
+QA diagnostic checkpoint chunk_0073: 73/143
+QA diagnostic checkpoint chunk_0074: 74/143
+QA diagnostic checkpoint chunk_0075: 75/143
+QA diagnostic checkpoint chunk_0076: 76/143
+QA diagnostic checkpoint chunk_0077: 77/143
+QA diagnostic checkpoint chunk_0078: 78/143
+QA diagnostic checkpoint chunk_0079: 79/143
+QA diagnostic checkpoint chunk_0080: 80/143
+QA diagnostic checkpoint chunk_0081: 81/143
+QA diagnostic checkpoint chunk_0082: 82/143
+QA diagnostic checkpoint chunk_0083: 83/143
+QA diagnostic checkpoint chunk_0084: 84/143
+QA diagnostic checkpoint chunk_0085: 85/143
+QA diagnostic checkpoint chunk_0086: 86/143
+QA diagnostic checkpoint chunk_0087: 87/143
+QA diagnostic checkpoint chunk_0088: 88/143
+QA diagnostic checkpoint chunk_0089: 89/143
+QA diagnostic checkpoint chunk_0090: 90/143
+QA diagnostic checkpoint chunk_0091: 91/143
+QA diagnostic checkpoint chunk_0092: 92/143
+QA diagnostic checkpoint chunk_0093: 93/143
+QA diagnostic checkpoint chunk_0094: 94/143
+QA diagnostic checkpoint chunk_0095: 95/143
+QA diagnostic checkpoint chunk_0096: 96/143
+QA diagnostic checkpoint chunk_0097: 97/143
+QA diagnostic checkpoint chunk_0098: 98/143
+QA diagnostic checkpoint chunk_0099: 99/143
+QA diagnostic checkpoint chunk_0100: 100/143
+QA diagnostic checkpoint chunk_0101: 101/143
+QA diagnostic checkpoint chunk_0102: 102/143
+QA diagnostic checkpoint chunk_0103: 103/143
+QA diagnostic checkpoint chunk_0104: 104/143
+QA diagnostic checkpoint chunk_0105: 105/143
+QA diagnostic checkpoint chunk_0106: 106/143
+QA diagnostic checkpoint chunk_0107: 107/143
+QA diagnostic checkpoint chunk_0108: 108/143
+QA diagnostic checkpoint chunk_0109: 109/143
+QA diagnostic checkpoint chunk_0110: 110/143
+QA diagnostic checkpoint chunk_0111: 111/143
+QA diagnostic checkpoint chunk_0112: 112/143
+QA diagnostic checkpoint chunk_0113: 113/143
+QA diagnostic checkpoint chunk_0114: 114/143
+QA diagnostic checkpoint chunk_0115: 115/143
+QA diagnostic checkpoint chunk_0116: 116/143
+QA diagnostic checkpoint chunk_0117: 117/143
+QA diagnostic checkpoint chunk_0118: 118/143
+QA diagnostic checkpoint chunk_0119: 119/143
+QA diagnostic checkpoint chunk_0120: 120/143
+QA diagnostic checkpoint chunk_0121: 121/143
+QA diagnostic checkpoint chunk_0122: 122/143
+QA diagnostic checkpoint chunk_0123: 123/143
+QA diagnostic checkpoint chunk_0124: 124/143
+QA diagnostic checkpoint chunk_0125: 125/143
+QA diagnostic checkpoint chunk_0126: 126/143
+QA diagnostic checkpoint chunk_0127: 127/143
+QA diagnostic checkpoint chunk_0128: 128/143
+QA diagnostic checkpoint chunk_0129: 129/143
+QA diagnostic checkpoint chunk_0130: 130/143
+QA diagnostic checkpoint chunk_0131: 131/143
+QA diagnostic checkpoint chunk_0132: 132/143
+QA diagnostic checkpoint chunk_0133: 133/143
+QA diagnostic checkpoint chunk_0134: 134/143
+QA diagnostic checkpoint chunk_0135: 135/143
+QA diagnostic checkpoint chunk_0136: 136/143
+QA diagnostic checkpoint chunk_0137: 137/143
+QA diagnostic checkpoint chunk_0138: 138/143
+QA diagnostic checkpoint chunk_0139: 139/143
+QA diagnostic checkpoint chunk_0140: 140/143
+QA diagnostic checkpoint chunk_0141: 141/143
+QA diagnostic checkpoint chunk_0142: 142/143
+QA diagnostic checkpoint chunk_0143: 143/143
+{
+  "format": "vi-full-track-qa-diagnostic-v1",
+  "fingerprint": "0377b44a4f48bf1388fa90ff98302bd9eb830248cdd1ec5a1f8da60de8740b5d",
+  "status": "complete_diagnostic",
+  "completed_windows": 143,
+  "total_windows": 143,
+  "covered_source_seconds": 42831.561,
+  "window_bound_seconds": 304.0,
+  "similarity": 0.981820621067799,
+  "threshold": 0.78,
+  "diagnostic_threshold_met": true,
+  "retained_qa_passed": false,
+  "retained_failed_segments": 122,
+  "canonical_acceptance_promoted": false,
+  "human_listening_performed": false
+}

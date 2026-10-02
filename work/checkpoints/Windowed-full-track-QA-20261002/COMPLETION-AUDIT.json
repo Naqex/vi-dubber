@@ -1,0 +1,494 @@
+{
+  "captured_at": "2026-10-02T14:07:27.344648+00:00",
+  "status": "complete_diagnostic_verified",
+  "fingerprint": "0377b44a4f48bf1388fa90ff98302bd9eb830248cdd1ec5a1f8da60de8740b5d",
+  "fresh_identity_recheck": true,
+  "completed_windows": 143,
+  "source_seconds": 42831.561,
+  "window_bound_seconds": 304,
+  "segments": 1723,
+  "empty_windows": [],
+  "chunk_hashes_timestamps_midpoint_ownership_validated": true,
+  "context_bounds_validated": true,
+  "contiguous_source_plan": true,
+  "context_overlap_boundary_count": 115,
+  "maximum_context_overlap_seconds": 3.952000000001135,
+  "context_overlap_boundary_samples": [
+    {
+      "left": "chunk_0001",
+      "right": "chunk_0002",
+      "seconds": 3.944000000000017
+    },
+    {
+      "left": "chunk_0003",
+      "right": "chunk_0004",
+      "seconds": 3.951999999999998
+    },
+    {
+      "left": "chunk_0004",
+      "right": "chunk_0005",
+      "seconds": 3.951999999999998
+    },
+    {
+      "left": "chunk_0005",
+      "right": "chunk_0006",
+      "seconds": 3.951999999999998
+    },
+    {
+      "left": "chunk_0006",
+      "right": "chunk_0007",
+      "seconds": 3.951999999999998
+    }
+  ],
+  "suffix_prefix_overlap_candidates_at_least_5_tokens": [
+    {
+      "left": "chunk_0001",
+      "right": "chunk_0002",
+      "token_count": 15,
+      "text": "bạn tư duy và giao dịch như institutional smart money đó là điều rất nhiều"
+    },
+    {
+      "left": "chunk_0003",
+      "right": "chunk_0004",
+      "token_count": 17,
+      "text": "rồi lại phá đỉnh đó là một breakout structure vì ta vẫn ở trong cùng xu hướng"
+    },
+    {
+      "left": "chunk_0004",
+      "right": "chunk_0005",
+      "token_count": 18,
+      "text": "khi giá phá đáy rồi hồi lên ta đang tạo gì trong trường hợp này ta đang tạo"
+    },
+    {
+      "left": "chunk_0006",
+      "right": "chunk_0007",
+      "token_count": 17,
+      "text": "thì phía trên không còn thanh khoản nữa và giá sẽ không bao giờ lấy đỉnh đó"
+    },
+    {
+      "left": "chunk_0008",
+      "right": "chunk_0009",
+      "token_count": 12,
+      "text": "thì giá lại quét qua tạo một breakout giả rồi đảo chiều"
+    },
+    {
+      "left": "chunk_0009",
+      "right": "chunk_0010",
+      "token_count": 16,
+      "text": "ví dụ giá đang đi xuống ở đây rồi chuyển sang tăng với một displacement lớn"
+    },
+    {
+      "left": "chunk_0011",
+      "right": "chunk_0012",
+      "token_count": 18,
+      "text": "tôi có nhiều video về nó nó đơn giản giá không lấy được đỉnh này rồi phá order"
+    },
+    {
+      "left": "chunk_0014",
+      "right": "chunk_0015",
+      "token_count": 11,
+      "text": "vậy là cái văn xong trước hết ta tìm thanh khoản"
+    },
+    {
+      "left": "chunk_0015",
+      "right": "chunk_0016",
+      "token_count": 5,
+      "text": "giá tiếp tục đi xuống"
+    },
+    {
+      "left": "chunk_0016",
+      "right": "chunk_0017",
+      "token_count": 18,
+      "text": "hôm nay chúng ta sẽ hiểu thế nào là bên ngoài thế nào là bên trong thanh khoản"
+    },
+    {
+      "left": "chunk_0017",
+      "right": "chunk_0018",
+      "token_count": 16,
+      "text": "internal ra external rồi là internal ra external mô hình này cứ lặp đi lặp lại"
+    },
+    {
+      "left": "chunk_0018",
+      "right": "chunk_0019",
+      "token_count": 18,
+      "text": "và có model ở đây ta sẽ không chỉ nhắm đáy này rồi hài lòng với 2 giờ"
+    },
+    {
+      "left": "chunk_0019",
+      "right": "chunk_0020",
+      "token_count": 17,
+      "text": "giá đi lên và lấy mức thanh khoản này sau khi lấy xong ta sẽ đi đâu"
+    },
+    {
+      "left": "chunk_0022",
+      "right": "chunk_0023",
+      "token_count": 13,
+      "text": "tương tự ở đây bạn thấy các cây nến này đều đóng cửa"
+    },
+    {
+      "left": "chunk_0024",
+      "right": "chunk_0025",
+      "token_count": 5,
+      "text": "tiến dần tới foe đó"
+    },
+    {
+      "left": "chunk_0025",
+      "right": "chunk_0026",
+      "token_count": 17,
+      "text": "điều đó cho ta biết gì sau đây tôi còn chỉ bạn một thứ rất hay nữa"
+    },
+    {
+      "left": "chunk_0027",
+      "right": "chunk_0028",
+      "token_count": 12,
+      "text": "bạn nên làm ngược lại hoặc không hẳn hoàn toàn ngược lại"
+    },
+    {
+      "left": "chunk_0030",
+      "right": "chunk_0031",
+      "token_count": 14,
+      "text": "và cả đỉnh này đó chính là đỉnh phiên a và giá đã displacement"
+    },
+    {
+      "left": "chunk_0031",
+      "right": "chunk_0032",
+      "token_count": 18,
+      "text": "này đi lên thì chính là đỉnh này cùng với đỉnh phiên á giá đã đi tới đó"
+    },
+    {
+      "left": "chunk_0032",
+      "right": "chunk_0033",
+      "token_count": 13,
+      "text": "tôi đã chia sẻ sát xuất của nó giờ rất thấp đúng không"
+    },
+    {
+      "left": "chunk_0033",
+      "right": "chunk_0034",
+      "token_count": 16,
+      "text": "ví dụ giá đi thấp hơn từ đây rồi tạo một đỉnh tôi sẽ không trade"
+    },
+    {
+      "left": "chunk_0037",
+      "right": "chunk_0038",
+      "token_count": 17,
+      "text": "ở đây có một fair value gap rồi một cái ở đây một cái nữa ở đây"
+    },
+    {
+      "left": "chunk_0038",
+      "right": "chunk_0039",
+      "token_count": 16,
+      "text": "bỏ qua chỉ vì có cái này một extreme fair value gap không cao sát xuất"
+    },
+    {
+      "left": "chunk_0039",
+      "right": "chunk_0040",
+      "token_count": 14,
+      "text": "vì đây là breakaway gap nhưng dâu nến lớn này còn quan trọng hơn"
+    },
+    {
+      "left": "chunk_0045",
+      "right": "chunk_0046",
+      "token_count": 11,
+      "text": "fair value gap khung 1 giờ này cũng được tôn trọng"
+    },
+    {
+      "left": "chunk_0047",
+      "right": "chunk_0048",
+      "token_count": 12,
+      "text": "đây là một dâu nến nên nó không thuộc fair value gap"
+    },
+    {
+      "left": "chunk_0048",
+      "right": "chunk_0049",
+      "token_count": 19,
+      "text": "sát xuất giá quay lại lớp fair value gap sẽ thấp hơn rất nhiều so với fair value gap"
+    },
+    {
+      "left": "chunk_0051",
+      "right": "chunk_0052",
+      "token_count": 13,
+      "text": "phần lớn mọi người nhất là người mới không nhận ra điều đó"
+    },
+    {
+      "left": "chunk_0054",
+      "right": "chunk_0055",
+      "token_count": 9,
+      "text": "giá mở cửa và các nền khác màu nhau"
+    },
+    {
+      "left": "chunk_0060",
+      "right": "chunk_0061",
+      "token_count": 16,
+      "text": "đây là fair value gap 4 giờ về cách ghép khung thời gian với khung 4"
+    },
+    {
+      "left": "chunk_0062",
+      "right": "chunk_0063",
+      "token_count": 15,
+      "text": "rất rõ nên thay vì vào từ đây tôi sẽ thu hẹp xuống vùng này"
+    },
+    {
+      "left": "chunk_0063",
+      "right": "chunk_0064",
+      "token_count": 6,
+      "text": "ta có phe value gap này"
+    },
+    {
+      "left": "chunk_0064",
+      "right": "chunk_0065",
+      "token_count": 19,
+      "text": "từ đây đến đây nhưng với đường này vì tôi đang ở khung 1 giờ nên tôi muốn xuống"
+    },
+    {
+      "left": "chunk_0066",
+      "right": "chunk_0067",
+      "token_count": 15,
+      "text": "tức cách của more home trading nếu bạn muốn theo và tin tôi thì cứ"
+    },
+    {
+      "left": "chunk_0069",
+      "right": "chunk_0070",
+      "token_count": 15,
+      "text": "không ở đây là một failure swing ta đã không lấy mức thanh khoản đó"
+    },
+    {
+      "left": "chunk_0071",
+      "right": "chunk_0072",
+      "token_count": 9,
+      "text": "hiện tại giá đang lấy mức thanh khoản này"
+    },
+    {
+      "left": "chunk_0076",
+      "right": "chunk_0077",
+      "token_count": 15,
+      "text": "và cuối cùng nó vẫn chưa được lấp tức là còn nhiều gặp phía dưới"
+    },
+    {
+      "left": "chunk_0077",
+      "right": "chunk_0078",
+      "token_count": 10,
+      "text": "để đặt kỳ vọng rồi xác định đó là continuation"
+    },
+    {
+      "left": "chunk_0078",
+      "right": "chunk_0079",
+      "token_count": 15,
+      "text": "giờ dùng cùng phíp đó để đánh dấu key level kéo phíp như thế này"
+    },
+    {
+      "left": "chunk_0079",
+      "right": "chunk_0080",
+      "token_count": 18,
+      "text": "một key level khác hoặc một range khác từ đây đến đây vấn đề là nó không được"
+    },
+    {
+      "left": "chunk_0081",
+      "right": "chunk_0082",
+      "token_count": 15,
+      "text": "đây là một đáy mà giá đóng cửa xuống dưới rồi vẫn tiếp tục tăng"
+    },
+    {
+      "left": "chunk_0083",
+      "right": "chunk_0084",
+      "token_count": 8,
+      "text": "sau đó giá bắt đầu đi xuống và"
+    },
+    {
+      "left": "chunk_0084",
+      "right": "chunk_0085",
+      "token_count": 18,
+      "text": "lợi nhuận ví dụ bạn trade khung 15 giây hoặc 1 phút bạn có thật sự cần biết"
+    },
+    {
+      "left": "chunk_0086",
+      "right": "chunk_0087",
+      "token_count": 15,
+      "text": "giờ tôi không quan tâm ai nói rằng đây là thứ các ngân hàng làm"
+    },
+    {
+      "left": "chunk_0089",
+      "right": "chunk_0090",
+      "token_count": 6,
+      "text": "bạn thấy từ đây tới đây"
+    },
+    {
+      "left": "chunk_0091",
+      "right": "chunk_0092",
+      "token_count": 15,
+      "text": "lệ dù chỉ là một nến engulfing khi ta thấy cesd hoặc các nến engulfing"
+    },
+    {
+      "left": "chunk_0098",
+      "right": "chunk_0099",
+      "token_count": 16,
+      "text": "nơi có một imbalance nếu vào lệnh dựa trên imbalance này thì biên độ rất lớn"
+    },
+    {
+      "left": "chunk_0099",
+      "right": "chunk_0100",
+      "token_count": 16,
+      "text": "mô hình kết thúc khi giá chạm vùng consolidation ban đầu vậy một vai trò của"
+    },
+    {
+      "left": "chunk_0102",
+      "right": "chunk_0103",
+      "token_count": 11,
+      "text": "và một lần nữa mô hình market maker chẳng qua là"
+    },
+    {
+      "left": "chunk_0103",
+      "right": "chunk_0104",
+      "token_count": 8,
+      "text": "đó là mối quan hệ giữa external internal"
+    },
+    {
+      "left": "chunk_0104",
+      "right": "chunk_0105",
+      "token_count": 15,
+      "text": "của mô hình market maker ta tính từ vùng consolidation panel tới nơi dự kiến"
+    },
+    {
+      "left": "chunk_0107",
+      "right": "chunk_0108",
+      "token_count": 14,
+      "text": "chỉ bị làm cho phức tạp thôi khi tôi bắt đầu học market maker"
+    },
+    {
+      "left": "chunk_0110",
+      "right": "chunk_0111",
+      "token_count": 14,
+      "text": "bạn có thể đặt ra là khi có smt thì nên trade cặp nào"
+    },
+    {
+      "left": "chunk_0111",
+      "right": "chunk_0112",
+      "token_count": 22,
+      "text": "nhưng lại không bị quét trên eu đây cũng là lý do đôi khi bạn chờ một mức thanh khoản bị lấy"
+    },
+    {
+      "left": "chunk_0113",
+      "right": "chunk_0114",
+      "token_count": 20,
+      "text": "ở đâu thì đây là điểm đảo chiều ở đó tôi chỉ mất khoảng 2 phút để xem qua cả"
+    },
+    {
+      "left": "chunk_0114",
+      "right": "chunk_0115",
+      "token_count": 14,
+      "text": "nến tiếp theo sẽ bullish và để tôi xác nhận điều này cho bạn"
+    },
+    {
+      "left": "chunk_0115",
+      "right": "chunk_0116",
+      "token_count": 11,
+      "text": "bạn hiểu mối liên hệ giữa nó với giá mở cửa"
+    },
+    {
+      "left": "chunk_0116",
+      "right": "chunk_0117",
+      "token_count": 13,
+      "text": "nhưng không phải lúc nào cũng vậy vì thế ta nên tập trung"
+    },
+    {
+      "left": "chunk_0117",
+      "right": "chunk_0118",
+      "token_count": 18,
+      "text": "nhiều khả năng ta không kỳ vọng cái này giữ được vì nó không phải vùng cực trị"
+    },
+    {
+      "left": "chunk_0118",
+      "right": "chunk_0119",
+      "token_count": 20,
+      "text": "ta sẽ chờ mô hình swing hay bên trong fair value gap này và nó đã xuất hiện ở đây"
+    },
+    {
+      "left": "chunk_0120",
+      "right": "chunk_0121",
+      "token_count": 9,
+      "text": "nhưng nhớ rằng chuyện này không phải lúc nào"
+    },
+    {
+      "left": "chunk_0121",
+      "right": "chunk_0122",
+      "token_count": 19,
+      "text": "có thể ở vùng cực trị hoặc đơn giản là một foe mà ta biết hay kỳ vọng giá"
+    },
+    {
+      "left": "chunk_0126",
+      "right": "chunk_0127",
+      "token_count": 13,
+      "text": "nếu muốn tập trung vào các đỉnh đáy có sát xuất cao hơn"
+    },
+    {
+      "left": "chunk_0128",
+      "right": "chunk_0129",
+      "token_count": 8,
+      "text": "ví dụ giá lên đây và tôn trọng"
+    },
+    {
+      "left": "chunk_0129",
+      "right": "chunk_0130",
+      "token_count": 5,
+      "text": "chỗ tôi thường vào lệnh"
+    },
+    {
+      "left": "chunk_0131",
+      "right": "chunk_0132",
+      "token_count": 12,
+      "text": "bạn và như tôi nói bạn cũng có thể vào từ mitigation"
+    },
+    {
+      "left": "chunk_0132",
+      "right": "chunk_0133",
+      "token_count": 7,
+      "text": "duy nhất mà ta thấy điều đó"
+    },
+    {
+      "left": "chunk_0135",
+      "right": "chunk_0136",
+      "token_count": 16,
+      "text": "thêm nữa đơn giản là thanh khoản theo trendline vậy nên ta có thể kỳ vọng"
+    },
+    {
+      "left": "chunk_0140",
+      "right": "chunk_0141",
+      "token_count": 8,
+      "text": "sau đó giá phản ứng từ midnight open"
+    },
+    {
+      "left": "chunk_0141",
+      "right": "chunk_0142",
+      "token_count": 14,
+      "text": "và không có gì ở đó vậy phần còn lại của người ta không"
+    },
+    {
+      "left": "chunk_0142",
+      "right": "chunk_0143",
+      "token_count": 16,
+      "text": "chuyển sang tìm lệnh sell cứ bám theo price action nhìn xem chuyện gì xảy ra"
+    }
+  ],
+  "boundary_limit": "Midpoint ownership is validated; endpoint/context overlap is allowed. Token overlaps are advisory leads, not human quality verdicts.",
+  "similarity": 0.981820621067799,
+  "threshold": 0.78,
+  "diagnostic_threshold_met": true,
+  "retained_artifact_sha256": {
+    "state.json": "68e85b389dcb44afd22e5b83b252701846bfdd283bdfabd47f245c7bb4446742",
+    "qa.json": "89b86cdf318190aa758ecb6e2593f6aed1e422ca77d4aafec4a59a7567829909",
+    "segment_qa.json": "f03fb3cbe2f3d14906493a37be0e77201304684b7f64673da77176c099437b21",
+    "segments_vi.json": "5723f01e475e433867c798ea00c5bceea6b34eb65cb0098cd883ccdedc6b9a9f",
+    "tts_stats.json": "3ea415ba9856b1d81d00c17bad4493d9ba977d71bc22dae3b33a0e50a7631e64",
+    "resolved_config.json": "60d45431f74d5da196b15e581de9a0879a82e4d1ac18a925bb00fd5e547a86df",
+    "terminology_qa.json": "329a790103901591ad507909c18600515af28403969651892e7fc09f96d20771",
+    "result.json": "9d1df257534ae1f2bf0fb5cb309cbb5ad699e767485ebf925de8207170c14bbc",
+    "mix_metrics.json": "3174cc305fbf08243c30274bc11138fe26552c60f660a76839a885b29cc3e34f",
+    "chunks/plan.json": "de93e284ca50f767c1ae00635482a44042f1b61ee6ac648c86482034d608ce50"
+  },
+  "retained_json_hashes_unchanged": true,
+  "voice_sha256": "95eea540a776bdac9bd6b48c50047abd606dc0934933ac3718e8eb9e3e83ce69",
+  "retained_qa_passed": false,
+  "retained_failed_segments": 122,
+  "canonical_acceptance_promoted": false,
+  "human_listening_performed": false,
+  "read_only_audit_network_denied": true
+}

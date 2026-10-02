@@ -1,0 +1,20 @@
+{
+  "captured_at": "2026-10-02T21:07:50.9641272+07:00",
+  "active_owned_processes": [],
+  "retained_lock": false,
+  "diagnostic_lock": false,
+  "temporary_wavs": [],
+  "diagnostic_last_write": "2026-10-02T14:06:10.1402587Z",
+  "logs": [
+    {
+      "Name": "full-stdout.txt",
+      "Length": 7126,
+      "LastWriteTimeUtc": "2026-10-02T14:06:10.1883737Z"
+    },
+    {
+      "Name": "full-stderr.txt",
+      "Length": 787,
+      "LastWriteTimeUtc": "2026-10-02T13:32:12.6271715Z"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "started_at": "2026-10-02T13:32:31.586325+00:00",
+  "launcher_pid": 10892,
+  "fingerprint": "0377b44a4f48bf1388fa90ff98302bd9eb830248cdd1ec5a1f8da60de8740b5d",
+  "interval_seconds": 2.0,
+  "scope": "Observed process-tree RSS and Windows PDH dedicated GPU memory; sampled peaks are lower bounds, not whole-pipeline acceptance.",
+  "gpu_method": "windows-pdh-dedicated-usage",
+  "gpu_error": null,
+  "samples": 989,
+  "valid_gpu_samples": 989,
+  "peak_rss_bytes": 1552506880,
+  "peak_gpu_bytes": 6571581440,
+  "maximum_sample_gap_seconds": 2.3910000000032596,
+  "last_sample": {
+    "timestamp": "2026-10-02T14:06:11.696118+00:00",
+    "elapsed_seconds": 2020.078,
+    "pids": [],
+    "rss_bytes": 0,
+    "gpu_bytes": 0,
+    "completed_windows": 143,
+    "checkpoint_status": "complete_diagnostic"
+  },
+  "ended_at": "2026-10-02T14:06:11.697120+00:00",
+  "stop_reason": "observed_worker_tree_exited"
+}

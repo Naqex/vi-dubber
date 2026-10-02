@@ -1,5 +1,7 @@
 # Job12 full-track ASR diagnostic — launched 02/10/2026
 
+Current result: **completed143/143 and independently verified**; producer/observer exited. See [COMPLETION.md](COMPLETION.md). The launch/initial observations below are historical; no new inference resume is required. Canonical acceptance/human listening remain open.
+
 Local cached-model diagnostic is running independently of the retained pipeline. Fresh preflight matched fingerprint `0377b44a4f48bf1388fa90ff98302bd9eb830248cdd1ec5a1f8da60de8740b5d`: 143 source windows cover 42,831.561s, each 300s with 2s context and maximum 304s input. Frozen implementation commit is `fc81a26a0b9426e8e79e0a72efa94612a0f55bc1`.
 
 Launch at 20:31:35 +07:00: launcher PID **10892**, Python worker **3260**. Exact command/output/log locators are in [full-launch.json](full-launch.json). Preflight found no matching producer, retained-job lock or target diagnostic directory; free RAM 19,056,864KiB, GPU 6,922MiB and disk 77,170,794,496 bytes.

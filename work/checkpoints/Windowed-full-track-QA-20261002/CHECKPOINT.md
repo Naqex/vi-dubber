@@ -1,6 +1,6 @@
 # Windowed full-track QA preparation — 2026-10-02
 
-Current execution pointer: the separate full-track diagnostic was launched at **20:31:35 +07:00 on 02/10/2026**, launcher `10892` → worker `3260`. See [FULL-TRACK-LAUNCH.md](FULL-TRACK-LAUNCH.md) and its exact PID/log/output receipt; read the live checkpoint/process before resume. This preparation receipt below remains historical and does not declare the active run completed.
+Current execution pointer: the separate full-track diagnostic **completed143/143 and was independently verified on 02/10/2026**. See [COMPLETION.md](COMPLETION.md) for final identity/coverage/resources/boundary limitations; [FULL-TRACK-LAUNCH.md](FULL-TRACK-LAUNCH.md) retains historical PID/log locators. Producer/observer exited; no inference resume is needed. This preparation receipt below remains historical. Canonical Job12 QA,122 flags and human listening remain unchanged.
 
 Preparation status before launch: **SOURCE_READY / SHORT_CACHED_ASR_OBSERVED / FULL_TRACK_NOT_RUN**.
 Baseline HEAD: `e2940c1`, clean before slice. Root reviewed the design/source and required the model/code identity and socket fence hardening below before a full-run decision. This packet does not close M0-VI-ready, P23, human listening or Job12 QA.

@@ -1,0 +1,9 @@
+Lightning automatically upgraded your loaded checkpoint from v1.5.4 to v2.6.6. To apply the upgrade to your files permanently, run `python -m lightning.pytorch.utilities.upgrade_checkpoint D:\ANNAM\TradingWorkspace\projects\vi-dubber\.venv\Lib\site-packages\whisperx\assets\pytorch_model.bin`
+D:\ANNAM\TradingWorkspace\projects\vi-dubber\.venv\Lib\site-packages\pyannote\audio\utils\reproducibility.py:74: ReproducibilityWarning: TensorFloat-32 (TF32) has been disabled as it might lead to reproducibility issues and lower accuracy.
+It can be re-enabled by calling
+   >>> import torch
+   >>> torch.backends.cuda.matmul.allow_tf32 = True
+   >>> torch.backends.cudnn.allow_tf32 = True
+See https://github.com/pyannote/pyannote-audio/issues/1370 for more details.
+
+  warnings.warn(
