@@ -1,6 +1,8 @@
 # Windowed full-track QA preparation — 2026-10-02
 
-Status: **SOURCE_READY / SHORT_CACHED_ASR_OBSERVED / FULL_TRACK_NOT_RUN**.
+Current execution pointer: the separate full-track diagnostic was launched at **20:31:35 +07:00 on 02/10/2026**, launcher `10892` → worker `3260`. See [FULL-TRACK-LAUNCH.md](FULL-TRACK-LAUNCH.md) and its exact PID/log/output receipt; read the live checkpoint/process before resume. This preparation receipt below remains historical and does not declare the active run completed.
+
+Preparation status before launch: **SOURCE_READY / SHORT_CACHED_ASR_OBSERVED / FULL_TRACK_NOT_RUN**.
 Baseline HEAD: `e2940c1`, clean before slice. Root reviewed the design/source and required the model/code identity and socket fence hardening below before a full-run decision. This packet does not close M0-VI-ready, P23, human listening or Job12 QA.
 
 ## Behavior and data flow
@@ -49,7 +51,7 @@ Source voice SHA-256 `95eea540a776bdac9bd6b48c50047abd606dc0934933ac3718e8eb9e3e
 
 ## Resume / next action
 
-Root owns the decision to launch the separate143-window full diagnostic after this commit/review. [FULL-TRACK-RUN.md](FULL-TRACK-RUN.md) gives exact commands/effects/process ownership and resume. It must run hidden detached with PID/log/checkpoints; never start a second worker against that same output. Full run is **not launched** in this checkpoint.
+At the end of the preparation slice, root owned the decision to launch the separate143-window full diagnostic after this commit/review. [FULL-TRACK-RUN.md](FULL-TRACK-RUN.md) gives exact commands/effects/process ownership and resume. It must run hidden detached with PID/log/checkpoints; never start a second worker against that same output. Full run was **not launched during the preparation slice**; the subsequent execution is routed by the current pointer above.
 
 The v1 short directory cannot be silently reused under v2 identity. Preserve it; use the new full directory named in the run packet. Subsequent same-source/config/code/model resumes automatically skip validated complete windows; identity drift rejects resume without deleting data. Canonical Job12 QA, 122 flags and human-listening packet remain unchanged.
 
