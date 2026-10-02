@@ -119,6 +119,8 @@ Trước code UI tiếp theo, ghi bounded slice ngay trong PLAN này: files, ora
 
 Kết quả chuẩn bị: [windowed QA receipt](work/checkpoints/Windowed-full-track-QA-20261002/CHECKPOINT.md) ghi 682-pass full offline regression trên implementation ban đầu, 71 focused tests trên identity/fence đã harden, cached-ASR canary 60s chỉ partial, và plan-only v2 đầy đủ143 windows/max304s. Đường mới là standalone diagnostic candidate; profile/pipeline/canonical QA chưa promote. [Full-run packet](work/checkpoints/Windowed-full-track-QA-20261002/FULL-TRACK-RUN.md) giữ exact detached command, effects/PID/resume; chưa launch whole track trong slice này.
 
+**Full-track diagnostic đã launch 02/10/2026 theo scope riêng được giao:** [launch receipt](work/checkpoints/Windowed-full-track-QA-20261002/FULL-TRACK-LAUNCH.md), launcher `10892` → worker `3260`, output riêng `work/artifacts/full-track-qa-job12-20261002/`. Checkpoint đầu giữ 8/143 windows và process-tree resource samples; partial chưa có điểm, canonical QA/human listening/P23 vẫn mở. Code/model/config identity được giữ frozen. Không chạy producer thứ hai; đọc checkpoint/process trước resume, theo packet ở trên. Observer nền chỉ ghi audit tài nguyên, không thực hiện inference.
+
 <a id="runtime-gates"></a>
 ## Runtime và authority
 
