@@ -1,0 +1,17 @@
+{
+  "actual": "Đây là khóa học đầy đủ về ECT và Smart Money Concept. Khóa học gồm 6 phần, đầu tiên là kiến thức cơ bản, rồi thanh khoản, fair value gap, cấu trúc thị trường và bias, tiếp theo là các khái niệm nâng cao, và phần cuối là các chiến lược cùng những trading plan khác nhau mà bạn có thể áp dụng sau khi học xong. Đến cuối khóa, bạn sẽ hiểu ICT thực sự hoạt động thế nào, vì sao đa số trader hiểu sai nó và cách giá di chuyển qua thanh khoản, mất cân bằng và cầu trúc. Đây sẽ là những phần chính của khóa học, vì đó mới là những khái niệm thực sự quan trọng. Thay vì cố thành thảo 10 khái niệm, hãy làm chủ những thứ này và bạn sẽ trade tốt hơn. Tức là ta làm chủ 3 khái niệm cốt lõi này và bỏ qua những thứ gây nhiễu. Sau đó, ta thêm các khái niệm nâng cao để lọc những kèo xấu và chỉ tập trung vào các kèo xác suất cao. Cuối cùng, bạn sẽ thấy mọi thứ kết nối thành một mô hình giao dịch hoàn chỉnh. Từ ba khái niệm này cùng một số khái niệm nâng cao, ta có thể xây dựng",
+  "canonical_acceptance_promoted": false,
+  "completed_windows": 1,
+  "covered_source_seconds": 60.0,
+  "diagnostic_threshold_met": null,
+  "fingerprint": "8623bb9a56a7e52b00879fe6a280f44551cab905e354f4f7e3cfcf69890ea8da",
+  "format": "vi-full-track-qa-diagnostic-v1",
+  "human_listening_performed": false,
+  "retained_failed_segments": 122,
+  "retained_qa_passed": false,
+  "similarity": null,
+  "status": "partial_diagnostic",
+  "threshold": 0.78,
+  "total_windows": 714,
+  "window_bound_seconds": 60.0
+}

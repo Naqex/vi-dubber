@@ -1,0 +1,79 @@
+{
+  "format": "vi-windowed-qa-canary-preflight-v1",
+  "fingerprint": "8623bb9a56a7e52b00879fe6a280f44551cab905e354f4f7e3cfcf69890ea8da",
+  "identity": {
+    "policy": 1,
+    "job_dir": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\job-8dc51f8a892aba21",
+    "source": {
+      "sha256": "95eea540a776bdac9bd6b48c50047abd606dc0934933ac3718e8eb9e3e83ce69",
+      "size_bytes": 4111829900
+    },
+    "duration_seconds": 42831.561,
+    "expected_sha256": "5fcc2b8a70b09aeab730db5a853554796f76331d936ec0fc1b548ba8ee9f3cf7",
+    "asr": {
+      "batch_size": 4,
+      "compute_type": "float16",
+      "device": "cuda",
+      "language": "en",
+      "model": "large-v3"
+    },
+    "language": "vi",
+    "model_cache": {
+      "model": "large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "files": {
+        "model.bin": {
+          "size_bytes": 3087284237,
+          "mtime_ns": 1789513604100061600
+        },
+        "config.json": {
+          "size_bytes": 2394,
+          "mtime_ns": 1789513547054669000
+        },
+        "tokenizer.json": {
+          "size_bytes": 2480617,
+          "mtime_ns": 1789513547079710900
+        },
+        "preprocessor_config.json": {
+          "size_bytes": 340,
+          "mtime_ns": 1789513547044669500
+        },
+        "vocabulary.json": {
+          "size_bytes": 1068114,
+          "mtime_ns": 1789513547058665600
+        }
+      },
+      "vad": {
+        "sha256": "0b5b3216d60a2d32fc086b47ea8c67589aaeb26b7e07fcbe620d6d0b83e209ea",
+        "size_bytes": 17719103
+      }
+    },
+    "threshold": 0.78,
+    "retained_qa": {
+      "sha256": "89b86cdf318190aa758ecb6e2593f6aed1e422ca77d4aafec4a59a7567829909",
+      "size_bytes": 13060
+    },
+    "retained_config": {
+      "sha256": "60d45431f74d5da196b15e581de9a0879a82e4d1ac18a925bb00fd5e547a86df",
+      "size_bytes": 3994
+    },
+    "retained_segments": {
+      "sha256": "5723f01e475e433867c798ea00c5bceea6b34eb65cb0098cd883ccdedc6b9a9f",
+      "size_bytes": 28655983
+    }
+  },
+  "total_windows": 714,
+  "first_window": {
+    "chunk_id": "chunk_0001",
+    "index": 0,
+    "source_start": 0.0,
+    "source_end": 60.0,
+    "context_start": 0.0,
+    "context_end": 60.0,
+    "boundary_reason": "safe_cut"
+  },
+  "window_bound_seconds": 60.0,
+  "retained_qa_passed": false,
+  "retained_failed_segments": 122,
+  "checked_at": "2026-10-02T20:15:00.3422827+07:00"
+}

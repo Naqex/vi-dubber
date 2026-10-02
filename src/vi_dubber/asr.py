@@ -2,10 +2,11 @@ from __future__ import annotations
 
 import gc
 import logging
+import math
 from pathlib import Path
 from typing import Any, Callable
 
-from .longform import MacroChunk
+from .longform import MacroChunk, validate_macro_chunk_plan
 from .media import clip_audio
 from .runtime import MODELS_DIR, configure_runtime
 from .scheduler import BoundedExecutor
@@ -441,6 +442,86 @@ def transcribe_text(
     language: str = "vi",
 ) -> str:
     return transcribe_text_files([audio_path], config, language=language)[0]
+
+
+def transcribe_text_chunks(
+    audio_path: Path,
+    chunks: list[MacroChunk],
+    output_dir: Path,
+    config: dict[str, Any],
+    *,
+    language: str = "vi",
+    max_window_seconds: float = 304.0,
+    skip_chunk_ids: set[str] | None = None,
+    max_chunks: int | None = None,
+    on_chunk: Callable[[MacroChunk, list[Segment]], None] | None = None,
+) -> dict[str, list[Segment]]:
+    """Read bounded QA windows with one cached model and timestamp ownership.
+
+    No alignment or translation is needed to compare spoken text. A standalone
+    caller owns source identity and atomic resume receipts; this helper never
+    substitutes a skipped chunk with newly inferred text.
+    """
+    plan = validate_macro_chunk_plan(chunks)
+    if not math.isfinite(max_window_seconds) or max_window_seconds <= 0:
+        raise ValueError("max_window_seconds must be finite and positive")
+    if any(chunk.context_end - chunk.context_start > max_window_seconds + 1e-6 for chunk in plan):
+        raise ValueError("QA context window exceeds the declared audio bound")
+    skipped = skip_chunk_ids or set()
+    if skipped - {chunk.chunk_id for chunk in plan}:
+        raise ValueError("skip_chunk_ids must belong to this QA plan")
+    if max_chunks is not None and (isinstance(max_chunks, bool) or not isinstance(max_chunks, int) or max_chunks <= 0):
+        raise ValueError("max_chunks must be a positive integer")
+    pending = [chunk for chunk in plan if chunk.chunk_id not in skipped]
+    if max_chunks is not None:
+        pending = pending[:max_chunks]
+    if not pending:
+        return {}
+    configure_runtime()
+    import whisperx
+
+    device = str(config.get("device", "cuda"))
+    batch_size = int(config.get("batch_size", 4))
+    model = None
+    results: dict[str, list[Segment]] = {}
+    try:
+        model = whisperx.load_model(
+            str(config.get("model", "large-v3")), device,
+            compute_type=str(config.get("compute_type", "float16")),
+            language=language, download_root=str(MODELS_DIR / "whisperx"),
+            local_files_only=True,
+        )
+        for chunk in pending:
+            window_path = output_dir / chunk.chunk_id / "qa-window.wav"
+            try:
+                clip_audio(audio_path, window_path, chunk.context_start, chunk.context_end - chunk.context_start)
+                audio = whisperx.load_audio(str(window_path))
+                try:
+                    raw = _transcribe_with_batch_fallback(model, audio, batch_size=batch_size, device=device)
+                finally:
+                    del audio
+                owned: list[Segment] = []
+                previous_start = -1.0
+                for item in raw.get("segments", []):
+                    if not isinstance(item, dict) or not str(item.get("text", "")).strip():
+                        continue
+                    start, end = float(item["start"]), float(item["end"])
+                    if not math.isfinite(start) or not math.isfinite(end) or start < 0 or end <= start or end > chunk.context_end - chunk.context_start + 0.05:
+                        raise ValueError("ASR returned a segment outside the bounded QA window")
+                    if start < previous_start:
+                        raise ValueError("ASR returned out-of-order QA timestamps")
+                    previous_start = start
+                    segment = _shift_segment_to_global(_segment_from_aligned(item, len(owned)), chunk.context_start, len(owned))
+                    if chunk.source_start <= (segment.start + segment.end) / 2 < chunk.source_end:
+                        owned.append(segment)
+                results[chunk.chunk_id] = owned
+                if on_chunk is not None:
+                    on_chunk(chunk, owned)
+            finally:
+                window_path.unlink(missing_ok=True)
+        return results
+    finally:
+        _release_cuda(model)
 
 
 def transcribe_text_files(

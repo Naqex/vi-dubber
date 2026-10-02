@@ -115,6 +115,10 @@ Trước code UI tiếp theo, ghi bounded slice ngay trong PLAN này: files, ora
 
 **Slice tiếp 02/10/2026 — Job12 artifact diagnosis:** đọc JSON QA/config/segments/stats/manifests, ffprobe metadata và header audio đã có; ghi diagnosis và listening packet tại `work/checkpoints/Job12-offline-qa-diagnosis-20261002/`. Oracle: recompute 122 unique failed IDs/reason overlaps/repair effects, identity và timeline/media availability, giữ nguyên hash artifact trước/sau. Không transcript/re-ASR full-track mới, render/extract clip, provider, upload hoặc sửa state/cache; packet dùng file TTS có sẵn và mốc trong video Final. Read-only diagnosis được phép trong scope hiện tại; sửa âm thanh/QA inference dài và human listening giữ prerequisite riêng. Rollback chỉ revert receipt, không chạm retained job.
 
+**Slice tiếp — bounded full-track QA preparation:** `src/vi_dubber/asr.py`, standalone QA wrapper/script và focused tests; receipt `work/checkpoints/Windowed-full-track-QA-20261002/`. Reuse MacroChunk/clip/atomic checkpoint/single-process lease, cached WhisperX large-v3 FP16 batch4, Vietnamese QA, không align/download. Giữ một audio window trong RAM, resume theo source/config/plan identity; output chẩn đoán riêng ngoài Job12, không sửa QA policy/122 failures. Kiểm thử offline rồi plan-only/cache/resource preflight và bounded short cached-ASR trial trước heavy run. Long run chỉ detached có PID/log/checkpoints; không provider/translation/TTS/rerender/global config/M5. Rollback revert source/receipt commit, giữ retained job.
+
+Kết quả chuẩn bị: [windowed QA receipt](work/checkpoints/Windowed-full-track-QA-20261002/CHECKPOINT.md) ghi 682-pass full offline regression trên implementation ban đầu, 71 focused tests trên identity/fence đã harden, cached-ASR canary 60s chỉ partial, và plan-only v2 đầy đủ143 windows/max304s. Đường mới là standalone diagnostic candidate; profile/pipeline/canonical QA chưa promote. [Full-run packet](work/checkpoints/Windowed-full-track-QA-20261002/FULL-TRACK-RUN.md) giữ exact detached command, effects/PID/resume; chưa launch whole track trong slice này.
+
 <a id="runtime-gates"></a>
 ## Runtime và authority
 

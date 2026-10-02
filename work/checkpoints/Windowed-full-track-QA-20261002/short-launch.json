@@ -1,0 +1,22 @@
+{
+  "scope": "single-60s-offline-cached-ASR-canary",
+  "pid": 19392,
+  "started_at": "2026-10-02T20:11:32.3248358+07:00",
+  "python": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\.venv\\Scripts\\python.exe",
+  "arguments": [
+    "scripts/check_full_track_qa.py",
+    "--job-dir",
+    "work/job-8dc51f8a892aba21",
+    "--output",
+    "work/artifacts/full-track-qa-short-20261002",
+    "--window-seconds",
+    "60",
+    "--context-seconds",
+    "0",
+    "--max-chunks",
+    "1"
+  ],
+  "output": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\artifacts\\full-track-qa-short-20261002",
+  "stdout": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\checkpoints\\Windowed-full-track-QA-20261002\\short-stdout.txt",
+  "stderr": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\checkpoints\\Windowed-full-track-QA-20261002\\short-stderr.txt"
+}

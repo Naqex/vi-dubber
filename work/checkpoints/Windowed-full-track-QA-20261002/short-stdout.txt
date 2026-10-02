@@ -1,0 +1,18 @@
+2026-10-02 20:12:06 - whisperx.vads.pyannote - INFO - Performing voice activity detection using Pyannote...
+QA diagnostic checkpoint chunk_0001: 1/714
+{
+  "format": "vi-full-track-qa-diagnostic-v1",
+  "fingerprint": "8623bb9a56a7e52b00879fe6a280f44551cab905e354f4f7e3cfcf69890ea8da",
+  "status": "partial_diagnostic",
+  "completed_windows": 1,
+  "total_windows": 714,
+  "covered_source_seconds": 60.0,
+  "window_bound_seconds": 60.0,
+  "similarity": null,
+  "threshold": 0.78,
+  "diagnostic_threshold_met": null,
+  "retained_qa_passed": false,
+  "retained_failed_segments": 122,
+  "canonical_acceptance_promoted": false,
+  "human_listening_performed": false
+}
