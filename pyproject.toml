@@ -1,4 +1,6 @@
 [project]
+license = "LicenseRef-Naqex-Source-Available-1.0.0"
+license-files = ["LICENSE"]
 name = "vi-dubber"
 version = "0.1.0"
 description = "High-quality local English-to-Vietnamese AI dubbing pipeline"

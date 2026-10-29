@@ -1,0 +1,163 @@
+# Phát triển và vận hành
+
+Các lệnh trong tài liệu này chạy tại gốc repository.
+
+[← README](../../README.md)
+
+
+Pipeline lồng tiếng video English -> Vietnamese, có web dashboard cục bộ và nhận video từ máy hoặc YouTube.
+
+Đọc [PLAN hiện tại](../../PLAN.md) để biết phạm vi, trạng thái và việc còn mở; [UI contract](../../frontend/PRODUCT-UI-CONTRACT.md) giữ identity/readiness; [UI history](../../frontend/UI-FIX-PLAN.md) chỉ đối chiếu hướng dẫn cũ. Bản gốc và checksum nằm trong [archive cleanup 01/10/2026](../../docs/archive/2026-10-01-cleanup/README.md). P23 chưa hoàn tất; Job12 đã xử lý xong nhưng QA chưa đạt, xem [trạng thái Job12](../../PLAN.md#job12).
+
+Backend dịch hiện tại được khóa vào **Dedicated Dubber-WebGPT** tại `http://127.0.0.1:17850/v1`. Runtime này dùng home/browser login/process riêng cho VI Dubber và không thay đổi global Codex/Cockpit route. Core mặc định là repo độc lập checkout `vi-dubber-webgpt-core` được cấu hình qua `VI_DUBBER_WEBGPT_CORE`, được tách từ Cockpit-custom v5.0.8 để giữ browser/session/provider-only semantics mà không kéo Cockpit UI vào đường dịch. VI Dubber không khởi động Cockpit UI, không gọi Cockpit sync và không đi qua route `54005`; repo cũ checkout Cockpit cũ được cấu hình riêng vẫn là rollback fallback qua `VI_DUBBER_WEBGPT_CORE`. Model mặc định là `chatgpt-web/gpt-5.6-sol`, nhưng danh sách model được lấy trực tiếp từ live catalog của runtime riêng để tránh chạy một model đã biến mất hoặc bị đổi tên. Production translation dùng bounded concurrency `2`; global translation context vẫn tắt mặc định.
+
+Aurora tạm dừng theo quyết định hiện tại. Adapter local/hybrid cũ vẫn được giữ trong source để rollback/test và để job lịch sử còn đọc được provenance, nhưng không phải lựa chọn product UI hiện tại và không được dùng làm fallback tự động cho Dedicated Dubber-WebGPT.
+
+## Stack
+
+- BS-Roformer: tách lời thoại khỏi nhạc/SFX.
+- WhisperX large-v3: transcript + word timing.
+- pyannote community-1: tách người nói khi có Hugging Face token.
+- Dedicated Dubber-WebGPT: backend chất lượng cao qua runtime riêng (`127.0.0.1:17850`), mặc định `chatgpt-web/gpt-5.6-sol` và dùng direct Responses tool-free.
+- Qwen3-14B GGUF + llama.cpp: adapter local giữ cho rollback/test; không tự fallback từ product WebGPT.
+- VieNeu-TTS v3 Turbo: cấu hình hiện tại dùng PyTorch CUDA FP16 batch 4, tiếng Việt 48 kHz + instant voice cloning; CPU ONNX là fallback.
+- FFmpeg: khớp thời lượng, mix, loudness và mux video.
+- Re-ASR QA: nhận dạng lại track tiếng Việt rồi so với script đã render.
+- TypeSafe semantic QA (shadow): so meaning English -> Vietnamese sau dịch và kiểm tra lại các câu bị rút gọn; không chặn pipeline.
+
+## Cài đặt
+
+```powershell
+.\setup.ps1
+```
+
+Runtime và model cache nằm trong checkout của project. `setup.ps1` không cài FFmpeg vào PATH hệ thống; FFmpeg portable nằm trong `tools/`. WhisperX, BS-Roformer và VieNeu sẽ tải model của chúng vào `models/` ở lần dùng đầu.
+
+Setup mặc định chỉ chuẩn bị đường chạy Codex WebGPT, không tự tải Qwen khoảng 9 GB. Qwen hiện không nằm trong đường chạy product mặc định; lệnh provision dưới đây chỉ cần khi chủ động quay lại local/hybrid để rollback hoặc test:
+
+```powershell
+.\setup.ps1 -ProvisionLocalModel
+```
+
+Lệnh opt-in này tải model qua Hugging Face vào `models/llm/<repo>/`, kiểm tra file và đối chiếu SHA-256 với LFS ETag của upstream khi có. Có thể provision từ file GGUF đã tải sẵn mà không dùng mạng; truyền checksum nếu muốn xác minh nguồn local trước khi thay file đích:
+
+```powershell
+.\setup.ps1 -ProvisionLocalModel `
+    -LocalModelSource ".\Qwen3-14B-Q4_K_M.gguf" `
+    -LocalModelSha256 "<64-ky-tu-hex>"
+```
+
+File được copy qua file `.partial` rồi mới thay atomically vào đích. Các lệnh trên chỉ ghi trong project, không sửa PATH hay system configuration. llama.cpp portable nằm trong `tools/llama/`.
+
+## Chạy
+
+Web dashboard:
+
+```powershell
+.\start-web.ps1
+```
+
+Mở `http://127.0.0.1:7860`, chọn tệp trên máy hoặc dán URL YouTube, sau đó chọn backend dịch. Dashboard hiển thị progress theo các stage thật của pipeline, video đầu ra, SRT và thống kê tác vụ.
+
+### Google Drive trong VI Dubber
+
+Drive OAuth của project chỉ hoạt động khi chạy API/Web UI local (`uv run vi-dubber api --host 127.0.0.1 --port 7860`) và có Google OAuth **Web application** client do owner tạo. Đăng ký đúng redirect URI `http://127.0.0.1:7860/api/connectors/drive/oauth/callback` trong Google Cloud Console, rồi đặt ba biến môi trường cho riêng process VI Dubber:
+
+```powershell
+$env:VI_DUBBER_DRIVE_CLIENT_ID = "<client-id>"
+$env:VI_DUBBER_DRIVE_CLIENT_SECRET = "<client-secret>"
+$env:VI_DUBBER_DRIVE_REDIRECT_URI = "http://127.0.0.1:7860/api/connectors/drive/oauth/callback"
+uv run vi-dubber api --host 127.0.0.1 --port 7860
+```
+
+Không commit client secret vào repo. `GET /api/connectors/drive/oauth/status` chỉ trả trạng thái công khai; `POST /api/connectors/drive/oauth/start` tạo URL đăng nhập Google và callback chỉ nhận scope `drive.file`. Access token chỉ nằm trong bộ nhớ của process, hết hạn hoặc restart thì phải đăng nhập lại. `POST /api/connectors/drive/oauth/disconnect` xóa token local; thao tác này không thu hồi quyền tại Google. Dù OAuth đã kết nối, export vẫn là `PREP_ONLY`: chưa có upload/copy hoặc chọn folder từ Google Drive thật.
+
+Dashboard và thư mục `work/` mặc định chỉ bind trên localhost. CLI từ chối bind ra mạng nếu chưa set rõ `VI_DUBBER_ALLOW_REMOTE_BIND=1`; khi chạy remote, tự cấu hình lớp xác thực/reverse proxy và danh sách origin CORS qua `VI_DUBBER_CORS_ORIGINS` (phân tách bằng dấu phẩy). Không dùng wildcard CORS cho deployment chứa artifact cá nhân.
+
+Khi dùng WebGPT, pipeline không đổi route global trong `~/.codex/config.toml`. VI Dubber gọi trực tiếp `http://127.0.0.1:17850/v1/responses`, health-check port và live model catalog trước khi chạy; coding harness, MCP, cwd/filesystem và subagents không đi vào production translation request.
+
+Khởi tạo runtime riêng một lần:
+
+```powershell
+uv run vi-dubber webgpt-runtime init
+uv run vi-dubber webgpt-runtime login
+uv run vi-dubber webgpt-runtime start
+uv run vi-dubber webgpt-runtime status
+uv run vi-dubber webgpt-runtime stop
+```
+
+`start` chỉ chấp nhận storage state đi kèm marker xác minh do core WebGPT tạo sau khi nhìn thấy composer ChatGPT thật; chỉ có file cookie chưa đủ. Runtime giữ launch receipt và khóa start riêng để không tạo hai provider cùng port hoặc stop nhầm process.
+
+`login` mở Chrome profile riêng để người dùng tự đăng nhập ChatGPT. Runtime home mặc định nằm ngoài Git tại `.runtime/dubber-webgpt` ở workspace chứa project; có thể override bằng `VI_DUBBER_WEBGPT_HOME`. Core WebGPT mặc định lấy từ checkout `vi-dubber-webgpt-core` được cấu hình qua `VI_DUBBER_WEBGPT_CORE`; có thể override bằng `VI_DUBBER_WEBGPT_CORE` để rollback hoặc kiểm thử một checkout khác.
+
+Semantic QA dùng TypeSafe khi `TYPESAFE_API_KEY` có trong environment. Nội dung English/Vietnamese của các segment được gửi tới TypeSafe để chấm `faithful / partial / wrong` và kiểm tra các fact quan trọng. Chế độ hiện tại là `shadow`: kết quả được lưu vào `work/<job>/semantic_qa.json`, nhưng lỗi TypeSafe hoặc đoạn bị flag không làm dừng tác vụ.
+
+Terminology domain được cấu hình trong `glossary.yaml`. Ngoài mapping cũ `source -> target`, glossary có thể khai báo policy `KEEP_EN`, `PREFER_EN`, `VI` hoặc `CONTEXTUAL`, audience profile, dạng hiển thị và dạng đọc TTS riêng. Pipeline kiểm tra deterministic sau dịch và sau duration rewrite để các term đã khóa như `Engulfing`, `FVG`, `order block` không bị Việt hóa hoặc đổi form ngoài policy; subtitle vẫn giữ display form còn TTS có thể dùng spoken override riêng.
+
+CLI:
+
+Một người nói, không cần token:
+
+```powershell
+.\run.ps1 dub ".\input.mp4"
+```
+
+Backend CLI hiện tại:
+
+```powershell
+.\run.ps1 dub ".\input.mp4" --translator webgpt
+```
+
+Đầu ra mặc định là `input_vi.mp4` và `input_vi.vi.srt` nằm cạnh video gốc.
+
+Dùng một voice reference 3-8 giây thay vì tự lấy reference từ video:
+
+```powershell
+.\run.ps1 dub ".\input.mp4" --voice-ref ".\voice-ref.wav"
+```
+
+Nhiều người nói: chấp nhận điều kiện model `pyannote/speaker-diarization-community-1`, tạo Hugging Face read token, set token trong session rồi chạy:
+
+```powershell
+$env:HUGGINGFACE_TOKEN = "..."
+.\run.ps1 dub ".\interview.mp4" --diarize
+```
+
+Không ghi token vào config/project.
+
+## Kết quả trung gian
+
+Mỗi tác vụ có thư mục riêng trong `work/`: stems, transcript English, snapshot bản dịch ban đầu (`segments_translated.json`), script tiếng Việt cuối sau timing rewrite (`segments_vi.json`), reference clips, từng TTS segment, final voice track, timing stats, translation metadata, `semantic_qa.json` và `qa.json`. YouTube downloads nằm trong `work/youtube/`, output web nằm trong `work/outputs/`. Có thể chạy lại với `--resume`; dùng `--fresh` khi muốn làm lại transcript/translation từ đầu.
+
+Video dài hơn ngưỡng `longform.single_chunk_threshold_seconds` dùng macro-chunk theo silence nhưng vẫn giữ timestamp toàn cục. ASR/TTS/QA/preview có manifest theo chunk để resume và invalidation cục bộ; translation vẫn chạy trên ngữ cảnh toàn video. Dashboard chỉ phát preview khi manifest và hash artifact còn hợp lệ, luôn gắn nhãn **PREVIEW**; sửa nội dung một segment sẽ làm stale riêng chunk chứa segment đó và khóa preview cũ cho tới khi render lại. Diarization hiện vẫn dùng đường full-file để tránh đổi speaker ID giữa các chunk.
+
+Lip-sync đã bỏ khỏi active scope. Pipeline tập trung vào accuracy, translation, voice, timing và QA; video giữ nội dung hình gốc, chỉ transcode khi container/codec đầu ra cần tương thích.
+
+
+## Checkout độc lập và đường dẫn
+
+Core WebGPT là dependency riêng, không nằm trong repository này. Resolver
+hiện tại suy core từ cây thư mục workspace; với checkout độc lập, đặt
+`VI_DUBBER_WEBGPT_CORE` thành đường dẫn checkout core của bạn và
+`VI_DUBBER_WEBGPT_HOME` thành thư mục runtime riêng trước khi init/login.
+Không copy login state hoặc secrets vào Git.
+
+## Bản đồ code
+
+- `src/vi_dubber/`: API, pipeline, adapters và state.
+- `frontend/`: React/Vite và UI contracts.
+- `tests/`: kiểm chứng offline, API và UI theo phạm vi.
+- `docs/`: quyết định kỹ thuật, setup và nghiên cứu.
+- `work/`, `models/`, `tools/`: artifact/model/runtime local; không phải source.
+
+## Kiểm tra offline
+
+```powershell
+uv run pytest tests/test_core.py tests/test_artifacts.py -q
+npm ci --prefix frontend --ignore-scripts
+npm run build --prefix frontend
+npm run test:ui-contract --prefix frontend
+```
+
+CI kiểm Python syntax và frontend build/contracts; không đăng nhập provider,
+không tải model và không chạy job media thật.
