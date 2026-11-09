@@ -665,6 +665,8 @@ def test_web_job_streams_pipeline_progress(tmp_path: Path, monkeypatch: pytest.M
             "qa": None,
         }
 
+    # The pipeline is stubbed; this unit fixture must not load Windows-only tools.
+    monkeypatch.setattr(web, "configure_runtime", lambda: None)
     monkeypatch.setattr(web, "run_pipeline", fake_pipeline)
     monkeypatch.setattr(web, "WORK_DIR", tmp_path / "work")
     monkeypatch.setattr(web, "PROJECT_ROOT", tmp_path)
