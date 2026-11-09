@@ -55,3 +55,8 @@ work/benchmarks/p17-synthetic-missing-classes/*
 !work/benchmarks/p17-synthetic-missing-classes/*/
 work/benchmarks/p17-synthetic-missing-classes/*/*
 !work/benchmarks/p17-synthetic-missing-classes/*/*.json
+
+# Keep the final resource receipt; monitor streams and its live snapshot stay local.
+work/checkpoints/Windowed-full-track-QA-20261002/resource-monitor-stdout.txt
+work/checkpoints/Windowed-full-track-QA-20261002/resource-monitor-stderr.txt
+work/checkpoints/Windowed-full-track-QA-20261002/resource-observation.json
