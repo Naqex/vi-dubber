@@ -6,6 +6,7 @@ import {
   fetchSystemStatus,
   fetchJobSegments,
   updateSegmentReview,
+  acceptAllJobSegments,
   requestJobControl,
   uploadMediaFile,
   createDubJob,
@@ -271,30 +272,38 @@ export const JobProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const acceptAllSegments = async () => {
     const previous = segments;
     const pendingSegments = segments.filter(segment => segment.review_status !== 'accepted');
-    setSegments(prev => prev.map(s => ({ ...s, review_status: 'accepted' })));
-    if (!activeJob || pendingSegments.length === 0) return;
+    if (pendingSegments.length === 0) return;
 
+    setSegments(prev => prev.map(s => ({ ...s, review_status: 'accepted' })));
+    if (!activeJob) return;
+
+    const batchTokens = new Map<number, number>();
     pendingSegments.forEach(segment => {
-      reviewMutationTokenRef.current[segment.id] = (reviewMutationTokenRef.current[segment.id] || 0) + 1;
+      const nextToken = (reviewMutationTokenRef.current[segment.id] || 0) + 1;
+      reviewMutationTokenRef.current[segment.id] = nextToken;
+      batchTokens.set(segment.id, nextToken);
       lastReviewMutationRef.current[segment.id] = {
         changes: { review_status: 'accepted' },
         action: 'batch_accept',
       };
-      setReviewMutations(prev => ({
-        ...prev,
-        [segment.id]: { status: 'pending', action: 'batch_accept' },
-      }));
+    });
+    setReviewMutations(prev => {
+      const next = { ...prev };
+      pendingSegments.forEach(segment => {
+        next[segment.id] = { status: 'pending', action: 'batch_accept' };
+      });
+      return next;
     });
 
     try {
-      await Promise.all(
-        pendingSegments.map(segment =>
-          updateSegmentReview(activeJob.id, segment.id, { review_status: 'accepted' })
-        )
-      );
+      await acceptAllJobSegments(activeJob.id);
       setReviewMutations(prev => {
         const next = { ...prev };
-        pendingSegments.forEach(segment => delete next[segment.id]);
+        pendingSegments.forEach(segment => {
+          if (reviewMutationTokenRef.current[segment.id] === batchTokens.get(segment.id)) {
+            delete next[segment.id];
+          }
+        });
         return next;
       });
     } catch (error) {
@@ -303,7 +312,9 @@ export const JobProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setReviewMutations(prev => {
         const next = { ...prev };
         pendingSegments.forEach(segment => {
-          next[segment.id] = { status: 'error', action: 'batch_accept', error: message };
+          if (reviewMutationTokenRef.current[segment.id] === batchTokens.get(segment.id)) {
+            next[segment.id] = { status: 'error', action: 'batch_accept', error: message };
+          }
         });
         return next;
       });

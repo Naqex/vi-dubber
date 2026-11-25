@@ -882,3 +882,38 @@ def test_build_app_enables_running_controls_for_run_resume_and_rerender(monkeypa
     assert len(running_control_dependencies) == 3
     assert all(dependency["targets"][0][1] == "click" for dependency in running_control_dependencies)
     assert len({dependency["targets"][0][0] for dependency in running_control_dependencies}) == 3
+
+
+def test_stats_html_distinguishes_qa_failed_from_passed_and_unverified() -> None:
+    source = {"title": "job12.mp4"}
+
+    failed_html = web._stats_html(
+        {"duration_seconds": 120.0, "elapsed_seconds": 60.0, "qa": {"similarity": 0.91, "passed": False}},
+        source,
+    )
+    assert "chưa đạt QA" in failed_html
+    assert 'metric rose' in failed_html
+    assert "chưa kiểm" not in failed_html
+    assert 'metric emerald' not in failed_html
+
+    passed_html = web._stats_html(
+        {"duration_seconds": 120.0, "elapsed_seconds": 60.0, "qa": {"similarity": 0.99, "passed": True}},
+        source,
+    )
+    assert "đạt chuẩn" in passed_html
+    assert 'metric emerald' in passed_html
+
+    unverified_html = web._stats_html(
+        {"duration_seconds": 120.0, "elapsed_seconds": 60.0, "qa": {"similarity": 0.95, "passed": None}},
+        source,
+    )
+    assert "chưa xác minh" in unverified_html
+    assert 'metric emerald' not in unverified_html
+
+    skipped_html = web._stats_html(
+        {"duration_seconds": 120.0, "elapsed_seconds": 60.0, "qa": None},
+        source,
+    )
+    assert "Bỏ qua" in skipped_html
+    assert "chưa kiểm" in skipped_html
+    assert 'metric emerald' not in skipped_html

@@ -118,6 +118,23 @@ def _segment_count(job_dir: Path) -> int:
     return 0
 
 
+def _extract_qa_passed(job_dir: Path, state: dict[str, Any]) -> bool | None:
+    result = state.get("result")
+    if isinstance(result, dict):
+        qa = result.get("qa")
+        if isinstance(qa, dict) and isinstance(qa.get("passed"), bool):
+            return qa["passed"]
+    qa_path = job_dir / "qa.json"
+    if qa_path.is_file():
+        try:
+            qa_doc = load_json(qa_path)
+        except Exception:
+            return None
+        if isinstance(qa_doc, dict) and isinstance(qa_doc.get("passed"), bool):
+            return qa_doc["passed"]
+    return None
+
+
 def catalog_item_from_job(job_dir: Path, *, source_root: Path | None = None) -> CatalogItem | None:
     """Project one content-addressed job directory into a catalog item.
 
@@ -143,11 +160,14 @@ def catalog_item_from_job(job_dir: Path, *, source_root: Path | None = None) -> 
     candidate = _source_candidate(job_info, state, job_dir)
     stage_records = _manifest_projection(job_dir)
     translation = job_info.get("translation") if isinstance(job_info.get("translation"), dict) else {}
-    safe_state = {
+    qa_passed = _extract_qa_passed(job_dir, state)
+    safe_state: dict[str, Any] = {
         "status": str(state.get("status") or "unknown"),
         "stage": str(state.get("stage") or "unknown"),
         "progress": float(state.get("progress") or 0.0),
     }
+    if qa_passed is not None:
+        safe_state["qa_passed"] = qa_passed
     lineage = {
         "job_version": job_info.get("version"),
         "source": {"sha256": source_sha, "size_bytes": source_size},
@@ -169,6 +189,7 @@ def catalog_item_from_job(job_dir: Path, *, source_root: Path | None = None) -> 
         "job_status": safe_state["status"],
         "job_stage": safe_state["stage"],
         "progress": safe_state["progress"],
+        "qa_passed": qa_passed,
         "stages": stage_records,
         "lineage_fingerprint": revision,
     }

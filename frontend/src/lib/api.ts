@@ -136,13 +136,30 @@ export async function updateSegmentReview(
   segmentId: number,
   payload: { text?: string; vi?: string; speaker?: string; review_status?: string }
 ): Promise<boolean> {
-  const res = await fetch(`${BASE_URL}/api/jobs/${jobId}/segments/${segmentId}`, {
+  const res = await fetch(`${BASE_URL}/api/jobs/${encodeURIComponent(jobId)}/segments/${segmentId}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
   if (!res.ok) throw new Error(`HTTP error ${res.status}`);
   return res.ok;
+}
+
+export interface BatchAcceptSegmentsResponse {
+  status: string;
+  accepted_count: number;
+  already_accepted_count: number;
+  total_segments: number;
+  receipt?: Record<string, unknown>;
+}
+
+export async function acceptAllJobSegments(jobId: string): Promise<BatchAcceptSegmentsResponse> {
+  const res = await fetch(`${BASE_URL}/api/jobs/${encodeURIComponent(jobId)}/review/accept-all`, {
+    method: 'POST',
+    signal: AbortSignal.timeout(JOB_SEGMENTS_TIMEOUT_MS),
+  });
+  if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+  return await res.json() as BatchAcceptSegmentsResponse;
 }
 
 export async function requestJobControl(

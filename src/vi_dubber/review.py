@@ -4,6 +4,7 @@ import json
 import os
 import shutil
 import tempfile
+import threading
 import uuid
 from datetime import UTC, datetime
 from pathlib import Path
@@ -19,6 +20,19 @@ REVIEW_STATUSES = frozenset({"unreviewed", "needs_review", "reviewed", "accepted
 _DOWNSTREAM_STAGES = ("tts", "timing_assembly", "mix_mux", "acoustic_qa")
 _REQUIRED_DOWNSTREAM_STAGES = frozenset({"tts", "timing_assembly", "mix_mux"})
 _EDITABLE_ARTIFACT = "segments_vi.json"
+_JOB_REVIEW_LOCKS_GUARD = threading.Lock()
+_JOB_REVIEW_LOCKS: dict[str, threading.Lock] = {}
+
+
+def job_review_lock(job_dir: Path) -> threading.Lock:
+    """Return the process-local mutex serializing review mutations for one job."""
+    key = str(Path(job_dir).resolve())
+    with _JOB_REVIEW_LOCKS_GUARD:
+        lock = _JOB_REVIEW_LOCKS.get(key)
+        if lock is None:
+            lock = threading.Lock()
+            _JOB_REVIEW_LOCKS[key] = lock
+        return lock
 
 
 class ReviewDataError(ValueError):
@@ -32,6 +46,7 @@ def load_review_overrides(job_dir: Path) -> dict[int, dict[str, str]]:
         raise ReviewDataError(f"Job directory does not exist: {job_dir}")
     history = _load_history(root)
     latest: dict[int, dict[str, str]] = {}
+    latest_edited_at: dict[int, str] = {}
     content_edited_ids: set[int] = set()
     for receipt in history["edits"]:
         segment_id = receipt.get("segment_id")
@@ -55,6 +70,8 @@ def load_review_overrides(job_dir: Path) -> dict[int, dict[str, str]]:
             "speaker": speaker,
             "review_status": review_status,
         }
+        edited_at = receipt.get("edited_at")
+        latest_edited_at[segment_id] = edited_at if isinstance(edited_at, str) else ""
         inferred_content_edit = (
             isinstance(before, dict)
             and (
@@ -64,6 +81,28 @@ def load_review_overrides(job_dir: Path) -> dict[int, dict[str, str]]:
         )
         if receipt.get("kind") == "content_edit" or inferred_content_edit:
             content_edited_ids.add(segment_id)
+    for action in history.get("batch_actions", []):
+        if action.get("kind") != "batch_accept":
+            continue
+        review_status = action.get("review_status", "accepted")
+        if review_status not in REVIEW_STATUSES:
+            raise ReviewDataError("Invalid batch review status in review history")
+        action_time = action.get("edited_at")
+        action_time_str = action_time if isinstance(action_time, str) else ""
+        segment_ids = action.get("segment_ids")
+        if not isinstance(segment_ids, list):
+            raise ReviewDataError("Invalid batch segment_ids in review history")
+        for segment_id in segment_ids:
+            if isinstance(segment_id, bool) or not isinstance(segment_id, int) or segment_id < 0:
+                raise ReviewDataError("Invalid batch segment id in review history")
+            if segment_id in latest and (
+                not action_time_str
+                or not latest_edited_at.get(segment_id)
+                or action_time_str >= latest_edited_at[segment_id]
+            ):
+                latest[segment_id]["review_status"] = review_status
+                if action_time_str:
+                    latest_edited_at[segment_id] = action_time_str
     return {
         segment_id: latest[segment_id]
         for segment_id in sorted(content_edited_ids)
@@ -190,79 +229,134 @@ def update_segment_review(
     if review_status is not None and review_status not in REVIEW_STATUSES:
         raise ReviewDataError(f"Unsupported review status: {review_status!r}")
 
-    translated = _load_segments(root / "segments_translated.json", "translated segments")
-    final_path = root / _EDITABLE_ARTIFACT
-    final = _load_segments(final_path, "final segments")
-    _require_matching_ids(translated, final)
-    source = _load_review_source(root, set(final))
-    if segment_id not in final:
-        raise ReviewDataError(f"Unknown segment id: {segment_id}")
+    with job_review_lock(root):
+        translated = _load_segments(root / "segments_translated.json", "translated segments")
+        final_path = root / _EDITABLE_ARTIFACT
+        final = _load_segments(final_path, "final segments")
+        _require_matching_ids(translated, final)
+        _load_review_source(root, set(final))
+        if segment_id not in final:
+            raise ReviewDataError(f"Unknown segment id: {segment_id}")
 
-    history = _load_history(root)
+        history = _load_history(root)
 
-    updated = {key: dict(value) for key, value in final.items()}
-    target = updated[segment_id]
-    previous = {
-        "text": target["vi"],
-        "speaker": target["speaker"],
-        "review_status": target.get("review_status", "unreviewed"),
-    }
-    if normalized_text is not None:
-        target["vi"] = normalized_text
-    if normalized_speaker is not None:
-        target["speaker"] = normalized_speaker
-    if review_status is not None:
-        target["review_status"] = review_status
+        updated = {key: dict(value) for key, value in final.items()}
+        target = updated[segment_id]
+        previous = {
+            "text": target["vi"],
+            "speaker": target["speaker"],
+            "review_status": target.get("review_status", "unreviewed"),
+        }
+        if normalized_text is not None:
+            target["vi"] = normalized_text
+        if normalized_speaker is not None:
+            target["speaker"] = normalized_speaker
+        if review_status is not None:
+            target["review_status"] = review_status
 
-    next_state = {
-        "text": target["vi"],
-        "speaker": target["speaker"],
-        "review_status": target.get("review_status", "unreviewed"),
-    }
-    if next_state == previous:
-        raise ReviewDataError("Review update does not change the selected segment")
+        next_state = {
+            "text": target["vi"],
+            "speaker": target["speaker"],
+            "review_status": target.get("review_status", "unreviewed"),
+        }
+        if next_state == previous:
+            raise ReviewDataError("Review update does not change the selected segment")
 
-    content_changed = (
-        next_state["text"] != previous["text"]
-        or next_state["speaker"] != previous["speaker"]
-    )
-    invalidation = (
-        _load_invalidation_plan(root, allow_missing=bool(history["edits"]))
-        if content_changed
-        else []
-    )
+        content_changed = (
+            next_state["text"] != previous["text"]
+            or next_state["speaker"] != previous["speaker"]
+        )
+        invalidation = (
+            _load_invalidation_plan(root, allow_missing=bool(history["edits"]))
+            if content_changed
+            else []
+        )
 
-    timestamp = datetime.now(UTC).isoformat()
-    receipt = {
-        "version": REVIEW_HISTORY_VERSION,
-        "kind": "content_edit" if content_changed else "status_update",
-        "edit_id": uuid.uuid4().hex,
-        "edited_at": timestamp,
-        "segment_id": segment_id,
-        "before": previous,
-        "after": next_state,
-        "invalidated_stages": [item["stage"] for item in invalidation],
-        "invalidated_artifacts": sorted(
-            {
-                relative
-                for item in invalidation
-                for relative in item["artifact_paths"]
-                if relative != _EDITABLE_ARTIFACT
-            }
-        ),
-    }
+        timestamp = datetime.now(UTC).isoformat()
+        receipt = {
+            "version": REVIEW_HISTORY_VERSION,
+            "kind": "content_edit" if content_changed else "status_update",
+            "edit_id": uuid.uuid4().hex,
+            "edited_at": timestamp,
+            "segment_id": segment_id,
+            "before": previous,
+            "after": next_state,
+            "invalidated_stages": [item["stage"] for item in invalidation],
+            "invalidated_artifacts": sorted(
+                {
+                    relative
+                    for item in invalidation
+                    for relative in item["artifact_paths"]
+                    if relative != _EDITABLE_ARTIFACT
+                }
+            ),
+        }
 
-    ordered_segments = [updated[key] for key in final]
-    _atomic_write_json(final_path, ordered_segments)
+        ordered_segments = [updated[key] for key in final]
+        _atomic_write_json(final_path, ordered_segments)
 
-    receipt_path = root / "review_receipts" / f"{receipt['edit_id']}.json"
-    _atomic_write_json(receipt_path, receipt)
-    history["edits"].append(receipt)
-    _atomic_write_json(root / "review_history.json", history)
+        receipt_path = root / "review_receipts" / f"{receipt['edit_id']}.json"
+        _atomic_write_json(receipt_path, receipt)
+        history["edits"].append(receipt)
+        _atomic_write_json(root / "review_history.json", history)
 
-    if content_changed:
-        _invalidate_downstream(root, invalidation)
-    return receipt
+        if content_changed:
+            _invalidate_downstream(root, invalidation)
+        return receipt
+
+
+def accept_all_segments_review(job_dir: Path) -> dict[str, Any]:
+    """Atomically mark all non-accepted final segments as accepted in one write.
+
+    Status-only approval never edits Vietnamese text or speaker assignments, so
+    it never invalidates downstream render manifests or artifacts.  Calling it
+    when every segment is already accepted is idempotent and writes nothing.
+    """
+    root = _completed_job_dir(job_dir)
+    with job_review_lock(root):
+        translated = _load_segments(root / "segments_translated.json", "translated segments")
+        final_path = root / _EDITABLE_ARTIFACT
+        final = _load_segments(final_path, "final segments")
+        _require_matching_ids(translated, final)
+        _load_review_source(root, set(final))
+        history = _load_history(root)
+
+        updated = {key: dict(value) for key, value in final.items()}
+        changed_ids: list[int] = []
+        for segment_id in final:
+            target = updated[segment_id]
+            if target.get("review_status", "unreviewed") != "accepted":
+                target["review_status"] = "accepted"
+                changed_ids.append(segment_id)
+
+        total_segments = len(final)
+        already_accepted_count = total_segments - len(changed_ids)
+        timestamp = datetime.now(UTC).isoformat()
+        receipt = {
+            "version": REVIEW_HISTORY_VERSION,
+            "kind": "batch_accept",
+            "edit_id": uuid.uuid4().hex,
+            "edited_at": timestamp,
+            "segment_ids": changed_ids,
+            "accepted_count": len(changed_ids),
+            "already_accepted_count": already_accepted_count,
+            "total_segments": total_segments,
+            "review_status": "accepted",
+            "invalidated_stages": [],
+            "invalidated_artifacts": [],
+        }
+
+        if changed_ids:
+            ordered_segments = [updated[key] for key in final]
+            _atomic_write_json(final_path, ordered_segments)
+            receipt_path = root / "review_receipts" / f"{receipt['edit_id']}.json"
+            _atomic_write_json(receipt_path, receipt)
+            batch_actions = list(history.get("batch_actions", []))
+            batch_actions.append(receipt)
+            history["batch_actions"] = batch_actions
+            _atomic_write_json(root / "review_history.json", history)
+
+        return receipt
 
 
 def _completed_job_dir(job_dir: Path) -> Path:
@@ -425,7 +519,15 @@ def _load_history(job_dir: Path) -> dict[str, Any]:
     edits = raw.get("edits")
     if not isinstance(edits, list) or any(not isinstance(item, dict) for item in edits):
         raise ReviewDataError("Invalid review history edits")
-    return {"version": REVIEW_HISTORY_VERSION, "edits": list(edits)}
+    result: dict[str, Any] = {"version": REVIEW_HISTORY_VERSION, "edits": list(edits)}
+    batch_actions = raw.get("batch_actions")
+    if batch_actions is not None:
+        if not isinstance(batch_actions, list) or any(
+            not isinstance(item, dict) for item in batch_actions
+        ):
+            raise ReviewDataError("Invalid review history batch actions")
+        result["batch_actions"] = list(batch_actions)
+    return result
 
 
 def _load_invalidation_plan(job_dir: Path, *, allow_missing: bool) -> list[dict[str, Any]]:

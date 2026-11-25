@@ -757,3 +757,64 @@ def test_pipeline_save_segments_is_atomic_and_preserves_review_status_for_tts_ma
     # Verify pipeline.py no longer has an unconditional post-TTS _save_segments(translated_json, segments) call.
     pipeline_src = (Path(__file__).resolve().parents[1] / "src/vi_dubber/pipeline.py").read_text(encoding="utf-8")
     assert "\n    _save_segments(translated_json, segments)\n" not in pipeline_src
+
+
+def test_scale_ux_and_status_honesty_invariants(tmp_path: Path) -> None:
+    """CI-covered invariants for duration-scaled disk preflight, catalog QA honesty, and web QA badge."""
+    import hashlib
+    from vi_dubber import web
+    from vi_dubber.catalog_projection import catalog_item_from_job
+    from vi_dubber.catalog_view import build_catalog_view
+    from vi_dubber.preflight import required_free_disk_gib
+
+    cfg = {"reliability": {"min_free_disk_gb": 2.0}}
+    req_1h, hours_1h = required_free_disk_gib(cfg, duration_seconds=3600.0)
+    req_12h, hours_12h = required_free_disk_gib(cfg, duration_seconds=12 * 3600.0)
+    assert req_1h == pytest.approx(3.5)
+    assert hours_1h == pytest.approx(1.0)
+    assert req_12h == pytest.approx(42.0)
+    assert hours_12h == pytest.approx(12.0)
+
+    qa_failed_html = web._stats_html(
+        {"duration_seconds": 60.0, "elapsed_seconds": 30.0, "qa": {"similarity": 0.91, "passed": False}},
+        {"title": "job12.mp4"},
+    )
+    assert "chưa đạt QA" in qa_failed_html
+    assert "metric rose" in qa_failed_html
+    assert "metric emerald" not in qa_failed_html
+
+    source = tmp_path / "clip.mp4"
+    source.write_bytes(b"video")
+    job_dir = tmp_path / "job-ciqa01"
+    (job_dir / "manifests").mkdir(parents=True)
+    (job_dir / "job.json").write_text(
+        json.dumps(
+            {
+                "version": 1,
+                "source": {
+                    "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+                    "size_bytes": source.stat().st_size,
+                },
+                "source_path": str(source.resolve()),
+                "source_name": source.name,
+            }
+        ),
+        encoding="utf-8",
+    )
+    (job_dir / "state.json").write_text(
+        json.dumps(
+            {
+                "version": 1,
+                "status": "completed",
+                "stage": "complete",
+                "progress": 1.0,
+                "result": {"qa": {"similarity": 0.91, "passed": False}},
+            }
+        ),
+        encoding="utf-8",
+    )
+    item = catalog_item_from_job(job_dir, source_root=tmp_path)
+    assert item is not None
+    assert item.metadata["qa_passed"] is False
+    view = build_catalog_view([item])
+    assert view["items"][0]["job"]["qa_passed"] is False

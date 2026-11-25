@@ -52,6 +52,8 @@ def test_api_system(client: TestClient) -> None:
     assert "webgpt_connected" in data
     assert "model_catalog" in data
     assert "active_jobs_count" in data
+    assert data["websocket_connected"] is False
+    assert data["transport_mode"] == "http_polling"
 
 
 def test_api_jobs_empty(client: TestClient) -> None:
@@ -1070,3 +1072,82 @@ def test_api_subtitle_download_serves_vietnamese_srt_and_never_english_source(
     assert "Phụ đề tiếng Việt thật" in res_vi.text
     assert "English source" not in res_vi.text
 
+
+def test_api_accept_all_segments_batch_endpoint_and_idempotency(
+    client: TestClient,
+    tmp_path: Path,
+) -> None:
+    from concurrent.futures import ThreadPoolExecutor
+
+    work = tmp_path / "work"
+    job_dir = work / "job-batchaccept01"
+    job_dir.mkdir(parents=True, exist_ok=True)
+    segment_count = 500
+    segments = [
+        {
+            "id": idx,
+            "start": float(idx),
+            "end": float(idx) + 0.8,
+            "text": f"Source line {idx}",
+            "vi": f"Ban dich {idx}",
+            "speaker": "SPEAKER_00",
+            "review_status": "accepted" if idx < 5 else "unreviewed",
+        }
+        for idx in range(segment_count)
+    ]
+    atomic_write_json(job_dir / "segments_vi.json", segments)
+    update_job_state(
+        job_dir,
+        status="completed",
+        stage="complete",
+        progress=1.0,
+        message="Done",
+        metadata={"input_name": "batch.mp4"},
+    )
+
+    first = client.post("/api/jobs/job-batchaccept01/review/accept-all")
+    assert first.status_code == 200
+    body = first.json()
+    assert body["status"] == "ok"
+    assert body["accepted_count"] == segment_count - 5
+    assert body["already_accepted_count"] == 5
+    assert body["total_segments"] == segment_count
+
+    persisted = json.loads((job_dir / "segments_vi.json").read_text(encoding="utf-8"))
+    assert len(persisted) == segment_count
+    assert all(item["review_status"] == "accepted" for item in persisted)
+
+    # Status-only batch accept must not pause a completed job.
+    state = json.loads((job_dir / "state.json").read_text(encoding="utf-8"))
+    assert state["status"] == "completed"
+
+    # Second call is cleanly idempotent.
+    second = client.post("/api/jobs/job-batchaccept01/review/accept-all")
+    assert second.status_code == 200
+    assert second.json()["accepted_count"] == 0
+    assert second.json()["already_accepted_count"] == segment_count
+
+    # Reset status and exercise concurrent accept-all + single-segment PATCH under per-job lock.
+    for item in segments:
+        item["review_status"] = "unreviewed"
+    atomic_write_json(job_dir / "segments_vi.json", segments)
+
+    def _call_batch() -> int:
+        return client.post("/api/jobs/job-batchaccept01/review/accept-all").status_code
+
+    def _call_single(seg_id: int) -> int:
+        return client.patch(
+            f"/api/jobs/job-batchaccept01/segments/{seg_id}",
+            json={"review_status": "accepted"},
+        ).status_code
+
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        futures = [pool.submit(_call_batch) for _ in range(3)] + [
+            pool.submit(_call_single, idx) for idx in range(3)
+        ]
+        statuses = [fut.result() for fut in futures]
+
+    assert all(code == 200 for code in statuses)
+    final_segments = json.loads((job_dir / "segments_vi.json").read_text(encoding="utf-8"))
+    assert len(final_segments) == segment_count
+    assert all(item["review_status"] == "accepted" for item in final_segments)

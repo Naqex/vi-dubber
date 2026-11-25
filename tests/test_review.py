@@ -414,3 +414,66 @@ def test_missing_completed_job_file_is_rejected(tmp_path: Path) -> None:
 
     with pytest.raises(ReviewDataError, match="tts_stats"):
         load_review_rows(job)
+
+
+def test_accept_all_segments_review_is_atomic_idempotent_and_override_compatible(
+    tmp_path: Path,
+) -> None:
+    from vi_dubber.review import accept_all_segments_review
+
+    job, _ = _completed_job(tmp_path)
+    # First perform a manual content edit on segment 0 (leaving it 'reviewed')
+    update_segment_review(job, 0, text="Xin chao chinh sua", review_status="reviewed")
+    # Restore downstream manifests isn't needed for status-only batch accept; check segment 1 too
+    receipt = accept_all_segments_review(job)
+
+    assert receipt["kind"] == "batch_accept"
+    assert receipt["segment_ids"] == [0, 1]
+    assert receipt["accepted_count"] == 2
+    assert receipt["already_accepted_count"] == 0
+    assert receipt["total_segments"] == 2
+    assert (job / "review_receipts" / f"{receipt['edit_id']}.json").is_file()
+
+    rows = load_review_rows(job)
+    assert all(row["review_status"] == "accepted" for row in rows)
+
+    # load_review_overrides remains valid and reflects the batch-accepted status
+    # for the edited segment without promoting unedited segment 1 into overrides.
+    overrides = load_review_overrides(job)
+    assert list(overrides) == [0]
+    assert overrides[0]["text"] == "Xin chao chinh sua"
+    assert overrides[0]["review_status"] == "accepted"
+
+    # Second call is a no-op and writes no duplicate receipt.
+    second = accept_all_segments_review(job)
+    assert second["accepted_count"] == 0
+    assert second["already_accepted_count"] == 2
+    assert not (job / "review_receipts" / f"{second['edit_id']}.json").exists()
+
+
+def test_accept_all_segments_review_preserves_downstream_manifests_and_handles_concurrency(
+    tmp_path: Path,
+) -> None:
+    from concurrent.futures import ThreadPoolExecutor
+
+    from vi_dubber.review import accept_all_segments_review
+
+    job, _ = _completed_job(tmp_path)
+    receipt = accept_all_segments_review(job)
+    assert receipt["accepted_count"] == 2
+    for stage in ("tts", "timing_assembly", "mix_mux", "acoustic_qa"):
+        assert (job / "manifests" / f"{stage}.json").is_file()
+    assert (job / "tts" / "00000.wav").is_file()
+
+    # Exercise per-job review lock with concurrent status updates on a fresh job.
+    concurrent_root = tmp_path / "concurrent"
+    concurrent_root.mkdir()
+    job2, _ = _completed_job(concurrent_root)
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        futures = [
+            pool.submit(accept_all_segments_review, job2),
+            pool.submit(accept_all_segments_review, job2),
+        ]
+        results = [fut.result() for fut in futures]
+    assert sum(item["accepted_count"] for item in results) == 2
+    assert all(row["review_status"] == "accepted" for row in load_review_rows(job2))

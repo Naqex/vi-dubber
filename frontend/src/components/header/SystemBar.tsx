@@ -4,14 +4,14 @@ import { useTranslation } from '@/context/I18nContext';
 import {
   formatSeconds,
   resolveActiveStageIndex,
-  resolveCompletedQaState,
   PIPELINE_STAGES,
 } from '@/lib/utils';
-import { deriveEtaTelemetry, finiteNumber } from '@/lib/telemetry';
+import { deriveEtaTelemetry, finiteNumber, resolveCompletedQaState } from '@/lib/telemetry';
 import { StageDefinition } from '@/types';
 import { StageDetailModal } from '@/components/pipeline/StageDetailModal';
 import {
   Wifi,
+  Radio,
   Play,
   Pause,
   Square,
@@ -29,7 +29,12 @@ export const SystemBar: React.FC = () => {
   const [selectedStage, setSelectedStage] = useState<StageDefinition | null>(null);
 
   const isJobComplete = activeJob?.status === 'completed';
+  const isJobFailed = activeJob?.status === 'failed';
+  const isJobCancelled = activeJob?.status === 'cancelled';
   const completedQaState = resolveCompletedQaState(activeJob);
+  const isWebSocketLive =
+    systemStatus.websocket_connected === true &&
+    systemStatus.transport_mode === 'websocket';
   const persistedElapsed = activeJob?.result?.elapsed_seconds ?? activeJob?.metrics?.total_wall_seconds;
 
   useEffect(() => {
@@ -99,8 +104,22 @@ export const SystemBar: React.FC = () => {
             />
           ))}
           {/* Progress fill */}
-          <div className="h-full bg-orange-500 rounded-full transition-all duration-500"
-            style={{ width: progress === null ? '0%' : `${progress * 100}%` }} />
+          <div
+            className={`h-full rounded-full transition-all duration-500 ${
+              isJobComplete
+                ? completedQaState === 'failed'
+                  ? 'bg-rose-500'
+                  : completedQaState === 'unverified'
+                    ? 'bg-amber-500'
+                    : 'bg-emerald-500'
+                : isJobFailed
+                  ? 'bg-rose-500'
+                  : isJobCancelled
+                    ? 'bg-slate-400 dark:bg-slate-600'
+                    : 'bg-orange-500'
+            }`}
+            style={{ width: progress === null ? '0%' : `${progress * 100}%` }}
+          />
         </div>
       </div>
 
@@ -114,21 +133,76 @@ export const SystemBar: React.FC = () => {
         </div>
         <span className="text-slate-300 dark:text-slate-700">/</span>
         <div className="flex items-center gap-1">
-          <Clock className="w-3.5 h-3.5 text-sky-500" />
-          <span className="text-sky-700 dark:text-sky-400 font-bold tabular-nums">
-            {isJobComplete ? t('stepper.completed') : eta.remainingSeconds === null ? unavailable : `ETA ${formatSeconds(eta.remainingSeconds)}`}
+          <Clock
+            className={`w-3.5 h-3.5 ${
+              isJobFailed || (isJobComplete && completedQaState === 'failed')
+                ? 'text-rose-500'
+                : isJobComplete && completedQaState === 'unverified'
+                  ? 'text-amber-500'
+                  : isJobComplete
+                    ? 'text-emerald-500'
+                    : isJobCancelled
+                      ? 'text-slate-500 dark:text-slate-400'
+                      : 'text-sky-500'
+            }`}
+          />
+          <span
+            className={`font-bold tabular-nums ${
+              isJobFailed || (isJobComplete && completedQaState === 'failed')
+                ? 'text-rose-700 dark:text-rose-300'
+                : isJobComplete && completedQaState === 'unverified'
+                  ? 'text-amber-800 dark:text-amber-300'
+                  : isJobComplete
+                    ? 'text-emerald-700 dark:text-emerald-400'
+                    : isJobCancelled
+                      ? 'text-slate-600 dark:text-slate-300'
+                      : 'text-sky-700 dark:text-sky-400'
+            }`}
+          >
+            {isJobComplete
+              ? completedQaState === 'failed'
+                ? t('stepper.qa_failed')
+                : completedQaState === 'unverified'
+                  ? t('stepper.qa_unverified')
+                  : t('stepper.completed')
+              : isJobFailed
+                ? t('stepper.failed')
+                : isJobCancelled
+                  ? t('stepper.cancelled')
+                  : eta.remainingSeconds === null
+                    ? unavailable
+                    : `ETA ${formatSeconds(eta.remainingSeconds)}`}
           </span>
         </div>
       </div>
 
       {/* Section 3: Stream Status & Job Control */}
       <div className="flex items-center gap-2 shrink-0">
-        {/* Stream Live Indicator */}
-        <div className="flex items-center gap-1 text-[11px]" title="Telemetry Stream Connection">
-          <Wifi className="w-3.5 h-3.5 text-emerald-500" />
-          <span className="text-emerald-700 dark:text-emerald-400 font-semibold hidden sm:inline">
-            {systemStatus.websocket_connected ? t('system.ws_live') : t('system.polling')}
-          </span>
+        {/* Transport Indicator (honest HTTP polling vs WebSocket) */}
+        <div
+          className="flex items-center gap-1 text-[11px]"
+          data-transport-mode={isWebSocketLive ? 'websocket' : 'http_polling'}
+          title={
+            isWebSocketLive
+              ? 'Live WebSocket telemetry stream'
+              : 'HTTP polling telemetry (2s jobs/health, 10s system)'
+          }
+        >
+          {isWebSocketLive ? (
+            <>
+              <Wifi className="w-3.5 h-3.5 text-emerald-500" />
+              <span className="text-emerald-700 dark:text-emerald-400 font-semibold hidden sm:inline">
+                {t('system.ws_live')}
+              </span>
+            </>
+          ) : (
+            <>
+              <Radio className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
+              <span className="text-sky-700 dark:text-sky-400 font-semibold hidden sm:inline">
+                {t('system.polling')}
+              </span>
+            </>
+          )}
         </div>
 
         {/* Job Actions */}
@@ -152,39 +226,58 @@ export const SystemBar: React.FC = () => {
                 <Play className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">{t('common.resume')}</span>
               </button>
-            ) : completedQaState === 'failed' ? (
+            ) : activeJob.status === 'completed' ? (
               <div
-                data-qa-state="failed"
-                className="flex items-center gap-1 text-rose-700 dark:text-rose-300 font-bold text-xs px-2.5 h-7"
+                data-job-status="completed"
+                data-qa-state={completedQaState ?? 'unverified'}
+                className={`flex items-center gap-1 font-bold text-xs px-2.5 h-7 rounded ${
+                  completedQaState === 'failed'
+                    ? 'bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-500/30'
+                    : completedQaState === 'unverified'
+                      ? 'bg-amber-500/10 text-amber-800 dark:text-amber-300 border border-amber-500/30'
+                      : 'text-emerald-700 dark:text-emerald-400'
+                }`}
+              >
+                {completedQaState === 'passed' ? (
+                  <CheckCircle2 className="w-4 h-4 shrink-0" />
+                ) : (
+                  <AlertTriangle className="w-4 h-4 shrink-0" />
+                )}
+                <span>
+                  {completedQaState === 'failed'
+                    ? t('system.completed_qa_failed')
+                    : completedQaState === 'unverified'
+                      ? t('system.completed_qa_unverified')
+                      : t('system.completed_qa_passed')}
+                </span>
+              </div>
+            ) : activeJob.status === 'failed' ? (
+              <div
+                data-job-status="failed"
+                className="flex items-center gap-1 bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-bold text-xs px-2.5 h-7 rounded"
               >
                 <AlertTriangle className="w-4 h-4 shrink-0" />
-                <span>{t('job.completed_qa_failed')}</span>
+                <span>{t('system.status_failed')}</span>
               </div>
-            ) : completedQaState === 'passed' ? (
+            ) : activeJob.status === 'cancelled' ? (
               <div
-                data-qa-state="passed"
-                className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400 font-bold text-xs px-2.5 h-7"
+                data-job-status="cancelled"
+                className="flex items-center gap-1 bg-slate-500/10 text-slate-700 dark:text-slate-300 border border-slate-500/30 font-bold text-xs px-2.5 h-7 rounded"
               >
-                <CheckCircle2 className="w-4 h-4 shrink-0" />
-                <span>{t('job.completed_qa_passed')}</span>
-              </div>
-            ) : completedQaState === 'unverified' ? (
-              <div
-                data-qa-state="unverified"
-                className="flex items-center gap-1 text-amber-800 dark:text-amber-300 font-bold text-xs px-2.5 h-7"
-              >
-                <AlertTriangle className="w-4 h-4 shrink-0" />
-                <span>{t('job.completed_qa_unverified')}</span>
-              </div>
-            ) : activeJob.status === 'failed' || activeJob.status === 'cancelled' ? (
-              <div className="flex items-center gap-1 text-rose-700 dark:text-rose-300 font-bold text-xs px-2.5 h-7">
-                <AlertTriangle className="w-4 h-4 shrink-0" />
-                <span>{activeJob.status.toUpperCase()}</span>
+                <Square className="w-3.5 h-3.5 shrink-0" />
+                <span>{t('system.status_cancelled')}</span>
               </div>
             ) : (
-              <div className="flex items-center gap-1 text-slate-700 dark:text-slate-300 font-bold text-xs px-2.5 h-7">
+              <div
+                data-job-status={activeJob.status}
+                className="flex items-center gap-1 text-slate-700 dark:text-slate-300 font-bold text-xs px-2.5 h-7"
+              >
                 <Clock className="w-4 h-4 shrink-0" />
-                <span>{activeJob.status.toUpperCase()}</span>
+                <span>
+                  {activeJob.status === 'queued'
+                    ? t('system.status_queued')
+                    : String(activeJob.status).toUpperCase()}
+                </span>
               </div>
             )}
 

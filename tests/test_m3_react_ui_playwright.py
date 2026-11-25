@@ -1040,3 +1040,181 @@ def test_m5_catalog_panel_search_filter_select_and_reload(
     expect(dialog.locator("#catalog-availability")).to_have_value("")
     assert page.url == base_url + "/"
     assert console_errors == [], "\n".join(console_errors)
+
+
+def test_status_honesty_polling_and_single_request_accept_all(
+    page: Page,
+    m3_react_server: tuple[str, str, Path],
+) -> None:
+    """Verify honest transport/QA/terminal statuses and single-POST Accept All."""
+    base_url, target_id, work = m3_react_server
+    console_errors: list[str] = []
+    page.on(
+        "console",
+        lambda msg: console_errors.append(
+            f"{msg.text} @ {(msg.location or {}).get('url', '')}"
+        )
+        if msg.type == "error"
+        else None,
+    )
+    page.context.route(
+        "**/*",
+        lambda route: route.continue_()
+        if route.request.url.startswith(base_url + "/")
+        or route.request.url.startswith(("data:", "blob:"))
+        else route.fulfill(status=200, content_type="text/css", body="")
+        if "fonts.googleapis.com" in route.request.url
+        else route.abort(),
+    )
+    page.route(
+        "**/api/system",
+        lambda route: route.fulfill(
+            status=200,
+            content_type="application/json",
+            body=json.dumps(
+                {
+                    "gpu_name": "PR4 status fixture",
+                    "gpu_vram_used_bytes": 0,
+                    "gpu_vram_total_bytes": 0,
+                    "gpu_utilization_pct": 0,
+                    "cpu_utilization_pct": 0,
+                    "active_jobs_count": 0,
+                    "webgpt_connected": False,
+                    "webgpt_model": "fixture",
+                    "webgpt_port": 17850,
+                    "server_uptime_seconds": 10,
+                    "websocket_connected": False,
+                    "transport_mode": "http_polling",
+                }
+            ),
+        ),
+    )
+    page.add_init_script("localStorage.setItem('vi_dubber_lang', 'en')")
+
+    # Seed multiple unreviewed segments + completed QA-failed state (Job12 pattern).
+    segments = [
+        {
+            "id": idx,
+            "start": float(idx) * 2.0,
+            "end": float(idx) * 2.0 + 1.5,
+            "text": f"Source sentence {idx}",
+            "vi": f"Ban dich {idx}",
+            "speaker": "SPEAKER_00",
+            "review_status": "unreviewed",
+        }
+        for idx in range(5)
+    ]
+    (work / target_id / "segments_vi.json").write_text(
+        json.dumps(segments, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    final_path = work / target_id / "output.mp4"
+    shutil.copyfile(
+        work / target_id / "chunks/chunk_0001/preview/PREVIEW_chunk_0001.mp4",
+        final_path,
+    )
+    update_job_state(
+        work / target_id,
+        status="completed",
+        stage="complete",
+        progress=1.0,
+        result={
+            "output": str(final_path),
+            "duration_seconds": 10.0,
+            "elapsed_seconds": 5.0,
+            "qa": {"similarity": 0.91, "passed": False},
+        },
+        message="Completed with QA failure",
+    )
+
+    batch_posts: list[str] = []
+    segment_patches: list[str] = []
+
+    def _track_request(req) -> None:
+        if req.method == "POST" and "/review/accept-all" in req.url:
+            batch_posts.append(req.url)
+        elif req.method == "PATCH" and "/segments/" in req.url:
+            segment_patches.append(req.url)
+
+    page.on("request", _track_request)
+    page.set_viewport_size({"width": 1440, "height": 900})
+    page.goto(base_url, wait_until="networkidle", timeout=30000)
+
+    # 1. Honest transport indicator: http_polling renders POLLING 2s (never WS LIVE).
+    transport = page.locator('[data-transport-mode="http_polling"]')
+    expect(transport).to_be_visible(timeout=10000)
+    expect(transport).to_contain_text("POLLING 2s")
+    expect(page.get_by_text("WS LIVE", exact=True)).to_have_count(0)
+
+    # 2. Honest SystemBar badge for completed-with-QA-failed job.
+    status_badge = page.locator('[data-job-status="completed"][data-qa-state="failed"]')
+    expect(status_badge).to_be_visible(timeout=10000)
+    expect(status_badge).to_contain_text("COMPLETED · QA FAILED")
+
+    # 3. Single-POST Accept All: must send exactly 1 batch POST and 0 per-segment PATCH calls.
+    accept_all_btn = page.get_by_role("button", name="Accept All (5)")
+    expect(accept_all_btn).to_be_enabled(timeout=10000)
+    accept_all_btn.click()
+    expect(accept_all_btn).to_be_disabled(timeout=10000)
+    assert len(batch_posts) == 1
+    assert segment_patches == []
+    persisted = json.loads((work / target_id / "segments_vi.json").read_text(encoding="utf-8"))
+    assert all(seg["review_status"] == "accepted" for seg in persisted)
+
+    # 4. Verify completed QA-unverified and QA-passed states in SystemBar.
+    update_job_state(
+        work / target_id,
+        status="completed",
+        stage="complete",
+        progress=1.0,
+        result={
+            "output": str(final_path),
+            "duration_seconds": 10.0,
+            "elapsed_seconds": 5.0,
+            "qa": {"similarity": 0.95, "passed": None},
+        },
+        message="Completed with unverified QA",
+    )
+    unverified_badge = page.locator('[data-job-status="completed"][data-qa-state="unverified"]')
+    expect(unverified_badge).to_be_visible(timeout=10000)
+    expect(unverified_badge).to_contain_text("COMPLETED · QA UNVERIFIED")
+
+    update_job_state(
+        work / target_id,
+        status="completed",
+        stage="complete",
+        progress=1.0,
+        result={
+            "output": str(final_path),
+            "duration_seconds": 10.0,
+            "elapsed_seconds": 5.0,
+            "qa": {"similarity": 0.99, "passed": True},
+        },
+        message="Completed with QA passed",
+    )
+    passed_badge = page.locator('[data-job-status="completed"][data-qa-state="passed"]')
+    expect(passed_badge).to_be_visible(timeout=10000)
+    expect(passed_badge).to_contain_text("COMPLETED · QA PASSED")
+
+    # 5. Terminal failed & cancelled jobs render honest badges in SystemBar (never green COMPLETED).
+    update_job_state(
+        work / target_id,
+        status="failed",
+        stage="translation",
+        progress=0.5,
+        message="Fixture failure",
+    )
+    expect(page.locator('[data-job-status="failed"]')).to_be_visible(timeout=10000)
+    expect(page.locator('[data-job-status="failed"]')).to_contain_text("FAILED")
+
+    update_job_state(
+        work / target_id,
+        status="cancelled",
+        stage="translation",
+        progress=0.5,
+        message="Fixture cancelled",
+    )
+    expect(page.locator('[data-job-status="cancelled"]')).to_be_visible(timeout=10000)
+    expect(page.locator('[data-job-status="cancelled"]')).to_contain_text("CANCELLED")
+
+    assert console_errors == [], "\n".join(console_errors)

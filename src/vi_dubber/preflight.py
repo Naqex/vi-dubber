@@ -1,13 +1,18 @@
 from __future__ import annotations
 
+import math
 import os
 import shutil
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+from .media import media_duration
 from .runtime import MODELS_DIR, WORK_DIR, configure_runtime
 from .translate import webgpt_route_info
+
+DEFAULT_MIN_FREE_DISK_GB = 2.0
+DEFAULT_DISK_GB_PER_MEDIA_HOUR = 3.5
 
 
 @dataclass(slots=True)
@@ -20,6 +25,48 @@ class PreflightCheck:
         return asdict(self)
 
 
+def required_free_disk_gib(
+    config: dict[str, Any],
+    *,
+    input_path: Path | None = None,
+    duration_seconds: float | None = None,
+) -> tuple[float, float | None]:
+    """Return ``(required_gib, probed_duration_hours)`` for the job's disk gate.
+
+    Setting ``reliability.min_free_disk_gb <= 0`` explicitly disables the disk
+    gate (used by isolated offline tests). Otherwise, the minimum free space
+    scales linearly with media duration:
+    ``max(max(2.0, configured_min_gb), duration_hours * 3.5)``.
+    """
+    reliability = config.get("reliability", {}) or {}
+    configured_min = float(reliability.get("min_free_disk_gb", DEFAULT_MIN_FREE_DISK_GB))
+    if configured_min <= 0.0:
+        return 0.0, None
+    base_min_gib = max(DEFAULT_MIN_FREE_DISK_GB, configured_min)
+    gb_per_hour = max(
+        0.0,
+        float(reliability.get("disk_gb_per_media_hour", DEFAULT_DISK_GB_PER_MEDIA_HOUR)),
+    )
+
+    resolved_duration = duration_seconds
+    if resolved_duration is None and input_path is not None and input_path.is_file():
+        try:
+            resolved_duration = float(media_duration(input_path))
+        except Exception:
+            resolved_duration = None
+
+    if (
+        resolved_duration is None
+        or not math.isfinite(resolved_duration)
+        or resolved_duration <= 0.0
+    ):
+        return base_min_gib, None
+
+    duration_hours = resolved_duration / 3600.0
+    required_gib = max(base_min_gib, duration_hours * gb_per_hour)
+    return required_gib, duration_hours
+
+
 def run_preflight(
     config: dict[str, Any],
     *,
@@ -28,6 +75,7 @@ def run_preflight(
     voice_ref: Path | None = None,
     diarize: bool = False,
     hf_token: str | None = None,
+    duration_seconds: float | None = None,
 ) -> list[PreflightCheck]:
     """Return actionable, secret-free readiness checks for one requested job."""
     configure_runtime()
@@ -50,11 +98,11 @@ def run_preflight(
             )
         )
 
-    min_free_gib = float(config.get("reliability", {}).get("min_free_disk_gb", 2.0))
-    if min_free_gib <= 0.0:
-        min_free_gib = 0.0
-    else:
-        min_free_gib = max(2.0, min_free_gib)
+    min_free_gib, duration_hours = required_free_disk_gib(
+        config,
+        input_path=input_path,
+        duration_seconds=duration_seconds,
+    )
     work_root = WORK_DIR if WORK_DIR.exists() else WORK_DIR.parent
     try:
         usage = shutil.disk_usage(work_root)
@@ -62,11 +110,16 @@ def run_preflight(
         checks.append(PreflightCheck("disk", "error", f"Không đọc được dung lượng đĩa: {exc}"))
     else:
         free_gib = usage.free / (1024**3)
+        duration_note = (
+            f" (ước tính cho {duration_hours:.1f}h media)"
+            if duration_hours is not None and min_free_gib > 0.0
+            else ""
+        )
         checks.append(
             PreflightCheck(
                 "disk",
                 "ok" if free_gib >= min_free_gib else "error",
-                f"Còn {free_gib:.1f} GiB; yêu cầu tối thiểu {min_free_gib:.1f} GiB",
+                f"Còn {free_gib:.1f} GiB; yêu cầu tối thiểu {min_free_gib:.1f} GiB{duration_note}",
             )
         )
 

@@ -50,6 +50,9 @@ def _safe_job_metadata(item: CatalogItem) -> dict[str, Any]:
     size_bytes = metadata.get("source_size_bytes")
     if isinstance(size_bytes, int) and not isinstance(size_bytes, bool) and size_bytes >= 0:
         result["source_size_bytes"] = size_bytes
+    qa_passed = metadata.get("qa_passed")
+    if isinstance(qa_passed, bool):
+        result["qa_passed"] = qa_passed
     return result
 
 
