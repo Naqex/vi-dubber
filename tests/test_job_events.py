@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import json
 
+import pytest
+
+import vi_dubber.jobs as jobs_mod
 from vi_dubber.jobs import EVENTS_FILE, append_job_event, load_job_events, update_job_state
 
 
@@ -56,4 +59,39 @@ def test_event_loader_skips_corrupt_complete_lines_and_limit_is_recent(tmp_path)
     assert [item["event"] for item in load_job_events(job)] == ["one", "two"]
     assert load_job_events(job, limit=1) == [second]
     assert first["seq"] == 1
+
+
+def test_append_job_event_1000_entries_uses_o1_tail_seek_not_full_reread(
+    tmp_path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    job = tmp_path / "job-1000-events"
+    job.mkdir()
+
+    # Prove append_job_event never falls back to O(N) full-file _valid_event_records scans.
+    monkeypatch.setattr(
+        jobs_mod,
+        "_valid_event_records",
+        lambda *_a, **_kw: (_ for _ in ()).throw(AssertionError("append_job_event must not re-read full journal")),
+    )
+    # Stub fsync in the 1,000-event loop so test measures O(1) tail seek without OS disk flush jitter.
+    monkeypatch.setattr(jobs_mod.os, "fsync", lambda _fd: None)
+
+    for idx in range(1, 1001):
+        rec = append_job_event(job, "segment.done", stage="tts", progress=idx / 1000.0, payload={"i": idx})
+        assert rec["seq"] == idx
+
+    # Verify multi-chunk tail seek works even when a single event line exceeds 8 KiB.
+    big = append_job_event(job, "large.payload", stage="qa", payload={"blob": "x" * 12_000})
+    assert big["seq"] == 1001
+    after_big = append_job_event(job, "after.large", stage="qa")
+    assert after_big["seq"] == 1002
+
+    # Restore full loader and confirm all 1,002 records are intact and strictly monotonic.
+    monkeypatch.undo()
+    events = load_job_events(job)
+    assert len(events) == 1002
+    assert events[0]["seq"] == 1
+    assert events[-1]["seq"] == 1002
+    assert events[-1]["event"] == "after.large"
 

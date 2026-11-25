@@ -41,7 +41,9 @@ from .media import (
     media_duration,
     detect_speech_intervals,
     mux_dubbed_video,
+    voice_track_container,
     voice_track_metrics,
+    voice_track_path,
     validate_extracted_audio,
     validate_separation_stems,
     write_srt,
@@ -2577,12 +2579,16 @@ def _run_pipeline_impl(
             f"[yellow]Cảnh báo thời lượng:[/] {len(overflow)} đoạn vẫn dài hơn khung sau khi rút gọn câu và giới hạn tempo."
         )
 
-    voice_track = job_dir / "voice_vi.wav"
-    assembly_config = {
-        "sample_rate": int(config["tts"].get("sample_rate", 48000)),
+    assembly_sample_rate = int(config["tts"].get("sample_rate", 48000))
+    voice_container = voice_track_container(total_duration, sample_rate=assembly_sample_rate)
+    voice_track = voice_track_path(job_dir, total_duration, sample_rate=assembly_sample_rate)
+    assembly_config: dict[str, Any] = {
+        "sample_rate": assembly_sample_rate,
         "fade_ms": max(0.0, float(timing_config.get("boundary_fade_ms", 8.0))),
         "overlap_policy": str(timing_config.get("overlap_policy", "equal_power")),
     }
+    if voice_container != "WAV":
+        assembly_config["container"] = voice_container
     assembly_inputs = {
         "tts": str((tts_manifest or {}).get("fingerprint") or tts_request_fingerprint),
         "rendered_audio": [

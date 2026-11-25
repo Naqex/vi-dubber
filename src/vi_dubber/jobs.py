@@ -111,26 +111,105 @@ def _event_lines(path: Path, *, repair_partial: bool = False) -> list[bytes]:
     return [line for line in raw.splitlines() if line.strip()]
 
 
+_EVENT_TAIL_CHUNK_BYTES = 8192
+
+
+def _parse_valid_event_line(line: bytes) -> dict[str, Any] | None:
+    if not line.strip():
+        return None
+    try:
+        value = json.loads(line.decode("utf-8"))
+    except (UnicodeDecodeError, ValueError):
+        return None
+    if not isinstance(value, dict):
+        return None
+    if value.get("version") != EVENT_JOURNAL_VERSION:
+        return None
+    seq = value.get("seq")
+    event = value.get("event")
+    at = value.get("at")
+    if not isinstance(seq, int) or isinstance(seq, bool) or seq < 1:
+        return None
+    if not isinstance(event, str) or not event.strip() or not isinstance(at, str):
+        return None
+    return value
+
+
 def _valid_event_records(path: Path, *, repair_partial: bool = False) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     for line in _event_lines(path, repair_partial=repair_partial):
-        try:
-            value = json.loads(line.decode("utf-8"))
-        except (UnicodeDecodeError, ValueError):
-            continue
-        if not isinstance(value, dict):
-            continue
-        if value.get("version") != EVENT_JOURNAL_VERSION:
-            continue
-        seq = value.get("seq")
-        event = value.get("event")
-        at = value.get("at")
-        if not isinstance(seq, int) or isinstance(seq, bool) or seq < 1:
-            continue
-        if not isinstance(event, str) or not event.strip() or not isinstance(at, str):
-            continue
-        records.append(value)
+        record = _parse_valid_event_line(line)
+        if record is not None:
+            records.append(record)
     return records
+
+
+def _read_last_valid_event_seq(
+    path: Path,
+    *,
+    repair_partial: bool = True,
+    chunk_bytes: int = _EVENT_TAIL_CHUNK_BYTES,
+) -> int:
+    """Return the highest seq from the journal tail in O(1) I/O, repairing partial tails."""
+    if not path.is_file():
+        return 0
+    read_chunk = max(256, int(chunk_bytes))
+    try:
+        handle = path.open("r+b" if repair_partial else "rb")
+    except OSError:
+        try:
+            handle = path.open("rb")
+            repair_partial = False
+        except OSError:
+            return 0
+    with handle:
+        file_size = handle.seek(0, os.SEEK_END)
+        if file_size <= 0:
+            return 0
+
+        # Repair an incomplete trailing line without reading the entire journal.
+        handle.seek(file_size - 1)
+        if handle.read(1) != b"\n":
+            cursor = file_size
+            truncate_pos = 0
+            while cursor > 0:
+                read_start = max(0, cursor - read_chunk)
+                handle.seek(read_start)
+                buf = handle.read(cursor - read_start)
+                nl = buf.rfind(b"\n")
+                if nl != -1:
+                    truncate_pos = read_start + nl + 1
+                    break
+                cursor = read_start
+            if repair_partial:
+                try:
+                    handle.truncate(truncate_pos)
+                except OSError:
+                    pass
+            file_size = truncate_pos
+            if file_size <= 0:
+                return 0
+
+        # Walk backwards from EOF in bounded chunks until the latest valid record is found.
+        cursor = file_size
+        carry = b""
+        while cursor > 0:
+            read_start = max(0, cursor - read_chunk)
+            handle.seek(read_start)
+            buf = handle.read(cursor - read_start) + carry
+            cursor = read_start
+            parts = buf.split(b"\n")
+            if cursor > 0:
+                carry = parts[0]
+                candidates = parts[1:]
+            else:
+                carry = b""
+                candidates = parts
+            for raw_line in reversed(candidates):
+                record = _parse_valid_event_line(raw_line)
+                if record is not None:
+                    return int(record["seq"])
+    return 0
 
 
 def load_job_events(job_dir: Path, *, limit: int | None = None) -> list[dict[str, Any]]:
@@ -168,8 +247,7 @@ def append_job_event(
     path = job_dir / EVENTS_FILE
     with _EVENT_JOURNAL_LOCK:
         job_dir.mkdir(parents=True, exist_ok=True)
-        previous = _valid_event_records(path, repair_partial=True)
-        next_seq = max((int(item["seq"]) for item in previous), default=0) + 1
+        next_seq = _read_last_valid_event_seq(path, repair_partial=True) + 1
         safe_event = _redact_event_value(event.strip())
         safe_stage = _redact_event_value(stage) if stage is not None else None
         record: dict[str, Any] = {

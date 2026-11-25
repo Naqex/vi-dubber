@@ -50,6 +50,7 @@ from .connector_ledger import (
 from .drive_oauth import DriveOAuthConfig, DriveOAuthError, DriveOAuthSession
 from .jobs import (
     JobAlreadyRunning,
+    PipelineControl,
     clear_control,
     job_lease_is_live,
     list_job_states,
@@ -90,6 +91,12 @@ _WAVEFORM_TRACK_FILES: dict[str, str] = {
 _WAVEFORM_CACHE_MAX_ENTRIES = 32
 _waveform_cache: OrderedDict[tuple[str, int, int, int], dict[str, Any]] = OrderedDict()
 _waveform_cache_lock = threading.Lock()
+_PREVIEW_MANIFEST_CACHE_MAX_ENTRIES = 256
+_preview_manifest_cache: OrderedDict[
+    str,
+    tuple[tuple[int, int], tuple[tuple[str, int, int], ...], dict[str, Any]],
+] = OrderedDict()
+_preview_manifest_cache_lock = threading.Lock()
 
 
 def _read_cached_waveform_peaks(audio_file: Path, *, bars: int) -> dict[str, Any]:
@@ -318,6 +325,65 @@ def _safe_job_file(job_dir: Path, value: str | Path) -> Path | None:
         return None
 
 
+def _load_verified_preview_manifest(manifest_path: Path, job_dir: Path) -> dict[str, Any] | None:
+    """Memoize preview manifest SHA-256 verification by (path, size_bytes, mtime_ns)."""
+    cache_key = str(manifest_path)
+    try:
+        m_stat = manifest_path.stat()
+    except OSError:
+        with _preview_manifest_cache_lock:
+            _preview_manifest_cache.pop(cache_key, None)
+        return None
+    manifest_sig = (int(m_stat.st_size), int(m_stat.st_mtime_ns))
+
+    with _preview_manifest_cache_lock:
+        cached = _preview_manifest_cache.get(cache_key)
+        if cached is not None and cached[0] == manifest_sig:
+            art_sigs = cached[1]
+            still_valid = True
+            for art_path_str, exp_size, exp_mtime_ns in art_sigs:
+                try:
+                    a_stat = Path(art_path_str).stat()
+                except OSError:
+                    still_valid = False
+                    break
+                if int(a_stat.st_size) != exp_size or int(a_stat.st_mtime_ns) != exp_mtime_ns:
+                    still_valid = False
+                    break
+            if still_valid:
+                _preview_manifest_cache.move_to_end(cache_key)
+                return dict(cached[2])
+
+    manifest = load_stage_manifest(
+        manifest_path,
+        job_dir=job_dir,
+        expected_stage="chunk_preview",
+        verify_artifacts=True,
+    )
+    if manifest is None:
+        with _preview_manifest_cache_lock:
+            _preview_manifest_cache.pop(cache_key, None)
+        return None
+
+    artifact_signatures: list[tuple[str, int, int]] = []
+    for record in manifest.get("artifacts", []):
+        if not isinstance(record, dict) or not isinstance(record.get("path"), str):
+            continue
+        try:
+            resolved = resolve_artifact_path(job_dir, record["path"])
+            a_stat = resolved.stat()
+        except (OSError, ValueError):
+            return None
+        artifact_signatures.append((str(resolved), int(a_stat.st_size), int(a_stat.st_mtime_ns)))
+
+    with _preview_manifest_cache_lock:
+        _preview_manifest_cache[cache_key] = (manifest_sig, tuple(artifact_signatures), dict(manifest))
+        _preview_manifest_cache.move_to_end(cache_key)
+        while len(_preview_manifest_cache) > _PREVIEW_MANIFEST_CACHE_MAX_ENTRIES:
+            _preview_manifest_cache.popitem(last=False)
+    return dict(manifest)
+
+
 def _list_chunk_previews(job_dir: Path) -> list[dict[str, Any]]:
     previews: list[dict[str, Any]] = []
     chunks_dir = job_dir / "chunks"
@@ -338,12 +404,7 @@ def _list_chunk_previews(job_dir: Path) -> list[dict[str, Any]]:
         if "preview_ready_chunks" in longform and chunk_id not in longform["preview_ready_chunks"]:
             continue
         manifest_path = chunk_dir / "manifests" / "preview.json"
-        manifest = load_stage_manifest(
-            manifest_path,
-            job_dir=job_dir,
-            expected_stage="chunk_preview",
-            verify_artifacts=True,
-        )
+        manifest = _load_verified_preview_manifest(manifest_path, job_dir)
         if manifest is None:
             continue
         meta_path = chunk_dir / "preview.json"
@@ -454,6 +515,9 @@ def _run_job_worker(
 ) -> None:
     job_id = job_dir.name
     try:
+        # Never clobber an active owner's live stage/progress/message on duplicate claim/resume.
+        if job_lease_is_live(job_dir):
+            return
         update_job_state(
             job_dir,
             status="running",
@@ -478,6 +542,16 @@ def _run_job_worker(
     except JobAlreadyRunning:
         # Another process owns the durable run lease.  Its state is authoritative;
         # a duplicate API request must never overwrite that run as failed.
+        return
+    except PipelineControl as exc:
+        # User-initiated pause/cancel is an intentional control transition, never a failure.
+        current = load_job_state(job_dir)
+        if current.get("status") != exc.status:
+            update_job_state(
+                job_dir,
+                status=exc.status,
+                message=str(exc),
+            )
         return
     except Exception as exc:
         update_job_state(
@@ -1308,16 +1382,45 @@ def create_app() -> FastAPI:
         stem = Path(input_name).stem if input_name else job_id
 
         if type in {"subtitles", "srt"}:
-            for s_name in ("source_turns.srt", "source_en.srt", "subtitles.srt"):
-                candidate = _safe_job_file(job_dir, s_name)
-                if candidate is not None:
-                    return FileResponse(
-                        candidate,
-                        media_type="application/x-subrip",
-                        filename=f"{stem}.vi.srt",
-                        headers={"Content-Disposition": f'attachment; filename="{stem}.vi.srt"'},
-                    )
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Subtitle file not found")
+            # Serve only the Vietnamese subtitle artifact inside job_dir; never fall back
+            # to English source_en.srt / source_turns.srt disguised as .vi.srt.
+            subtitle_candidates: list[Path] = []
+            for raw_sub in (result.get("subtitle"), metadata.get("subtitle")):
+                if raw_sub:
+                    p = _safe_job_file(job_dir, str(raw_sub))
+                    if p is not None and p not in subtitle_candidates:
+                        subtitle_candidates.append(p)
+            for raw_out in (result.get("output"), metadata.get("output")):
+                if raw_out:
+                    p = _safe_job_file(job_dir, Path(str(raw_out)).with_suffix(".vi.srt"))
+                    if p is not None and p not in subtitle_candidates:
+                        subtitle_candidates.append(p)
+            for s_name in (
+                f"{stem}.vi.srt",
+                "dubbed.vi.srt",
+                "output.vi.srt",
+                "final.vi.srt",
+                "subtitles_vi.srt",
+                "subtitles.vi.srt",
+            ):
+                p = _safe_job_file(job_dir, s_name)
+                if p is not None and p not in subtitle_candidates:
+                    subtitle_candidates.append(p)
+            for candidate_path in sorted(job_dir.glob("*.vi.srt")):
+                p = _safe_job_file(job_dir, candidate_path)
+                if p is not None and p not in subtitle_candidates:
+                    subtitle_candidates.append(p)
+            if subtitle_candidates:
+                return FileResponse(
+                    subtitle_candidates[0],
+                    media_type="application/x-subrip",
+                    filename=f"{stem}.vi.srt",
+                    headers={"Content-Disposition": f'attachment; filename="{stem}.vi.srt"'},
+                )
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Vietnamese subtitle file not found",
+            )
 
         # Video format download
         candidates: list[Path] = []

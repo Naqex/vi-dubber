@@ -135,13 +135,13 @@ def duration_fit_hint(
     }
 
 
-def _translation_context_item(segment: Segment) -> dict[str, Any]:
+def _translation_context_item(segment: Segment, *, include_translations: bool = True) -> dict[str, Any]:
     item: dict[str, Any] = {
         "id": segment.id,
         "speaker": segment.speaker,
         "source_en": segment.text,
     }
-    if segment.vi.strip():
+    if include_translations and segment.vi.strip():
         item["translation_vi"] = segment.vi.strip()
     return item
 
@@ -152,6 +152,7 @@ def build_translation_payload(
     offset: int,
     count: int,
     context_window: int = 2,
+    include_translations: bool = True,
 ) -> list[dict[str, Any]]:
     """Build translation items with bounded nearby context and duration budget."""
     context_window = max(0, int(context_window))
@@ -168,8 +169,14 @@ def build_translation_payload(
                 "speaker": segment.speaker,
                 "target_duration_sec": round(segment.duration, 3),
                 "source_en": segment.text,
-                "context_before": [_translation_context_item(item) for item in before],
-                "context_after": [_translation_context_item(item) for item in after],
+                "context_before": [
+                    _translation_context_item(item, include_translations=include_translations)
+                    for item in before
+                ],
+                "context_after": [
+                    _translation_context_item(item, include_translations=include_translations)
+                    for item in after
+                ],
                 "policy_version": TRANSLATION_POLICY_VERSION,
             }
         )
@@ -1522,22 +1529,8 @@ class WebGptTranslator:
             if item.id in cached_by_id and not item.vi:
                 item.vi = cached_by_id[item.id]
 
-        pending: list[tuple[int, list[Segment], str, str]] = []
-        for offset in range(0, len(segments), batch_size):
-            batch = segments[offset : offset + batch_size]
-            if all(bool(item.vi and item.vi.strip()) for item in batch):
-                if progress_callback is not None:
-                    done = min(offset + len(batch), len(segments))
-                    progress_callback(done / max(1, len(segments)), f"Đang dịch bằng Codex WebGPT: {done}/{len(segments)} đoạn (sử dụng cache)")
-                continue
-
-            payload = build_translation_payload(
-                segments,
-                offset=offset,
-                count=len(batch),
-                context_window=context_window,
-            )
-            prompt = (
+        def _format_translation_prompt(payload_items: list[dict[str, Any]]) -> str:
+            return (
                 SYSTEM_PROMPT.replace("/no_think\n", "")
                 + "\nYou are running as a translation backend. Do not inspect files or call tools.\n"
                 + f"Glossary={glossary_text}\n"
@@ -1553,9 +1546,38 @@ class WebGptTranslator:
                 + "Treat target_duration_sec as an approximate speaking budget, never as permission to drop meaning. "
                 + "Priority: meaning > critical facts > natural spoken Vietnamese > context/register > duration fit. "
                 + "Keep ids unchanged and return only the schema-conforming JSON.\n"
-                + f"INPUT={json.dumps(payload, ensure_ascii=False)}"
+                + f"INPUT={json.dumps(payload_items, ensure_ascii=False)}"
             )
-            request_identity = self._translation_request_identity(prompt, schema)
+
+        pending: list[tuple[int, list[Segment], str, str]] = []
+        for offset in range(0, len(segments), batch_size):
+            batch = segments[offset : offset + batch_size]
+            if all(bool(item.vi and item.vi.strip()) for item in batch):
+                if progress_callback is not None:
+                    done = min(offset + len(batch), len(segments))
+                    progress_callback(done / max(1, len(segments)), f"Đang dịch bằng Codex WebGPT: {done}/{len(segments)} đoạn (sử dụng cache)")
+                continue
+
+            payload = build_translation_payload(
+                segments,
+                offset=offset,
+                count=len(batch),
+                context_window=context_window,
+                include_translations=True,
+            )
+            prompt = _format_translation_prompt(payload)
+            # Freeze source-only context (excluding mutable prior translation_vi) in
+            # request_identity so resuming multi-batch jobs never causes cache misses
+            # when earlier batches now have segment.vi populated.
+            identity_payload = build_translation_payload(
+                segments,
+                offset=offset,
+                count=len(batch),
+                context_window=context_window,
+                include_translations=False,
+            )
+            identity_prompt = _format_translation_prompt(identity_payload)
+            request_identity = self._translation_request_identity(identity_prompt, schema)
             receipt_by_id = receipt_cache.get(request_identity, {})
             for item in batch:
                 if not item.vi and item.id in receipt_by_id:

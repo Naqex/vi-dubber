@@ -139,6 +139,44 @@ def extracted_audio_path(job_dir: Path, duration_seconds: float) -> Path:
     return Path(job_dir) / f"original.{container.lower()}"
 
 
+def voice_track_container(
+    duration_seconds: float,
+    *,
+    sample_rate: int = 48_000,
+    channels: int = 1,
+    bytes_per_sample: int = 2,
+) -> str:
+    """Select WAV or FLAC for assembled voice audio to prevent 32-bit RIFF (>4 GiB) overflow."""
+    if not math.isfinite(float(duration_seconds)) or duration_seconds <= 0:
+        return "WAV"
+    if isinstance(sample_rate, bool) or not isinstance(sample_rate, int) or sample_rate <= 0:
+        raise ValueError("sample_rate must be a positive integer")
+    if isinstance(channels, bool) or not isinstance(channels, int) or channels <= 0:
+        raise ValueError("channels must be a positive integer")
+    if isinstance(bytes_per_sample, bool) or not isinstance(bytes_per_sample, int) or bytes_per_sample <= 0:
+        raise ValueError("bytes_per_sample must be a positive integer")
+    estimated_pcm_bytes = float(duration_seconds) * sample_rate * channels * bytes_per_sample
+    return "FLAC" if estimated_pcm_bytes >= WAV_SAFE_BYTES else "WAV"
+
+
+def voice_track_path(
+    job_dir: Path,
+    duration_seconds: float,
+    *,
+    sample_rate: int = 48_000,
+    channels: int = 1,
+    bytes_per_sample: int = 2,
+) -> Path:
+    """Return the assembled voice track path (WAV or FLAC for >10.1h mono 48kHz PCM_16)."""
+    container = voice_track_container(
+        duration_seconds,
+        sample_rate=sample_rate,
+        channels=channels,
+        bytes_per_sample=bytes_per_sample,
+    )
+    return Path(job_dir) / f"voice_vi.{container.lower()}"
+
+
 def audio_extraction_spec(duration_seconds: float) -> dict[str, Any]:
     """Return the versioned extraction identity used by the pipeline cache."""
 
@@ -601,13 +639,15 @@ def assemble_voice_track(
     partial = output.with_name(f"{output.stem}.partial{output.suffix}")
     partial.unlink(missing_ok=True)
     try:
-        with sf.SoundFile(
-            str(partial),
-            mode="w",
-            samplerate=sample_rate,
-            channels=1,
-            subtype="PCM_16",
-        ) as sink:
+        sink_kwargs: dict[str, Any] = {
+            "mode": "w",
+            "samplerate": sample_rate,
+            "channels": 1,
+            "subtype": "PCM_16",
+        }
+        if output.suffix.lower() == ".flac":
+            sink_kwargs["format"] = "FLAC"
+        with sf.SoundFile(str(partial), **sink_kwargs) as sink:
             for block_start in range(0, total_samples, block_samples):
                 block_end = min(total_samples, block_start + block_samples)
                 sink.write(render_block(block_start, block_end) * gain)
@@ -618,18 +658,29 @@ def assemble_voice_track(
     return output
 
 
-def voice_track_metrics(path: Path) -> dict[str, float | int]:
-    audio, _sample_rate = sf.read(str(path), dtype="float32", always_2d=True)
-    mono = audio.mean(axis=1) if audio.size else np.zeros(0, dtype=np.float32)
-    if mono.size == 0:
+def voice_track_metrics(path: Path, *, blocksize: int = 48_000 * 30) -> dict[str, float | int]:
+    """Measure voice track peak and clipping in bounded-memory blocks (safe for 6-12h tracks)."""
+    chunk_size = max(1, int(blocksize))
+    peak = 0.0
+    clipped = 0
+    total_frames = 0
+    for block in sf.blocks(str(path), blocksize=chunk_size, dtype="float32", always_2d=True):
+        if block.size == 0 or len(block) == 0:
+            continue
+        mono = block[:, 0] if block.shape[1] == 1 else block.mean(axis=1)
+        abs_mono = np.abs(mono)
+        block_peak = float(np.max(abs_mono))
+        if block_peak > peak:
+            peak = block_peak
+        clipped += int(np.count_nonzero(abs_mono >= 0.999))
+        total_frames += len(mono)
+    if total_frames == 0:
         return {"peak": 0.0, "peak_dbfs": float("-inf"), "clipped_samples": 0, "clipping_ratio": 0.0}
-    peak = float(np.max(np.abs(mono)))
-    clipped = int(np.count_nonzero(np.abs(mono) >= 0.999))
     return {
         "peak": peak,
         "peak_dbfs": 20.0 * math.log10(max(peak, 1e-12)),
         "clipped_samples": clipped,
-        "clipping_ratio": clipped / len(mono),
+        "clipping_ratio": clipped / total_frames,
     }
 
 

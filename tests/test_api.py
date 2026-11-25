@@ -14,7 +14,13 @@ import vi_dubber.api as api_mod
 from vi_dubber.api import create_app
 from vi_dubber.artifacts import atomic_write_json
 from vi_dubber.catalog_store import CatalogItem, CatalogStore, UserState
-from vi_dubber.jobs import JobAlreadyRunning, update_job_state
+from vi_dubber.jobs import (
+    JobAlreadyRunning,
+    PipelineCancelled,
+    PipelinePaused,
+    claim_job,
+    update_job_state,
+)
 from vi_dubber.longform import MacroChunk
 from vi_dubber.longform_state import commit_chunk_stage
 
@@ -867,4 +873,200 @@ def test_api_waveform_validates_params_corrupt_files_and_symlinks(
     except OSError:
         return
     assert client.get("/api/jobs/job-waveform02/waveform", params={"track": "bgm"}).status_code == 404
+
+
+@pytest.mark.parametrize(
+    ("exc_cls", "expected_status"),
+    [
+        (PipelinePaused, "paused"),
+        (PipelineCancelled, "cancelled"),
+    ],
+)
+def test_api_worker_preserves_paused_and_cancelled_states(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    exc_cls: type[Exception],
+    expected_status: str,
+) -> None:
+    job_dir = tmp_path / f"job-control-{expected_status}"
+    job_dir.mkdir()
+    update_job_state(job_dir, status="running", stage="tts", progress=0.45, message="Running")
+
+    def raise_control(**_kwargs: object) -> dict[str, object]:
+        raise exc_cls(f"Job {expected_status}")
+
+    monkeypatch.setattr(api_mod, "run_pipeline", raise_control)
+    api_mod._run_job_worker(
+        job_dir,
+        tmp_path / "input.mp4",
+        tmp_path / "output.mp4",
+        tmp_path / "config.yaml",
+        translation_provider="local",
+    )
+
+    state = json.loads((job_dir / "state.json").read_text(encoding="utf-8"))
+    assert state["status"] == expected_status
+    assert "error" not in state
+
+
+def test_api_worker_does_not_clobber_progress_when_live_lease_exists(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    job_dir = tmp_path / "job-live-lease-preserve"
+    job_dir.mkdir()
+    update_job_state(
+        job_dir,
+        status="running",
+        stage="tts",
+        progress=0.73,
+        message="Active owner rendering",
+    )
+    called = False
+
+    def should_not_run(**_kwargs: object) -> dict[str, object]:
+        nonlocal called
+        called = True
+        return {}
+
+    monkeypatch.setattr(api_mod, "run_pipeline", should_not_run)
+    with claim_job(job_dir):
+        api_mod._run_job_worker(
+            job_dir,
+            tmp_path / "input.mp4",
+            tmp_path / "output.mp4",
+            tmp_path / "config.yaml",
+            translation_provider="local",
+        )
+
+    assert called is False
+    state = json.loads((job_dir / "state.json").read_text(encoding="utf-8"))
+    assert state["status"] == "running"
+    assert state["stage"] == "tts"
+    assert state["progress"] == pytest.approx(0.73)
+    assert state["message"] == "Active owner rendering"
+
+
+def test_api_preview_listing_memoizes_sha256_and_invalidates_on_tamper(
+    client: TestClient,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    job_dir = tmp_path / "work" / "job-preview-memo"
+    preview_dir = job_dir / "chunks" / "chunk_0001" / "preview"
+    preview_dir.mkdir(parents=True, exist_ok=True)
+    preview_path = preview_dir / "PREVIEW_chunk_0001.mp4"
+    preview_path.write_bytes(b"verified-preview-bytes")
+    meta_path = job_dir / "chunks" / "chunk_0001" / "preview.json"
+    atomic_write_json(
+        meta_path,
+        {
+            "version": 1,
+            "kind": "preview",
+            "label": "PREVIEW",
+            "final": False,
+            "stale": False,
+            "chunk_id": "chunk_0001",
+            "index": 0,
+            "start": 0.0,
+            "end": 30.0,
+            "duration": 30.0,
+            "qa_status": "passed",
+            "artifact": "chunks/chunk_0001/preview/PREVIEW_chunk_0001.mp4",
+        },
+    )
+    chunk = MacroChunk(
+        chunk_id="chunk_0001",
+        index=0,
+        source_start=0.0,
+        source_end=30.0,
+        context_start=0.0,
+        context_end=30.0,
+        boundary_reason="end",
+    )
+    commit_chunk_stage(
+        job_dir,
+        chunk,
+        "preview",
+        inputs={"fixture": "memo"},
+        artifacts=[preview_path, meta_path],
+        versions={"policy": 1},
+    )
+
+    verify_calls = 0
+    real_load = api_mod.load_stage_manifest
+
+    def spy_load(*args, **kwargs):
+        nonlocal verify_calls
+        verify_calls += 1
+        return real_load(*args, **kwargs)
+
+    monkeypatch.setattr(api_mod, "load_stage_manifest", spy_load)
+
+    for _ in range(4):
+        res = client.get("/api/jobs/job-preview-memo/previews")
+        assert res.status_code == 200
+        assert len(res.json()) == 1
+    assert verify_calls == 1, "Repeated polls must reuse memoized verification when files are unchanged"
+
+    preview_path.write_bytes(b"tampered")
+    res_tampered = client.get("/api/jobs/job-preview-memo/previews")
+    assert res_tampered.status_code == 200
+    assert res_tampered.json() == []
+    assert verify_calls == 2
+
+
+def test_api_subtitle_download_serves_vietnamese_srt_and_never_english_source(
+    client: TestClient,
+    tmp_path: Path,
+) -> None:
+    work = tmp_path / "work"
+    job_en_only = work / "job-sub-en-only"
+    job_en_only.mkdir(parents=True, exist_ok=True)
+    (job_en_only / "source_en.srt").write_text(
+        "1\n00:00:00,000 --> 00:00:01,000\nEnglish source only\n",
+        encoding="utf-8",
+    )
+    (job_en_only / "source_turns.srt").write_text(
+        "1\n00:00:00,000 --> 00:00:01,000\nEnglish turn only\n",
+        encoding="utf-8",
+    )
+    update_job_state(
+        job_en_only,
+        status="completed",
+        stage="complete",
+        progress=1.0,
+        message="Done",
+        metadata={"input_name": "lesson.mp4"},
+    )
+
+    missing_vi = client.get("/api/jobs/job-sub-en-only/download", params={"type": "subtitles"})
+    assert missing_vi.status_code == 404
+    assert b"English" not in missing_vi.content
+
+    job_vi = work / "job-sub-vi"
+    job_vi.mkdir(parents=True, exist_ok=True)
+    (job_vi / "source_en.srt").write_text(
+        "1\n00:00:00,000 --> 00:00:01,000\nEnglish source\n",
+        encoding="utf-8",
+    )
+    vi_srt = job_vi / "lesson.vi.srt"
+    vi_srt.write_text(
+        "1\n00:00:00,000 --> 00:00:01,000\nPhụ đề tiếng Việt thật\n",
+        encoding="utf-8",
+    )
+    update_job_state(
+        job_vi,
+        status="completed",
+        stage="complete",
+        progress=1.0,
+        message="Done",
+        metadata={"input_name": "lesson.mp4"},
+        result={"subtitle": str(vi_srt)},
+    )
+
+    res_vi = client.get("/api/jobs/job-sub-vi/download", params={"type": "subtitles"})
+    assert res_vi.status_code == 200
+    assert "Phụ đề tiếng Việt thật" in res_vi.text
+    assert "English source" not in res_vi.text
 
