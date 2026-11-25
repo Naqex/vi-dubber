@@ -8,13 +8,26 @@ const systemBarPath = fileURLToPath(new URL('../src/components/header/SystemBar.
 const stepperPath = fileURLToPath(new URL('../src/components/pipeline/PipelineStepper.tsx', import.meta.url));
 const etaCardPath = fileURLToPath(new URL('../src/components/monitor/DynamicEtaCard.tsx', import.meta.url));
 const jobContextPath = fileURLToPath(new URL('../src/context/JobContext.tsx', import.meta.url));
-const [sourceCss, sharedSnapshotCss, systemBarTsx, stepperTsx, etaCardTsx, jobContextTsx] = await Promise.all([
+const reviewerPath = fileURLToPath(new URL('../src/components/review/SegmentReviewer.tsx', import.meta.url));
+const videoPlayerPath = fileURLToPath(new URL('../src/components/monitor/VideoPlayer.tsx', import.meta.url));
+const [
+  sourceCss,
+  sharedSnapshotCss,
+  systemBarTsx,
+  stepperTsx,
+  etaCardTsx,
+  jobContextTsx,
+  reviewerTsx,
+  videoPlayerTsx,
+] = await Promise.all([
   readFile(sourcePath, 'utf8'),
   readFile(sharedSnapshotPath, 'utf8'),
   readFile(systemBarPath, 'utf8'),
   readFile(stepperPath, 'utf8'),
   readFile(etaCardPath, 'utf8'),
   readFile(jobContextPath, 'utf8'),
+  readFile(reviewerPath, 'utf8'),
+  readFile(videoPlayerPath, 'utf8'),
 ]);
 
 assert.match(sourceCss, /@media\s*\(prefers-reduced-motion:\s*reduce\)/, 'VI CSS must honor reduced-motion preferences');
@@ -27,5 +40,7 @@ assert.match(stepperTsx, /resolveCompletedQaState/, 'PipelineStepper must not re
 assert.match(etaCardTsx, /PIPELINE_COMPLETE · QA_FAILED/, 'DynamicEtaCard must distinguish completed QA failures');
 assert.match(jobContextTsx, /acceptAllJobSegments\(/, 'JobContext acceptAllSegments must use single batch endpoint');
 assert.doesNotMatch(jobContextTsx, /Promise\.all\(\s*pendingSegments\.map/s, 'JobContext must not fan out per-segment PATCH storm');
+assert.match(reviewerTsx, /computeVirtualWindow\(/, 'SegmentReviewer must virtualize segment cards for 12h jobs');
+assert.match(videoPlayerTsx, /buildTimelineBuckets\(/, 'VideoPlayer must bound timeline markers for 12h jobs');
 
-console.log(JSON.stringify({ status: 'PASS', checks: 10 }));
+console.log(JSON.stringify({ status: 'PASS', checks: 12 }));

@@ -818,3 +818,23 @@ def test_scale_ux_and_status_honesty_invariants(tmp_path: Path) -> None:
     assert item.metadata["qa_passed"] is False
     view = build_catalog_view([item])
     assert view["items"][0]["job"]["qa_passed"] is False
+
+
+def test_longform_frontend_virtualization_and_timeline_bucketing_contracts() -> None:
+    """CI-covered contract ensuring SegmentReviewer and VideoPlayer stay DOM-bounded for 12h jobs."""
+    repo_root = Path(__file__).resolve().parents[1]
+    virtual_lib = (repo_root / "frontend" / "src" / "lib" / "virtualList.ts").read_text(encoding="utf-8")
+    reviewer = (
+        repo_root / "frontend" / "src" / "components" / "review" / "SegmentReviewer.tsx"
+    ).read_text(encoding="utf-8")
+    video_player = (
+        repo_root / "frontend" / "src" / "components" / "monitor" / "VideoPlayer.tsx"
+    ).read_text(encoding="utf-8")
+
+    assert "export function computeVirtualWindow(" in virtual_lib
+    assert "export function buildTimelineBuckets(" in virtual_lib
+    assert "computeVirtualWindow(" in reviewer
+    assert "data-virtualized-list=\"true\"" in reviewer
+    assert "buildTimelineBuckets(" in video_player
+    assert "data-timeline-marker=\"true\"" in video_player
+    assert "visibleSegments.map(" not in video_player
