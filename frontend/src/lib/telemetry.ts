@@ -80,3 +80,20 @@ export function deriveEtaTelemetry(input: EtaTelemetryInput): EtaTelemetryState 
     completionAtMs,
   };
 }
+
+export type CompletedQaState = 'passed' | 'failed' | 'unverified';
+
+/**
+ * Separate processing completion (`status === 'completed'`) from QA acceptance.
+ * A completed job whose QA verdict is false or missing (e.g., Job12) must never
+ * inherit a green QA-pass badge.
+ */
+export function resolveCompletedQaState(
+  job: { status?: string; result?: { qa?: { passed?: boolean | null } | null } | null } | null | undefined,
+): CompletedQaState | null {
+  if (!job || job.status !== 'completed') return null;
+  const passed = job.result?.qa?.passed;
+  if (passed === true) return 'passed';
+  if (passed === false) return 'failed';
+  return 'unverified';
+}

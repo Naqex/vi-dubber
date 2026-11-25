@@ -318,3 +318,20 @@ export interface SystemStatus {
 export type AppMode = 'standard' | 'engineer';
 export type AppTheme = 'dark' | 'light';
 export type Language = 'en' | 'vi';
+
+export type WaveformTrack = 'a' | 'b' | 'bgm';
+
+export interface WaveformPeaksResponse {
+  job_id: string;
+  track: WaveformTrack;
+  bars: number;
+  peaks: number[];
+  duration_seconds: number;
+  sample_rate: number;
+  channels: number;
+  total_frames: number;
+  file_bytes: number;
+  sampling_mode: 'streaming_full' | 'windowed_seek' | 'empty' | string;
+  frames_scanned: number;
+  max_read_buffer_frames: number;
+}

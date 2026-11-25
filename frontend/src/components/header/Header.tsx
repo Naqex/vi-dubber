@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { CatalogPanel } from '@/components/header/CatalogPanel';
 import { ConnectorFlowPanel } from '@/components/common/ConnectorFlowPanel';
-import { isFinalJobReady } from '@/lib/utils';
+import { isFinalJobReady, resolveCompletedQaState } from '@/lib/utils';
 
 export const Header: React.FC = () => {
   const { language, setLanguage, t } = useTranslation();
@@ -28,6 +28,7 @@ export const Header: React.FC = () => {
   const jobMenuRef = useRef<HTMLDivElement>(null);
 
   const activeJob = jobs.find(j => j.id === activeJobId) || jobs[0];
+  const activeCompletedQaState = resolveCompletedQaState(activeJob);
 
   useEffect(() => {
     if (!isJobMenuOpen) return;
@@ -91,13 +92,22 @@ export const Header: React.FC = () => {
                 {activeJob?.metadata?.input_name || activeJob?.id || t('common.active_job')}
               </span>
               {activeJob?.status === 'running' && (
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                <span aria-hidden="true" className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
               )}
-              {activeJob?.status === 'completed' && (
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              {activeCompletedQaState === 'passed' && (
+                <span aria-hidden="true" className="w-2 h-2 rounded-full bg-emerald-400" />
+              )}
+              {activeCompletedQaState === 'failed' && (
+                <span aria-hidden="true" className="w-2 h-2 rounded-full bg-rose-500" />
+              )}
+              {activeCompletedQaState === 'unverified' && (
+                <span aria-hidden="true" className="w-2 h-2 rounded-full bg-amber-400" />
               )}
               {activeJob?.status === 'paused' && (
-                <span className="w-2 h-2 rounded-full bg-amber-400" />
+                <span aria-hidden="true" className="w-2 h-2 rounded-full bg-amber-400" />
+              )}
+              {activeJob?.status === 'failed' && (
+                <span aria-hidden="true" className="w-2 h-2 rounded-full bg-rose-500" />
               )}
               <ChevronDown className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300" />
             </button>
@@ -113,7 +123,29 @@ export const Header: React.FC = () => {
                 {t('common.all_jobs')} ({jobs.length})
               </div>
               <div className="max-h-60 overflow-y-auto">
-                {jobs.map(job => (
+                {jobs.map(job => {
+                  const jobQaState = resolveCompletedQaState(job);
+                  const badgeVariant = jobQaState === 'passed'
+                    ? 'success'
+                    : jobQaState === 'failed'
+                      ? 'error'
+                      : jobQaState === 'unverified'
+                        ? 'warning'
+                        : job.status === 'running'
+                          ? 'info'
+                          : job.status === 'paused'
+                            ? 'warning'
+                            : job.status === 'failed'
+                              ? 'error'
+                              : 'default';
+                  const badgeLabel = jobQaState === 'passed'
+                    ? t('job.completed_qa_passed')
+                    : jobQaState === 'failed'
+                      ? t('job.completed_qa_failed')
+                      : jobQaState === 'unverified'
+                        ? t('job.completed_qa_unverified')
+                        : job.status.toUpperCase();
+                  return (
                   <button
                     key={job.id}
                     type="button"
@@ -122,26 +154,21 @@ export const Header: React.FC = () => {
                       setActiveJobId(job.id);
                       setIsJobMenuOpen(false);
                     }}
-                    className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer ${
+                    className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between gap-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer ${
                       job.id === activeJobId ? 'bg-orange-500/10 text-orange-600 dark:text-orange-400 font-semibold' : 'text-slate-700 dark:text-slate-300'
                     }`}
                   >
-                    <span className="truncate pr-2">{job.metadata?.input_name || job.id}</span>
+                    <span className="truncate pr-1">{job.metadata?.input_name || job.id}</span>
                     <Badge
-                      variant={
-                        job.status === 'completed'
-                          ? 'success'
-                          : job.status === 'running'
-                          ? 'info'
-                          : job.status === 'paused'
-                          ? 'warning'
-                          : 'default'
-                      }
+                      variant={badgeVariant}
+                      className="whitespace-nowrap shrink-0"
+                      data-qa-state={jobQaState ?? undefined}
                     >
-                      {job.status.toUpperCase()}
+                      {badgeLabel}
                     </Badge>
                   </button>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -189,7 +216,14 @@ export const Header: React.FC = () => {
             <a
               href={`/api/jobs/${activeJob.id}/download`}
               download
-              className="relative flex items-center gap-1.5 h-8 px-3.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-md text-xs sm:text-sm font-bold shadow-lg shadow-emerald-600/40 hover:scale-[1.03] transition-all font-mono cursor-pointer border border-emerald-400/50"
+              data-qa-state={activeCompletedQaState ?? 'unverified'}
+              className={`relative flex items-center gap-1.5 h-8 px-3.5 text-white rounded-md text-xs sm:text-sm font-bold shadow-lg hover:scale-[1.03] transition-all font-mono cursor-pointer border ${
+                activeCompletedQaState === 'failed'
+                  ? 'bg-rose-700 hover:bg-rose-800 shadow-rose-600/40 border-rose-400/50'
+                  : activeCompletedQaState === 'passed'
+                    ? 'bg-emerald-700 hover:bg-emerald-800 shadow-emerald-600/40 border-emerald-400/50'
+                    : 'bg-slate-700 hover:bg-slate-800 shadow-slate-600/40 border-slate-400/50'
+              }`}
               title={t('common.download_video')}
               aria-label={t('common.download_video')}
             >

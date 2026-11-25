@@ -5,7 +5,9 @@ import threading
 import time
 from pathlib import Path
 
+import numpy as np
 import pytest
+import soundfile as sf
 from fastapi.testclient import TestClient
 
 import vi_dubber.api as api_mod
@@ -808,4 +810,61 @@ def test_api_spa_fallback_or_redirect(client: TestClient) -> None:
     # Non-existent API path returns 404
     res_api_404 = client.get("/api/unknown_route")
     assert res_api_404.status_code == 404
+
+
+def test_api_waveform_returns_bounded_peaks_and_does_not_write_to_job_dir(
+    client: TestClient,
+    tmp_path: Path,
+) -> None:
+    job_dir = tmp_path / "work" / "job-waveform01"
+    job_dir.mkdir(parents=True, exist_ok=True)
+    sample_rate = 16_000
+    t = np.linspace(0.0, 1.0, sample_rate, endpoint=False, dtype=np.float32)
+    voice_path = job_dir / "voice_track.wav"
+    sf.write(str(voice_path), 0.5 * np.sin(2.0 * np.pi * 440.0 * t), sample_rate, subtype="PCM_16")
+    before_entries = sorted(p.name for p in job_dir.iterdir())
+
+    res = client.get("/api/jobs/job-waveform01/waveform", params={"track": "b", "bars": 64})
+    assert res.status_code == 200
+    assert res.headers["cache-control"] == "private, no-cache"
+    data = res.json()
+    assert data["job_id"] == "job-waveform01"
+    assert data["track"] == "b"
+    assert data["bars"] == 64
+    assert len(data["peaks"]) == 64
+    assert min(data["peaks"]) > 0.4
+    assert data["sampling_mode"] == "streaming_full"
+    assert data["max_read_buffer_frames"] <= 16_384
+    assert sorted(p.name for p in job_dir.iterdir()) == before_entries
+
+    # Updating the WAV file invalidates the in-memory LRU cache entry cleanly.
+    sf.write(str(voice_path), np.zeros(sample_rate * 2, dtype=np.float32), sample_rate, subtype="PCM_16")
+    res_updated = client.get("/api/jobs/job-waveform01/waveform", params={"track": "b", "bars": 64})
+    assert res_updated.status_code == 200
+    assert max(res_updated.json()["peaks"]) == 0.0
+    assert sorted(p.name for p in job_dir.iterdir()) == before_entries
+
+
+def test_api_waveform_validates_params_corrupt_files_and_symlinks(
+    client: TestClient,
+    tmp_path: Path,
+) -> None:
+    job_dir = tmp_path / "work" / "job-waveform02"
+    job_dir.mkdir(parents=True, exist_ok=True)
+    (job_dir / "vocals.wav").write_bytes(b"corrupt-audio")
+
+    assert client.get("/api/jobs/job-waveform02/waveform", params={"track": "../secret"}).status_code == 400
+    assert client.get("/api/jobs/job-waveform02/waveform", params={"track": "b", "bars": 4}).status_code == 400
+    assert client.get("/api/jobs/job-waveform02/waveform", params={"track": "b", "bars": 1000}).status_code == 400
+    assert client.get("/api/jobs/job-waveform02/waveform", params={"track": "b"}).status_code == 404
+    assert client.get("/api/jobs/job-waveform02/waveform", params={"track": "a"}).status_code == 422
+
+    outside = tmp_path / "outside.wav"
+    sf.write(str(outside), np.zeros(1_600, dtype=np.float32), 16_000, subtype="PCM_16")
+    link = job_dir / "accompaniment.wav"
+    try:
+        link.symlink_to(outside)
+    except OSError:
+        return
+    assert client.get("/api/jobs/job-waveform02/waveform", params={"track": "bgm"}).status_code == 404
 

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useJob } from '@/context/JobContext';
 import { useTranslation } from '@/context/I18nContext';
-import { formatSeconds, isPreviewReady } from '@/lib/utils';
+import { formatSeconds, isPreviewReady, resolveCompletedQaState } from '@/lib/utils';
 import { positiveFinite } from '@/lib/telemetry';
 import {
   Play,
@@ -85,7 +85,13 @@ export const VideoPlayer: React.FC = () => {
   const videoSrc = selectedPreview?.play_url || (previewPlaybackBlocked ? null : finalVideoSrc);
   const sourceKind = selectedPreview ? 'preview' : videoSrc ? 'final' : 'none';
   const qa = activeJob?.result?.qa;
+  const completedQaState = resolveCompletedQaState(activeJob);
   const qaVerdict = t(qa?.passed === false ? 'qa.failed' : qa?.passed === true ? 'qa.passed' : 'qa.unverified');
+  const finalBadgeLabel = completedQaState === 'failed'
+    ? t('final.badge_failed')
+    : completedQaState === 'passed'
+      ? t('final.badge_passed')
+      : t('final.badge_unverified');
 
   useEffect(() => {
     setVideoDuration(0);
@@ -319,8 +325,17 @@ export const VideoPlayer: React.FC = () => {
                 PREVIEW · Part {selectedPreview.index + 1}/{activeJob?.metadata?.longform?.preview_total_chunks || activeJob?.metadata?.longform?.total_chunks || '?'} · {formatSeconds(selectedPreview.start)}–{formatSeconds(selectedPreview.end)}
               </div>
             ) : sourceKind === 'final' ? (
-              <div className="rounded bg-slate-200/90 px-2 py-0.5 text-[10px] font-bold text-slate-950 shadow-sm">
-                FINAL
+              <div
+                data-qa-state={completedQaState ?? 'unverified'}
+                className={`rounded px-2 py-0.5 text-[10px] font-bold shadow-sm border ${
+                  completedQaState === 'failed'
+                    ? 'bg-rose-950/95 text-rose-200 border-rose-500/60'
+                    : completedQaState === 'passed'
+                      ? 'bg-emerald-950/95 text-emerald-200 border-emerald-500/60'
+                      : 'bg-slate-200/95 text-slate-950 border-slate-300'
+                }`}
+              >
+                {finalBadgeLabel}
               </div>
             ) : null}
           </div>
@@ -352,16 +367,30 @@ export const VideoPlayer: React.FC = () => {
                   requestSeek(0);
                   setIsPlaying(false);
                 }}
-                className="flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-700 hover:bg-emerald-800 backdrop-blur-md border border-emerald-400 text-[11px] text-white font-bold shadow-md shadow-emerald-600/30 transition cursor-pointer"
+                data-qa-state={completedQaState ?? 'unverified'}
+                className={`flex items-center gap-1 px-2 py-0.5 rounded backdrop-blur-md border text-[11px] text-white font-bold shadow-md transition cursor-pointer ${
+                  completedQaState === 'failed'
+                    ? 'bg-rose-700 hover:bg-rose-800 border-rose-400 shadow-rose-600/30'
+                    : completedQaState === 'passed'
+                      ? 'bg-emerald-700 hover:bg-emerald-800 border-emerald-400 shadow-emerald-600/30'
+                      : 'bg-amber-700 hover:bg-amber-800 border-amber-400 shadow-amber-600/30'
+                }`}
                 title="Chuyển sang bản Final"
               >
-                FINAL READY
+                {finalBadgeLabel}
               </button>
             ) : activeJob && finalVideoSrc ? (
               <a
                 href={`/api/jobs/${activeJob.id}/download`}
                 download
-                className="flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-700 hover:bg-emerald-800 backdrop-blur-md border border-emerald-400 text-[11px] text-white font-bold shadow-md shadow-emerald-600/30 hover:scale-105 transition cursor-pointer"
+                data-qa-state={completedQaState ?? 'unverified'}
+                className={`flex items-center gap-1 px-2 py-0.5 rounded backdrop-blur-md border text-[11px] text-white font-bold shadow-md hover:scale-105 transition cursor-pointer ${
+                  completedQaState === 'failed'
+                    ? 'bg-rose-700 hover:bg-rose-800 border-rose-400 shadow-rose-600/30'
+                    : completedQaState === 'passed'
+                      ? 'bg-emerald-700 hover:bg-emerald-800 border-emerald-400 shadow-emerald-600/30'
+                      : 'bg-slate-700 hover:bg-slate-800 border-slate-400 shadow-slate-600/30'
+                }`}
                 title={t('common.download_video')}
               >
                 <Download className="w-3 h-3" />

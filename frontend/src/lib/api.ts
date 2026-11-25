@@ -1,4 +1,14 @@
-import { CatalogAvailability, CatalogResponse, CatalogStatusResponse, JobState, PreviewArtifact, Segment, SystemStatus } from '@/types';
+import {
+  CatalogAvailability,
+  CatalogResponse,
+  CatalogStatusResponse,
+  JobState,
+  PreviewArtifact,
+  Segment,
+  SystemStatus,
+  WaveformPeaksResponse,
+  WaveformTrack,
+} from '@/types';
 
 const BASE_URL = '';
 // A completed long-form job can return a multi-megabyte normalized review
@@ -94,6 +104,25 @@ export async function fetchJobPreviews(jobId: string): Promise<PreviewArtifact[]
   if (!res.ok) throw new Error(`HTTP error ${res.status}`);
   const data = await res.json();
   return Array.isArray(data) ? data : [];
+}
+
+export async function fetchJobWaveform(
+  jobId: string,
+  track: WaveformTrack,
+  bars = 64,
+  signal?: AbortSignal,
+): Promise<WaveformPeaksResponse | null> {
+  const params = new URLSearchParams({
+    track,
+    bars: String(bars),
+  });
+  const res = await fetch(
+    `${BASE_URL}/api/jobs/${encodeURIComponent(jobId)}/waveform?${params.toString()}`,
+    { signal },
+  );
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+  return await res.json() as WaveformPeaksResponse;
 }
 
 export async function rerenderJob(jobId: string): Promise<boolean> {

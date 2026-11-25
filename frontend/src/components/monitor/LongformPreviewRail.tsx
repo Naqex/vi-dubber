@@ -4,7 +4,7 @@ import { useJob } from '@/context/JobContext';
 import { useTranslation } from '@/context/I18nContext';
 import { fetchJobPreviews, rerenderJob } from '@/lib/api';
 import type { PreviewArtifact } from '@/types';
-import { formatSeconds, isPreviewReady } from '@/lib/utils';
+import { formatSeconds, isPreviewReady, resolveCompletedQaState } from '@/lib/utils';
 
 export const LongformPreviewRail: React.FC = () => {
   const {
@@ -95,6 +95,12 @@ export const LongformPreviewRail: React.FC = () => {
   const currentPhase = String(longform?.phase || activeJob?.stage || '').toUpperCase();
   const currentChunk = longform?.current_chunk || '';
   const eta = longform?.eta_seconds;
+  const completedQaState = resolveCompletedQaState(activeJob);
+  const finalBadgeLabel = completedQaState === 'failed'
+    ? t('final.badge_failed')
+    : completedQaState === 'passed'
+      ? t('final.badge_passed')
+      : t('final.badge_unverified');
 
   if (!activeJob || !enabled) return null;
 
@@ -117,9 +123,18 @@ export const LongformPreviewRail: React.FC = () => {
             <span className="rounded bg-amber-500/15 px-1.5 py-0.5 text-[9px] font-bold tracking-wide text-amber-800 dark:text-amber-300">
               PREVIEW
             </span>
-            {activeJob.status === 'completed' && (
-              <span className="rounded bg-emerald-500/15 px-1.5 py-0.5 text-[9px] font-bold tracking-wide text-emerald-700 dark:text-emerald-300">
-                FINAL READY
+            {completedQaState && (
+              <span
+                data-qa-state={completedQaState}
+                className={`rounded px-1.5 py-0.5 text-[9px] font-bold tracking-wide ${
+                  completedQaState === 'failed'
+                    ? 'bg-rose-500/15 text-rose-800 dark:text-rose-300'
+                    : completedQaState === 'passed'
+                      ? 'bg-emerald-500/15 text-emerald-800 dark:text-emerald-300'
+                      : 'bg-amber-500/15 text-amber-900 dark:text-amber-300'
+                }`}
+              >
+                {finalBadgeLabel}
               </span>
             )}
           </div>
@@ -129,11 +144,17 @@ export const LongformPreviewRail: React.FC = () => {
             {typeof eta === 'number' && eta >= 0 ? ` · ETA ${formatSeconds(eta)}` : ''}
           </p>
         </div>
-        {activeJob.status === 'completed' && (
+        {completedQaState && (
           <a
             href={`/api/jobs/${activeJob.id}/download`}
             download
-            className="text-[10px] font-semibold text-emerald-700 hover:underline dark:text-emerald-300"
+            className={`text-[10px] font-semibold hover:underline ${
+              completedQaState === 'failed'
+                ? 'text-rose-700 dark:text-rose-300'
+                : completedQaState === 'passed'
+                  ? 'text-emerald-800 dark:text-emerald-300'
+                  : 'text-amber-900 dark:text-amber-300'
+            }`}
           >
             Tải Final
           </a>

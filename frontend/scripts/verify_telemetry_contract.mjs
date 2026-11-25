@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { deriveEtaTelemetry } from '../src/lib/telemetry.ts';
+import { deriveEtaTelemetry, resolveCompletedQaState } from '../src/lib/telemetry.ts';
 
 const at = 1_700_000_000_000;
 
@@ -54,4 +54,31 @@ const initial = deriveEtaTelemetry({
 });
 assert.equal(initial.remainingSeconds, 80, 'zero progress may estimate from persisted duration and RTF');
 
-console.log(JSON.stringify({ status: 'PASS', cases: 5 }));
+assert.equal(resolveCompletedQaState(null), null, 'missing job has no completed QA state');
+assert.equal(
+  resolveCompletedQaState({ status: 'running', result: { qa: { passed: true } } }),
+  null,
+  'non-completed job must not claim a final QA state',
+);
+assert.equal(
+  resolveCompletedQaState({ status: 'completed', result: { qa: { passed: false } } }),
+  'failed',
+  'completed job with qa.passed=false (Job12) must resolve to failed',
+);
+assert.equal(
+  resolveCompletedQaState({ status: 'completed', result: { qa: { passed: true } } }),
+  'passed',
+  'completed job with qa.passed=true must resolve to passed',
+);
+assert.equal(
+  resolveCompletedQaState({ status: 'completed', result: { qa: { passed: null } } }),
+  'unverified',
+  'completed job with qa.passed=null must resolve to unverified',
+);
+assert.equal(
+  resolveCompletedQaState({ status: 'completed', result: null }),
+  'unverified',
+  'completed job without QA metadata must resolve to unverified',
+);
+
+console.log(JSON.stringify({ status: 'PASS', cases: 11 }));

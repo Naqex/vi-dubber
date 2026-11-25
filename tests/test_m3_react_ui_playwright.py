@@ -356,8 +356,34 @@ def test_final_processing_artifact_reports_qa_verdict_separately(
                      result={"output": str(final_path), "duration_seconds": 10.0, "qa": qa}, message="Final QA fixture")
     page.goto(base_url, wait_until="networkidle")
     verdict = {False: "QA failed", True: "QA passed", None: "QA unverified"}[passed]
+    final_badge = {
+        False: "FINAL · QA FAILED",
+        True: "FINAL · QA PASSED",
+        None: "FINAL · QA UNVERIFIED",
+    }[passed]
+    completed_badge = {
+        False: "COMPLETED · QA FAILED",
+        True: "COMPLETED · QA PASSED",
+        None: "COMPLETED · QA UNVERIFIED",
+    }[passed]
     expect(page.get_by_text(verdict, exact=True)).to_be_visible()
     expect(page.get_by_text("Full track not checked", exact=True)).to_be_visible()
+    expect(page.get_by_text(final_badge, exact=True)).to_have_count(2)
+    expect(page.get_by_text(completed_badge, exact=True).locator("visible=true")).to_have_count(1)
+    expect(page.get_by_text("FINAL READY", exact=True)).to_have_count(0)
+    if passed is not True:
+        expect(page.get_by_text("FINAL · QA PASSED", exact=True)).to_have_count(0)
+        expect(page.get_by_text("COMPLETED · QA PASSED", exact=True)).to_have_count(0)
+    # Header job dropdown must also expose the QA-distinguished completed badge.
+    header = page.get_by_role("banner")
+    selector = header.get_by_role("button", name="M3 Watch Review Fixture", exact=True)
+    selector.focus()
+    selector.press("Enter")
+    menu = header.get_by_role("menu")
+    target_item = menu.get_by_role("menuitem", name="M3 Watch Review Fixture")
+    expect(target_item.get_by_text(completed_badge, exact=True)).to_be_visible()
+    page.keyboard.press("Escape")
+    expect(menu).to_be_hidden()
     # Processing completion still exposes the artifact for review; a QA flag
     # must neither become a pass badge nor silently deny review downloads.
     expect(page.locator("video[src$='/download']")).to_have_count(1)
@@ -368,6 +394,38 @@ def test_final_processing_artifact_reports_qa_verdict_separately(
     expect(page.get_by_text(verdict, exact=True)).to_have_count(2)
     if passed is False:
         expect(page.get_by_text("122 segments failed", exact=True)).to_be_visible()
+
+
+def test_waveform_uses_bounded_server_peaks_without_full_wav_fetch(
+    page: Page, m3_react_server: tuple[str, str, Path],
+) -> None:
+    base_url, target_id, work = m3_react_server
+    requested_urls: list[str] = []
+    page.on("request", lambda req: requested_urls.append(req.url))
+    page.context.route("**/*", lambda route: route.continue_()
+                       if route.request.url.startswith(base_url + "/")
+                       or route.request.url.startswith(("data:", "blob:")) else route.abort())
+    page.route("**/api/system", lambda route: route.fulfill(
+        status=200, content_type="application/json", body="{}"))
+    page.add_init_script("localStorage.setItem('vi_dubber_lang', 'en')")
+    update_job_state(work / target_id, message="Bounded waveform fixture")
+
+    page.goto(base_url, wait_until="networkidle")
+    canvas = page.locator("canvas[data-waveform-status]")
+    expect(canvas).to_have_attribute("data-waveform-status", "ready", timeout=10000)
+    expect(canvas).to_have_attribute("data-waveform-bars", "64")
+    expect(canvas).to_have_attribute("data-waveform-mode", "streaming_full")
+
+    # Switching to Track A (absent vocals.wav) degrades cleanly via 404 without fetching /work/*.wav.
+    page.get_by_role("button", name="Original Vocal (A)").click()
+    expect(canvas).to_have_attribute("data-waveform-status", "unavailable", timeout=10000)
+    page.get_by_role("button", name="Dubbed Vietnamese (B)").click()
+    expect(canvas).to_have_attribute("data-waveform-status", "ready", timeout=10000)
+
+    assert any(f"/api/jobs/{target_id}/waveform?track=b&bars=64" in url for url in requested_urls), requested_urls
+    assert not any("/work/" in url and url.endswith(".wav") for url in requested_urls), (
+        f"Waveform must never fetch raw full WAV files from /work/: {requested_urls}"
+    )
 
 
 @pytest.mark.parametrize("code", [403, 500])
