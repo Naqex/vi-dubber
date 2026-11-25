@@ -895,6 +895,16 @@ body {
   color: #d97706 !important;
 }
 
+.gradio-container .metric.rose {
+  border-color: #fecdd3 !important;
+}
+
+.gradio-container .metric.rose .metric-badge-icon,
+.gradio-container .metric-badge-icon.rose {
+  background: #fff1f2 !important;
+  color: #e11d48 !important;
+}
+
 .gradio-container .metric-icon {
   font-size: 11px !important;
   line-height: 1 !important;
@@ -1696,12 +1706,21 @@ def _stats_html(result: dict[str, Any], source: dict[str, Any]) -> str:
     elapsed = float(result.get("elapsed_seconds") or 0.0)
     rtf = float(result.get("real_time_factor") or (elapsed / duration if duration > 0 else 0.0))
     qa_value = f"{float(qa.get('similarity') or 0.0):.1%}" if qa else "Bỏ qua"
+    qa_passed = qa.get("passed") if isinstance(qa, dict) else None
+    if qa_passed is True:
+        qa_sub, qa_color = "đạt chuẩn", "emerald"
+    elif qa_passed is False:
+        qa_sub, qa_color = "chưa đạt QA", "rose"
+    elif qa:
+        qa_sub, qa_color = "chưa xác minh", "amber"
+    else:
+        qa_sub, qa_color = "chưa kiểm", "amber"
     items = [
         ("Thời lượng", _format_seconds(duration), str(source.get("title") or "video nguồn"), "blue", "⏱"),
         ("Xử lý thực tế", _format_seconds(elapsed), f"tốc độ {rtf:.2f}x", "green", "⚡"),
         ("Đoạn thoại", str(result.get("segments") or 0), f"{result.get('rewritten_segments') or 0} đã rút gọn", "violet", "💬"),
         ("Người nói", str(result.get("speaker_count") or 0), "giọng phân tách", "amber", "👥"),
-        ("Độ khớp QA", qa_value, "đạt chuẩn" if qa.get("passed") else "chưa kiểm", "emerald", "🎯"),
+        ("Độ khớp QA", qa_value, qa_sub, qa_color, "🎯"),
     ]
     return '<div class="metric-grid">' + "".join(_metric(*item) for item in items) + "</div>"
 

@@ -259,6 +259,7 @@ export interface CatalogItem {
     job_stage?: string;
     progress?: number;
     source_size_bytes?: number;
+    qa_passed?: boolean;
   };
   review: {
     revision: string;
@@ -313,6 +314,7 @@ export interface SystemStatus {
   webgpt_port: number;
   server_uptime_seconds: number;
   websocket_connected: boolean;
+  transport_mode?: 'websocket' | 'http_polling' | string;
 }
 
 export type AppMode = 'standard' | 'engineer';

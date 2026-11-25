@@ -13,7 +13,8 @@ export const MOCK_SYSTEM_STATUS: SystemStatus = {
   webgpt_model: 'chatgpt-web/gpt-5.6-sol',
   webgpt_port: 17850,
   server_uptime_seconds: 14280,
-  websocket_connected: true,
+  websocket_connected: false,
+  transport_mode: 'http_polling',
 };
 
 // Production starts with an explicit unavailable state until the backend
@@ -31,6 +32,7 @@ export const EMPTY_SYSTEM_STATUS: SystemStatus = {
   webgpt_port: Number.NaN,
   server_uptime_seconds: Number.NaN,
   websocket_connected: false,
+  transport_mode: 'http_polling',
 };
 
 export const MOCK_SEGMENTS: Segment[] = [

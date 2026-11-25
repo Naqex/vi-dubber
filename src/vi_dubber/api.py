@@ -66,6 +66,8 @@ from .preflight import raise_for_preflight, run_preflight
 from .profiles import DEFAULT_PROFILE, resolve_profile
 from .review import (
     ReviewDataError,
+    accept_all_segments_review,
+    job_review_lock,
     load_review_rows,
     update_segment_review,
 )
@@ -956,7 +958,8 @@ def create_app() -> FastAPI:
                 ),
             },
             "server_uptime_seconds": uptime_seconds,
-            "websocket_connected": True,
+            "websocket_connected": False,
+            "transport_mode": "http_polling",
             "timestamp": datetime.now(UTC).isoformat(),
         }
 
@@ -1317,40 +1320,92 @@ def create_app() -> FastAPI:
         except ReviewDataError as exc:
             vi_path = job_dir / "segments_vi.json"
             if vi_path.is_file():
-                segments = _read_json_any(vi_path)
-                if isinstance(segments, list):
-                    for item in segments:
-                        if isinstance(item, dict) and item.get("id") == segment_id:
-                            if text_update is not None:
-                                item["vi"] = text_update
-                            if payload.speaker is not None:
-                                item["speaker"] = payload.speaker
-                            if payload.review_status is not None:
-                                item["review_status"] = payload.review_status
+                with job_review_lock(job_dir):
+                    segments = _read_json_any(vi_path)
+                    if isinstance(segments, list):
+                        for item in segments:
+                            if isinstance(item, dict) and item.get("id") == segment_id:
+                                if text_update is not None:
+                                    item["vi"] = text_update
+                                if payload.speaker is not None:
+                                    item["speaker"] = payload.speaker
+                                if payload.review_status is not None:
+                                    item["review_status"] = payload.review_status
+                                atomic_write_json(vi_path, segments)
+                                content_changed = text_update is not None or payload.speaker is not None
+                                stale_chunk_id = (
+                                    _invalidate_longform_chunk_for_segment(job_dir, segment_id)
+                                    if content_changed
+                                    else None
+                                )
+                                if stale_chunk_id is not None:
+                                    _mark_chunk_preview_stale(job_dir, stale_chunk_id)
+                                if content_changed:
+                                    update_job_state(
+                                        job_dir,
+                                        status="paused",
+                                        stage="review",
+                                        message=f"Segment {segment_id} đã sửa; cần render lại downstream.",
+                                    )
+                                return {
+                                    "status": "ok",
+                                    "receipt": {
+                                        "kind": "content_edit" if content_changed else "status_update",
+                                        "segment_id": segment_id,
+                                        "after": item,
+                                        "longform_chunk_id": stale_chunk_id,
+                                    },
+                                }
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=str(exc),
+            ) from exc
+
+    @app.post("/api/jobs/{job_id}/review/accept-all")
+    def accept_all_job_segments(job_id: str) -> dict[str, Any]:
+        job_dir = _resolve_job_dir(job_id)
+        try:
+            receipt = accept_all_segments_review(job_dir)
+            return {
+                "status": "ok",
+                "accepted_count": receipt["accepted_count"],
+                "already_accepted_count": receipt["already_accepted_count"],
+                "total_segments": receipt["total_segments"],
+                "receipt": receipt,
+            }
+        except ReviewDataError as exc:
+            vi_path = job_dir / "segments_vi.json"
+            if vi_path.is_file():
+                with job_review_lock(job_dir):
+                    segments = _read_json_any(vi_path)
+                    if isinstance(segments, list):
+                        changed_ids: list[int] = []
+                        total_segments = 0
+                        for item in segments:
+                            if isinstance(item, dict):
+                                total_segments += 1
+                                if item.get("review_status", "unreviewed") != "accepted":
+                                    item["review_status"] = "accepted"
+                                    seg_id = item.get("id")
+                                    if isinstance(seg_id, int) and not isinstance(seg_id, bool):
+                                        changed_ids.append(seg_id)
+                        if changed_ids:
                             atomic_write_json(vi_path, segments)
-                            content_changed = text_update is not None or payload.speaker is not None
-                            stale_chunk_id = (
-                                _invalidate_longform_chunk_for_segment(job_dir, segment_id)
-                                if content_changed
-                                else None
-                            )
-                            if stale_chunk_id is not None:
-                                _mark_chunk_preview_stale(job_dir, stale_chunk_id)
-                            update_job_state(
-                                job_dir,
-                                status="paused",
-                                stage="review",
-                                message=f"Segment {segment_id} đã sửa; cần render lại downstream.",
-                            )
-                            return {
-                                "status": "ok",
-                                "receipt": {
-                                    "kind": "content_edit" if content_changed else "status_update",
-                                    "segment_id": segment_id,
-                                    "after": item,
-                                    "longform_chunk_id": stale_chunk_id,
-                                },
-                            }
+                        receipt = {
+                            "kind": "batch_accept",
+                            "segment_ids": changed_ids,
+                            "accepted_count": len(changed_ids),
+                            "already_accepted_count": total_segments - len(changed_ids),
+                            "total_segments": total_segments,
+                            "review_status": "accepted",
+                        }
+                        return {
+                            "status": "ok",
+                            "accepted_count": receipt["accepted_count"],
+                            "already_accepted_count": receipt["already_accepted_count"],
+                            "total_segments": receipt["total_segments"],
+                            "receipt": receipt,
+                        }
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=str(exc),

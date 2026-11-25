@@ -258,3 +258,41 @@ def test_rebuild_preserves_existing_projection_when_work_root_is_unavailable(tmp
     assert store.get_item("job-existing") is not None
     assert store.get_user_state("job-existing") is not None
 
+
+def test_projection_and_catalog_view_preserve_qa_passed_verdict(tmp_path: Path) -> None:
+    from vi_dubber.catalog_view import build_catalog_view
+
+    work_dir = tmp_path / "work"
+    source_root = tmp_path / "media"
+    source_root.mkdir()
+    source = source_root / "job12.mp4"
+    source.write_bytes(b"fixture source")
+
+    # 1. Completed job with explicit QA failure in state.json
+    failed_dir = _write_job(work_dir, source, job_id="job-qa-failed")
+    state = json.loads((failed_dir / "state.json").read_text(encoding="utf-8"))
+    state["result"] = {"qa": {"similarity": 0.91, "passed": False}}
+    (failed_dir / "state.json").write_text(json.dumps(state), encoding="utf-8")
+
+    # 2. Completed job with explicit QA pass via qa.json fallback
+    passed_dir = _write_job(work_dir, source, job_id="job-qa-passed")
+    (passed_dir / "qa.json").write_text(json.dumps({"passed": True, "similarity": 0.99}), encoding="utf-8")
+
+    # 3. Completed job without QA verdict (unverified)
+    unverified_dir = _write_job(work_dir, source, job_id="job-qa-unverified")
+
+    failed_item = catalog_item_from_job(failed_dir, source_root=source_root)
+    passed_item = catalog_item_from_job(passed_dir, source_root=source_root)
+    unverified_item = catalog_item_from_job(unverified_dir, source_root=source_root)
+    assert failed_item is not None and passed_item is not None and unverified_item is not None
+
+    assert failed_item.metadata["qa_passed"] is False
+    assert passed_item.metadata["qa_passed"] is True
+    assert unverified_item.metadata["qa_passed"] is None
+    assert failed_item.revision != passed_item.revision
+
+    view = build_catalog_view([failed_item, passed_item, unverified_item])
+    by_id = {row["item_id"]: row for row in view["items"]}
+    assert by_id["job-qa-failed"]["job"]["qa_passed"] is False
+    assert by_id["job-qa-passed"]["job"]["qa_passed"] is True
+    assert "qa_passed" not in by_id["job-qa-unverified"]["job"]

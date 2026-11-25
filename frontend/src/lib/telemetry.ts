@@ -85,11 +85,11 @@ export type CompletedQaState = 'passed' | 'failed' | 'unverified';
 
 /**
  * Separate processing completion (`status === 'completed'`) from QA acceptance.
- * A completed job whose QA verdict is false or missing (e.g., Job12) must never
- * inherit a green QA-pass badge.
+ * Only an explicit boolean `qa.passed === true` counts as QA passed; `false`
+ * (e.g., Job12) is QA failed and a missing or non-boolean value stays unverified.
  */
 export function resolveCompletedQaState(
-  job: { status?: string; result?: { qa?: { passed?: boolean | null } | null } | null } | null | undefined,
+  job: { status?: string; result?: { qa?: { passed?: unknown } | null } | null } | null | undefined,
 ): CompletedQaState | null {
   if (!job || job.status !== 'completed') return null;
   const passed = job.result?.qa?.passed;

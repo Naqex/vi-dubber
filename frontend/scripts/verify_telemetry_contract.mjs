@@ -80,5 +80,10 @@ assert.equal(
   'unverified',
   'completed job without QA metadata must resolve to unverified',
 );
+assert.equal(
+  resolveCompletedQaState({ status: 'completed', result: { qa: { passed: 'true' } } }),
+  'unverified',
+  'non-boolean QA passed value must not pass',
+);
 
-console.log(JSON.stringify({ status: 'PASS', cases: 11 }));
+console.log(JSON.stringify({ status: 'PASS', cases: 12 }));
