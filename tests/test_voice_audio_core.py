@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sys
+import tracemalloc
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -8,8 +9,15 @@ import numpy as np
 import pytest
 import soundfile as sf
 
+import vi_dubber.media as media_mod
 import vi_dubber.tts as tts
-from vi_dubber.media import assemble_voice_track, voice_track_metrics
+from vi_dubber.media import (
+    WAV_SAFE_BYTES,
+    assemble_voice_track,
+    voice_track_container,
+    voice_track_metrics,
+    voice_track_path,
+)
 from vi_dubber.metrics import MetricsRecorder
 from vi_dubber.qa import evaluate_segment_qa, selective_repair_ids
 from vi_dubber.reference import rank_reference_candidates
@@ -405,3 +413,127 @@ def test_tts_crash_mid_run_preserves_completed_raw_and_resume_skips_it(
     assert second_raw.is_file()
     assert (output_dir / "00002_raw.meta.json").is_file()
     assert all(path.is_file() for _segment, path in rendered)
+
+
+def test_voice_track_metrics_streams_in_fixed_blocks_and_never_calls_full_read(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    sample_rate = 48_000
+    frames = sample_rate * 2  # 2s stereo spanning multiple small blocks
+    audio = np.zeros((frames, 2), dtype=np.float32)
+    audio[100:200, :] = 0.5
+    audio[sample_rate : sample_rate + 10, :] = 1.0  # 10 clipped stereo frames
+    wav_path = tmp_path / "stereo_voice.wav"
+    sf.write(str(wav_path), audio, sample_rate, subtype="PCM_16")
+
+    seen_blocks: list[int] = []
+    real_blocks = sf.blocks
+
+    def spy_blocks(*args, **kwargs):
+        for chunk in real_blocks(*args, **kwargs):
+            seen_blocks.append(len(chunk))
+            yield chunk
+
+    monkeypatch.setattr(media_mod.sf, "blocks", spy_blocks)
+    monkeypatch.setattr(
+        media_mod.sf,
+        "read",
+        lambda *_a, **_kw: (_ for _ in ()).throw(AssertionError("voice_track_metrics must stream via sf.blocks")),
+    )
+
+    tracemalloc.start()
+    try:
+        metrics = voice_track_metrics(wav_path, blocksize=4_096)
+        _current, peak_bytes = tracemalloc.get_traced_memory()
+    finally:
+        tracemalloc.stop()
+
+    assert len(seen_blocks) > 10
+    assert max(seen_blocks) <= 4_096
+    assert peak_bytes < 2 * 1024 * 1024, f"Expected bounded streaming RAM < 2 MiB, got {peak_bytes}"
+    assert metrics["peak"] == pytest.approx(1.0, abs=0.001)
+    assert metrics["clipped_samples"] == 10
+    assert metrics["clipping_ratio"] == pytest.approx(10 / frames, rel=1e-4)
+
+
+def test_voice_track_container_switches_to_flac_above_wav_safe_bytes_and_assembles_flac(
+    tmp_path: Path,
+) -> None:
+    # Mono 48kHz PCM_16 is 96,000 B/s -> WAV_SAFE_BYTES (3.5 GB) threshold is ~36,458.3s (~10.13h).
+    assert WAV_SAFE_BYTES == 3_500_000_000
+    assert voice_track_container(36_000.0, sample_rate=48_000) == "WAV"
+    assert voice_track_container(37_000.0, sample_rate=48_000) == "FLAC"
+    assert voice_track_path(tmp_path, 36_000.0, sample_rate=48_000).name == "voice_vi.wav"
+    assert voice_track_path(tmp_path, 43_200.0, sample_rate=48_000).name == "voice_vi.flac"
+
+    sample_rate = 48_000
+    seg_path = tmp_path / "seg1.wav"
+    sf.write(str(seg_path), np.full(sample_rate, 0.4, dtype=np.float32), sample_rate, subtype="PCM_16")
+    segment = Segment(id=1, start=0.0, end=1.0, text="longform test")
+    flac_out = assemble_voice_track(
+        [(segment, seg_path)],
+        tmp_path / "voice_vi.flac",
+        total_duration=1.0,
+        sample_rate=sample_rate,
+    )
+    assert flac_out.is_file()
+    assert sf.info(str(flac_out)).format == "FLAC"
+    metrics = voice_track_metrics(flac_out, blocksize=4_096)
+    assert metrics["peak"] == pytest.approx(0.4, abs=0.01)
+    assert metrics["clipped_samples"] == 0
+
+
+def test_tts_progress_callback_throttles_high_segment_counts(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    count = 250
+    segments = [
+        Segment(id=idx, start=float(idx), end=float(idx + 1), text=f"en {idx}", vi=f"vi {idx}", speaker="A")
+        for idx in range(1, count + 1)
+    ]
+
+    class FastFakeVieneu:
+        def __init__(self, **_kwargs):
+            pass
+
+        def infer(self, text, **_kwargs):
+            return text
+
+        def save(self, audio, path):
+            Path(path).write_bytes(b"0" * 1024)
+
+    monkeypatch.setitem(sys.modules, "vieneu", SimpleNamespace(Vieneu=FastFakeVieneu))
+    monkeypatch.setattr(tts, "audio_duration", lambda _path: 0.9)
+    monkeypatch.setattr(
+        tts,
+        "fit_audio_to_window",
+        lambda raw_path, fitted_path, **kwargs: (fitted_path, 0.9, 1.0),
+    )
+
+    clock = {"t": 100.0}
+
+    def fake_monotonic() -> float:
+        clock["t"] += 0.001
+        return clock["t"]
+
+    monkeypatch.setattr(tts.time, "monotonic", fake_monotonic)
+
+    progress_events: list[tuple[float, str]] = []
+    tts.synthesize_segments(
+        segments,
+        tmp_path / "tts",
+        {"backend": "onnx", "device": "cpu", "precision": "fp32", "batch_size": 1},
+        {"segment_pad_ms": 0, "rewrite_threshold": 1.25, "max_speedup": 1.25},
+        _Translator(),
+        {},
+        {},
+        progress_callback=lambda p, msg: progress_events.append((p, msg)),
+    )
+
+    # Without throttling, 250 segments emit 500 callbacks (250 Pass 1 + 250 Pass 3).
+    # With >=1% / >=1s throttling, total callbacks stay bounded (~82) while keeping start/end.
+    assert len(progress_events) < 100, f"Expected throttled callbacks < 100, got {len(progress_events)}"
+    assert progress_events[0][0] == pytest.approx(0.65 / count)
+    assert progress_events[-1][0] == pytest.approx(1.0)

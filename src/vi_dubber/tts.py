@@ -7,6 +7,7 @@ from collections.abc import Callable, Mapping
 import gc
 import json
 import threading
+import time
 from typing import Any
 
 from .artifacts import atomic_write_json, fingerprint_data, fingerprint_file
@@ -535,6 +536,24 @@ def _synthesize_segments_impl(
             return nullcontext()
         return metrics.stage(name)
 
+    last_progress_value = -1.0
+    last_progress_time = float("-inf")
+
+    def _emit_progress(progress_value: float, message: str, *, force: bool = False) -> None:
+        nonlocal last_progress_value, last_progress_time
+        if progress_callback is None:
+            return
+        now = time.monotonic()
+        if (
+            force
+            or last_progress_value < 0.0
+            or abs(progress_value - last_progress_value) >= 0.01
+            or (now - last_progress_time) >= 1.0
+        ):
+            last_progress_value = progress_value
+            last_progress_time = now
+            progress_callback(progress_value, message)
+
     # PASS 1: Generate initial raw audio for all segments (Checkpoint supported)
     raw_durations: dict[int, float] = {}
 
@@ -563,11 +582,11 @@ def _synthesize_segments_impl(
             if segment.id not in raw_durations:
                 raw_durations[segment.id] = audio_duration(raw_path)
 
-            if progress_callback is not None:
-                progress_callback(
-                    0.65 * (index / max(1, total_segments)),
-                    f"Đang tổng hợp giọng nói (Pass 1): {index}/{total_segments} đoạn",
-                )
+            _emit_progress(
+                0.65 * (index / max(1, total_segments)),
+                f"Đang tổng hợp giọng nói (Pass 1): {index}/{total_segments} đoạn",
+                force=(index == 1 or index == total_segments),
+            )
 
     if resolved_timing_windows is not None:
         resolved_timing_windows = rebalance_timing_windows(
@@ -600,11 +619,11 @@ def _synthesize_segments_impl(
                 for b_idx in range(0, len(to_rewrite), batch_size):
                     chunk = to_rewrite[b_idx : b_idx + batch_size]
                     b_num = (b_idx // batch_size) + 1
-                    if progress_callback is not None:
-                        progress_callback(
-                            0.65 + 0.20 * (b_num / max(1, total_batches)),
-                            f"Đang tối ưu thời lượng theo batch ({b_num}/{total_batches}): {len(chunk)} câu",
-                        )
+                    _emit_progress(
+                        0.65 + 0.20 * (b_num / max(1, total_batches)),
+                        f"Đang tối ưu thời lượng theo batch ({b_num}/{total_batches}): {len(chunk)} câu",
+                        force=True,
+                    )
                     try:
                         rewritten_dict = translator.rewrite_batch(chunk, glossary)
                     except Exception:
@@ -689,10 +708,10 @@ def _synthesize_segments_impl(
                     timing_action=action,
                 )
             )
-            if progress_callback is not None:
-                progress_callback(
-                    0.85 + 0.15 * (index / max(1, total_segments)),
-                    f"Đang căn chỉnh khớp thời lượng (Pass 3): {index}/{total_segments} đoạn",
-                )
+            _emit_progress(
+                0.85 + 0.15 * (index / max(1, total_segments)),
+                f"Đang căn chỉnh khớp thời lượng (Pass 3): {index}/{total_segments} đoạn",
+                force=(index == total_segments),
+            )
 
     return rendered, stats

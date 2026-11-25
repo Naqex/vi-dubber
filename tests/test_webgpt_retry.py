@@ -886,3 +886,84 @@ def test_hybrid_falls_back_to_local_after_webgpt_retry_budget_is_exhausted(
     assert stats["webgpt_retry_attempts"] == 1
     assert stats["webgpt_retries_exhausted"] == 1
     assert stats["local_batches"] == 1
+
+
+def test_webgpt_3batch_resume_zero_redundant_calls_with_frozen_source_context_identity(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Resuming a 3-batch translation must hit receipts on batch 1/2 even after batch 0 populates segment.vi."""
+    config = {
+        "codex_segments_per_batch": 2,
+        "context_window": 2,
+        "webgpt_concurrency": 1,
+    }
+    webgpt_dir = tmp_path / "webgpt"
+    webgpt_dir.mkdir(parents=True, exist_ok=True)
+
+    def make_segments() -> list[Segment]:
+        return [
+            Segment(id=idx, start=float(idx), end=float(idx + 1), text=f"Source sentence {idx}.")
+            for idx in range(6)
+        ]
+
+    # Run 1: batches 0 and 1 succeed (writing receipts); batch 2 fails.
+    first = WebGptTranslator(config, tmp_path, retry_budget=0)
+    run1_batches: list[list[int]] = []
+
+    def fake_run_json_run1(prompt: str, schema: dict, label: str):
+        del schema, label
+        payload = json.loads(prompt.rsplit("INPUT=", 1)[1])
+        ids = [int(item["id"]) for item in payload]
+        run1_batches.append(ids)
+        if ids == [4, 5]:
+            raise RuntimeError("simulated interruption on batch 3")
+        out_path = webgpt_dir / f"translate-run1-{ids[0]}.json"
+        out_path.write_text("{}", encoding="utf-8")
+        first._invocation_local.last_output_path = out_path
+        first._last_output_path = out_path
+        return {"translations": [{"id": seg_id, "vi": f"Bản dịch {seg_id}."} for seg_id in ids]}
+
+    monkeypatch.setattr(first, "_run_json", fake_run_json_run1)
+    with pytest.raises(RuntimeError, match="simulated interruption on batch 3"):
+        first.translate_segments(make_segments(), {"ETF": "quỹ ETF"})
+    assert run1_batches == [[0, 1], [2, 3], [4, 5]]
+
+    # Simulate partial cache where batch 0 is in translations_cache.json (so segments[0..1].vi
+    # are populated before batch 1 computes request_identity!) while batch 1 relies on its receipt.
+    (tmp_path / "translations_cache.json").write_text(
+        json.dumps({"0": "Bản dịch 0.", "1": "Bản dịch 1."}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+
+    # Run 2: batch 0 comes from translations_cache, batch 1 MUST hit receipt_cache with 0 provider
+    # calls despite context_before now having segment.vi populated; only batch 2 calls provider.
+    second = WebGptTranslator(config, tmp_path, retry_budget=0)
+    run2_batches: list[list[int]] = []
+
+    def fake_run_json_run2(prompt: str, schema: dict, label: str):
+        del schema, label
+        payload = json.loads(prompt.rsplit("INPUT=", 1)[1])
+        ids = [int(item["id"]) for item in payload]
+        run2_batches.append(ids)
+        out_path = webgpt_dir / f"translate-run2-{ids[0]}.json"
+        out_path.write_text("{}", encoding="utf-8")
+        second._invocation_local.last_output_path = out_path
+        second._last_output_path = out_path
+        return {"translations": [{"id": seg_id, "vi": f"Bản dịch {seg_id}."} for seg_id in ids]}
+
+    monkeypatch.setattr(second, "_run_json", fake_run_json_run2)
+    resumed = second.translate_segments(make_segments(), {"ETF": "quỹ ETF"})
+    assert run2_batches == [[4, 5]], f"Expected zero redundant calls on batch 1, got {run2_batches}"
+    assert [seg.vi for seg in resumed] == [f"Bản dịch {i}." for i in range(6)]
+
+    # Run 3: remove translations_cache.json and verify all 3 batches satisfy from receipts (0 calls).
+    (tmp_path / "translations_cache.json").unlink()
+    third = WebGptTranslator(config, tmp_path, retry_budget=0)
+    monkeypatch.setattr(
+        third,
+        "_run_json",
+        lambda *_a, **_kw: (_ for _ in ()).throw(AssertionError("all 3 batches must hit receipts")),
+    )
+    replayed = third.translate_segments(make_segments(), {"ETF": "quỹ ETF"})
+    assert [seg.vi for seg in replayed] == [f"Bản dịch {i}." for i in range(6)]

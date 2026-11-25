@@ -12,6 +12,7 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
+from .jobs import PipelineControl
 from .media import WAV_SAFE_BYTES, media_duration
 from .runtime import ffmpeg_exe
 
@@ -278,6 +279,8 @@ def _mdxc_progress_adapter(progress_callback: ProgressCallback | None):
                                 fraction,
                                 f"Đang tách lời thoại khỏi nhạc và SFX · {index}/{total}",
                             )
+                        except PipelineControl:
+                            raise
                         except Exception:
                             logging.getLogger(__name__).debug(
                                 "Ignoring separation progress callback failure",

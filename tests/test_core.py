@@ -699,3 +699,61 @@ def test_web_job_streams_pipeline_progress(tmp_path: Path, monkeypatch: pytest.M
     assert any("Tiến trình xử lý" in update[-1] for update in updates)
     assert updates[-1][0].endswith("sample_vi.mp4")
     assert "100%" in updates[-1][-1]
+
+
+def test_pipeline_compact_state_result_strips_bulky_qa_transcripts_without_mutating_full_qa() -> None:
+    from vi_dubber.pipeline import _compact_state_result
+
+    full_qa = {
+        "mode": "full_track",
+        "similarity": 0.94,
+        "threshold": 0.78,
+        "global_passed": True,
+        "passed": True,
+        "expected": "van ban tieng viet " * 20_000,
+        "actual": "van ban tieng viet " * 20_000,
+        "segment_summary": {"final_failed": 0, "passed": True},
+        "segment_artifact": "segment_qa.json",
+    }
+    full_result = {"output": "out.mp4", "qa": full_qa, "duration_seconds": 43_200.0}
+
+    compact = _compact_state_result(full_result)
+    assert "expected" not in compact["qa"]
+    assert "actual" not in compact["qa"]
+    assert compact["qa"]["passed"] is True
+    assert compact["qa"]["similarity"] == pytest.approx(0.94)
+    assert compact["qa"]["segment_summary"] == {"final_failed": 0, "passed": True}
+    assert compact["qa"]["expected_chars"] == len(full_qa["expected"])
+    assert compact["qa"]["actual_chars"] == len(full_qa["actual"])
+    assert len(json.dumps(compact)) < 1_024
+    # Full QA dictionary for qa.json / result.json stays unmutated.
+    assert full_qa["expected"].startswith("van ban tieng viet ")
+    assert full_qa["actual"].startswith("van ban tieng viet ")
+
+
+def test_pipeline_save_segments_is_atomic_and_preserves_review_status_for_tts_manifest(
+    tmp_path: Path,
+) -> None:
+    from vi_dubber.artifacts import build_stage_manifest, load_stage_manifest, write_stage_manifest
+    from vi_dubber.pipeline import _save_segments
+
+    job_dir = tmp_path / "job-atomic-segments"
+    job_dir.mkdir()
+    seg_path = job_dir / "segments_vi.json"
+    segments = [Segment(id=0, start=0.0, end=2.0, text="Hello", vi="Xin chào đã sửa")]
+
+    _save_segments(seg_path, segments, review_statuses={0: "reviewed"})
+    assert not list(job_dir.glob("*.tmp"))
+    rows = json.loads(seg_path.read_text(encoding="utf-8"))
+    assert rows[0]["review_status"] == "reviewed"
+
+    manifest_path = job_dir / "manifests" / "tts.json"
+    write_stage_manifest(
+        manifest_path,
+        build_stage_manifest(job_dir, "tts", inputs={"fixture": True}, artifacts=[seg_path]),
+    )
+    loaded = load_stage_manifest(manifest_path, job_dir=job_dir, expected_stage="tts", verify_artifacts=True)
+    assert loaded is not None
+    # Verify pipeline.py no longer has an unconditional post-TTS _save_segments(translated_json, segments) call.
+    pipeline_src = (Path(__file__).resolve().parents[1] / "src/vi_dubber/pipeline.py").read_text(encoding="utf-8")
+    assert "\n    _save_segments(translated_json, segments)\n" not in pipeline_src
