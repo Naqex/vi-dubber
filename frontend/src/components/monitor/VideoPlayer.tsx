@@ -1,8 +1,9 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { useJob } from '@/context/JobContext';
 import { useTranslation } from '@/context/I18nContext';
 import { formatSeconds, isPreviewReady, resolveCompletedQaState } from '@/lib/utils';
 import { positiveFinite } from '@/lib/telemetry';
+import { buildTimelineBuckets, DEFAULT_MAX_TIMELINE_BUCKETS } from '@/lib/virtualList';
 import {
   Play,
   Pause,
@@ -63,9 +64,31 @@ export const VideoPlayer: React.FC = () => {
         ? persistedDuration
         : null;
   const timelineEnd = totalDuration === null ? null : timelineStart + totalDuration;
-  const visibleSegments = selectedPreview
-    ? timelineEnd === null ? [] : segments.filter(seg => seg.end > timelineStart && seg.start < timelineEnd)
-    : segments;
+  const segmentIndexById = useMemo(() => {
+    const map = new Map<number, number>();
+    for (let i = 0; i < segments.length; i++) {
+      map.set(segments[i].id, i);
+    }
+    return map;
+  }, [segments]);
+  const visibleSegments = useMemo(
+    () => (
+      selectedPreview
+        ? timelineEnd === null ? [] : segments.filter(seg => seg.end > timelineStart && seg.start < timelineEnd)
+        : segments
+    ),
+    [selectedPreview, timelineStart, timelineEnd, segments],
+  );
+  const timelineBuckets = useMemo(
+    () => buildTimelineBuckets(
+      visibleSegments,
+      timelineStart,
+      totalDuration,
+      activeSegment?.id ?? null,
+      DEFAULT_MAX_TIMELINE_BUCKETS,
+    ),
+    [visibleSegments, timelineStart, totalDuration, activeSegment?.id],
+  );
   const unavailable = t('common.unavailable');
   const timelineLocalTime = totalDuration === null
     ? null
@@ -169,12 +192,19 @@ export const VideoPlayer: React.FC = () => {
     requestSeek(timelineStart + Math.max(0, Math.min(totalDuration, nextTime)));
   };
 
+  const selectSegmentById = (segmentId: number, start: number) => {
+    const targetIdx = segmentIndexById.get(segmentId);
+    if (targetIdx !== undefined) {
+      setActiveSegmentIndex(targetIdx);
+    }
+    requestSeek(start);
+  };
+
   const handleSegmentMarkerKeyDown = (event: React.KeyboardEvent<HTMLDivElement>, segmentId: number, start: number) => {
     if (event.key !== 'Enter' && event.key !== ' ') return;
     event.preventDefault();
     event.stopPropagation();
-    setActiveSegmentIndex(segmentId);
-    requestSeek(start);
+    selectSegmentById(segmentId, start);
   };
 
   const toggleFullscreen = () => {
@@ -459,30 +489,40 @@ export const VideoPlayer: React.FC = () => {
               requestSeek(newTime);
             }}
           />
-          {/* Segment Markers on Seek Bar */}
-          {totalDuration !== null && timelineEnd !== null && visibleSegments.map(seg => {
-            const clippedStart = Math.max(seg.start, timelineStart);
-            const clippedEnd = Math.min(seg.end, timelineEnd);
-            const leftPct = ((clippedStart - timelineStart) / totalDuration) * 100;
-            const widthPct = ((clippedEnd - clippedStart) / totalDuration) * 100;
-            const isSegActive = seg.id === activeSegment?.id;
+          {/* Bounded Segment Markers on Seek Bar (1:1 for <= 120 segments, uniform buckets for long-form 6h-12h jobs) */}
+          {totalDuration !== null && timelineEnd !== null && timelineBuckets.map(bucket => {
+            const label = bucket.bucketed && bucket.segmentCount > 1
+              ? `Segments #${bucket.firstSegmentId}-#${bucket.lastSegmentId} (${bucket.segmentCount})${bucket.hasFlagged ? ' · flagged' : ''}`
+              : `Segment ${bucket.representativeSegmentId}: ${bucket.speaker}`;
+            const title = bucket.bucketed && bucket.segmentCount > 1
+              ? `Segs #${bucket.firstSegmentId}-#${bucket.lastSegmentId} (${bucket.segmentCount})${bucket.hasFlagged ? ' · flagged' : ''}`
+              : `Seg #${bucket.representativeSegmentId}: ${bucket.speaker}`;
             return (
               <div
-                key={seg.id}
+                key={bucket.key}
+                data-timeline-marker="true"
+                data-bucketed={bucket.bucketed ? 'true' : 'false'}
+                data-flagged={bucket.hasFlagged ? 'true' : 'false'}
+                data-segment-id={bucket.representativeSegmentId}
                 onClick={(e) => {
                   e.stopPropagation();
-                  setActiveSegmentIndex(seg.id);
-                  requestSeek(seg.start);
+                  selectSegmentById(bucket.representativeSegmentId, bucket.representativeStart);
                 }}
-                onKeyDown={(e) => handleSegmentMarkerKeyDown(e, seg.id, seg.start)}
+                onKeyDown={(e) => handleSegmentMarkerKeyDown(e, bucket.representativeSegmentId, bucket.representativeStart)}
                 role="button"
                 tabIndex={0}
-                aria-label={`Segment ${seg.id}: ${seg.speaker}`}
-                className={`absolute top-0 bottom-0 rounded-full transition-opacity ${
-                  isSegActive ? 'bg-orange-500/90' : 'bg-slate-700 hover:bg-slate-600'
+                aria-label={label}
+                className={`absolute top-0 bottom-0 ${
+                  bucket.bucketed ? 'rounded-[1px]' : 'rounded-full'
+                } transition-opacity ${
+                  bucket.hasActive
+                    ? 'bg-orange-500/90'
+                    : bucket.hasFlagged
+                      ? 'bg-amber-400/90 hover:bg-amber-300'
+                      : 'bg-slate-700 hover:bg-slate-600'
                 } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400`}
-                style={{ left: `${leftPct}%`, width: `${widthPct}%` }}
-                title={`Seg #${seg.id}: ${seg.speaker}`}
+                style={{ left: `${bucket.leftPct}%`, width: `${bucket.widthPct}%` }}
+                title={title}
               />
             );
           })}

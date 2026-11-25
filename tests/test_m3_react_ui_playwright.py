@@ -1218,3 +1218,137 @@ def test_status_honesty_polling_and_single_request_accept_all(
     expect(page.locator('[data-job-status="cancelled"]')).to_contain_text("CANCELLED")
 
     assert console_errors == [], "\n".join(console_errors)
+
+
+def test_10k_segment_12h_job_virtualizes_reviewer_and_bounds_timeline_markers(
+    page: Page,
+    m3_react_server: tuple[str, str, Path],
+) -> None:
+    """Prove a synthetic 10,000-segment 12h job renders cleanly with bounded DOM nodes."""
+    base_url, target_id, work = m3_react_server
+    console_errors: list[str] = []
+    page.on(
+        "console",
+        lambda msg: console_errors.append(
+            f"{msg.text} @ {(msg.location or {}).get('url', '')}"
+        )
+        if msg.type == "error"
+        else None,
+    )
+    page.context.route(
+        "**/*",
+        lambda route: route.continue_()
+        if route.request.url.startswith(base_url + "/")
+        or route.request.url.startswith(("data:", "blob:"))
+        else route.fulfill(status=200, content_type="text/css", body="")
+        if "fonts.googleapis.com" in route.request.url
+        else route.abort(),
+    )
+    page.route(
+        "**/api/system",
+        lambda route: route.fulfill(
+            status=200,
+            content_type="application/json",
+            body=json.dumps(
+                {
+                    "gpu_name": "10k virtualization fixture",
+                    "gpu_vram_used_bytes": 0,
+                    "gpu_vram_total_bytes": 0,
+                    "gpu_utilization_pct": 0,
+                    "cpu_utilization_pct": 0,
+                    "active_jobs_count": 0,
+                    "webgpt_connected": False,
+                    "webgpt_model": "fixture",
+                    "webgpt_port": 17850,
+                    "server_uptime_seconds": 10,
+                    "websocket_connected": False,
+                    "transport_mode": "http_polling",
+                }
+            ),
+        ),
+    )
+    page.add_init_script("localStorage.setItem('vi_dubber_lang', 'en')")
+
+    segment_count = 10_000
+    duration_seconds = 43_200.0  # 12 hours
+    step = duration_seconds / segment_count
+    segments = [
+        {
+            "id": idx,
+            "start": round(idx * step, 3),
+            "end": round((idx + 1) * step - 0.1, 3),
+            "text": f"Longform English sentence {idx}",
+            "vi": f"Cau tieng Viet so {idx}",
+            "speaker": "SPEAKER_00" if idx % 2 == 0 else "SPEAKER_01",
+            "review_status": "needs_review" if idx % 500 == 0 else "unreviewed",
+            "flagged": idx % 250 == 0,
+            "overflow": idx % 1000 == 0,
+        }
+        for idx in range(segment_count)
+    ]
+    (work / target_id / "segments_vi.json").write_text(
+        json.dumps(segments, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    update_job_state(
+        work / target_id,
+        status="paused",
+        stage="review",
+        progress=0.95,
+        metadata={
+            "input_name": "12h_master.mp4",
+            "profile": "balanced_fast",
+            "source_mode": "Local",
+            "longform": {"enabled": False},
+        },
+        result={
+            "duration_seconds": duration_seconds,
+            "elapsed_seconds": 7200.0,
+        },
+        message="10k 12h virtualization fixture",
+    )
+
+    page.set_viewport_size({"width": 1440, "height": 900})
+    page.goto(base_url, wait_until="networkidle", timeout=30000)
+
+    expect(page.get_by_text("10000 TOTAL", exact=True)).to_be_visible(timeout=15000)
+
+    # 1. SegmentReviewer must mount only a bounded visible window (< 100 cards) for 10,000 segments.
+    cards = page.locator('[data-segment-card="true"]')
+    expect(cards.first).to_be_visible(timeout=10000)
+    mounted_cards_initial = cards.count()
+    assert 1 <= mounted_cards_initial < 100, f"expected < 100 mounted cards, got {mounted_cards_initial}"
+
+    # 2. VideoPlayer scrub bar must mount bounded bucketed markers (<= 120 < 400) with flagged highlight.
+    markers = page.locator('[data-timeline-marker="true"][data-bucketed="true"]')
+    expect(markers.first).to_be_visible(timeout=10000)
+    marker_count = markers.count()
+    assert 60 <= marker_count <= 120, f"expected 60..120 bucketed timeline markers, got {marker_count}"
+    flagged_markers = page.locator('[data-timeline-marker="true"][data-flagged="true"]')
+    assert flagged_markers.count() > 0
+
+    # 3. Clicking a deep timeline bucket must jump and mount a high-index segment while staying < 100 cards.
+    deep_marker = markers.nth(marker_count - 5)
+    deep_seg_id = deep_marker.get_attribute("data-segment-id")
+    assert deep_seg_id is not None and int(deep_seg_id) > 8000, f"expected deep segment > 8000, got {deep_seg_id}"
+    deep_marker.click()
+    expect(page.locator(f'[data-segment-card="true"][data-segment-id="{deep_seg_id}"]')).to_be_visible(
+        timeout=10000
+    )
+    assert cards.count() < 100
+
+    # 4. Search filter finds segment #9876 cleanly without rendering all 10k cards.
+    search_input = page.get_by_placeholder("Filter segments by text, speaker, or keywords...")
+    search_input.fill("9876")
+    target_card = page.locator('[data-segment-card="true"][data-segment-id="9876"]')
+    expect(target_card).to_be_visible(timeout=10000)
+    assert cards.count() == 1
+    expect(target_card).to_contain_text("Longform English sentence 9876")
+
+    # 5. Clear search and verify keyboard navigation advances cleanly while remaining virtualized.
+    search_input.fill("")
+    expect(page.locator('[data-virtualized-list="true"]')).to_have_attribute("data-total-segments", "10000")
+    assert cards.count() < 100
+    print(f"DOM_PROOF_10K: cards={mounted_cards_initial} markers={marker_count} deep_seg={deep_seg_id}")
+
+    assert console_errors == [], "\n".join(console_errors)

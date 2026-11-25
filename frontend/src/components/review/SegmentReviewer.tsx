@@ -1,10 +1,17 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { useJob } from '@/context/JobContext';
 import { useTranslation } from '@/context/I18nContext';
 import { SegmentFilterBar, FilterType } from './SegmentFilterBar';
 import { SegmentCard } from './SegmentCard';
 import { CheckCircle2, SlidersHorizontal, Keyboard, X, CheckCheck, Download, FileText } from 'lucide-react';
 import { isFinalJobReady } from '@/lib/utils';
+import {
+  buildVirtualLayout,
+  computeVirtualWindow,
+  DEFAULT_VIRTUAL_OVERSCAN,
+  DEFAULT_VIRTUAL_ROW_HEIGHT,
+  DEFAULT_VIRTUAL_VIEWPORT_HEIGHT,
+} from '@/lib/virtualList';
 
 export const SegmentReviewer: React.FC = () => {
   const {
@@ -30,23 +37,53 @@ export const SegmentReviewer: React.FC = () => {
   const [showHotkeysGuide, setShowHotkeysGuide] = useState(false);
   const [isAcceptingAll, setIsAcceptingAll] = useState(false);
   const [acceptAllError, setAcceptAllError] = useState<string | null>(null);
+  const [scrollTop, setScrollTop] = useState(0);
+  const [viewportHeight, setViewportHeight] = useState(DEFAULT_VIRTUAL_VIEWPORT_HEIGHT);
+  const [measurementVersion, setMeasurementVersion] = useState(0);
 
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const cardRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const measuredHeightsRef = useRef<Map<number, number>>(new Map());
+  const rowObserversRef = useRef<Map<number, ResizeObserver>>(new Map());
+  const lastScrolledActiveIdRef = useRef<number | null>(null);
 
-  // Calculate filter counts
+  // Map segment id -> index in `segments` in O(N) once so click/hotkey jumps are O(1)
+  const segmentIndexById = useMemo(() => {
+    const map = new Map<number, number>();
+    for (let i = 0; i < segments.length; i++) {
+      map.set(segments[i].id, i);
+    }
+    return map;
+  }, [segments]);
+
+  // Calculate all filter counts in a single O(N) pass
   const counts = useMemo(() => {
+    let flagged = 0;
+    let needs_review = 0;
+    let accepted = 0;
+    let overflow = 0;
+    let multispeaker = 0;
+    for (let i = 0; i < segments.length; i++) {
+      const s = segments[i];
+      if (s.flagged || s.overflow || s.semantic_flag) flagged += 1;
+      if (s.review_status === 'needs_review') needs_review += 1;
+      if (s.review_status === 'accepted') accepted += 1;
+      if (s.overflow) overflow += 1;
+      if (s.multi_speaker || s.speaker_overlap) multispeaker += 1;
+    }
     return {
       all: segments.length,
-      flagged: segments.filter(s => s.flagged || s.overflow || s.semantic_flag).length,
-      needs_review: segments.filter(s => s.review_status === 'needs_review').length,
-      accepted: segments.filter(s => s.review_status === 'accepted').length,
-      overflow: segments.filter(s => s.overflow).length,
-      multispeaker: segments.filter(s => s.multi_speaker || s.speaker_overlap).length,
+      flagged,
+      needs_review,
+      accepted,
+      overflow,
+      multispeaker,
     };
   }, [segments]);
 
   // Filter and search segments
   const filteredSegments = useMemo(() => {
+    const trimmedQuery = searchQuery.trim().toLowerCase();
     return segments.filter(seg => {
       // Filter criteria
       if (currentFilter === 'flagged' && !seg.flagged && !seg.overflow && !seg.semantic_flag) return false;
@@ -56,12 +93,11 @@ export const SegmentReviewer: React.FC = () => {
       if (currentFilter === 'multispeaker' && !seg.multi_speaker && !seg.speaker_overlap) return false;
 
       // Search query
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const matchesEn = seg.text.toLowerCase().includes(q);
-        const matchesVi = seg.vi.toLowerCase().includes(q);
-        const matchesSpk = seg.speaker.toLowerCase().includes(q);
-        const matchesId = seg.id.toString() === q;
+      if (trimmedQuery) {
+        const matchesEn = seg.text.toLowerCase().includes(trimmedQuery);
+        const matchesVi = seg.vi.toLowerCase().includes(trimmedQuery);
+        const matchesSpk = seg.speaker.toLowerCase().includes(trimmedQuery);
+        const matchesId = seg.id.toString() === trimmedQuery;
         if (!matchesEn && !matchesVi && !matchesSpk && !matchesId) return false;
       }
 
@@ -69,19 +105,140 @@ export const SegmentReviewer: React.FC = () => {
     });
   }, [segments, currentFilter, searchQuery]);
 
-  const acceptedCount = segments.filter(s => s.review_status === 'accepted').length;
+  const filteredIndexById = useMemo(() => {
+    const map = new Map<number, number>();
+    for (let i = 0; i < filteredSegments.length; i++) {
+      map.set(filteredSegments[i].id, i);
+    }
+    return map;
+  }, [filteredSegments]);
+
+  const virtualLayout = useMemo(
+    () => buildVirtualLayout(filteredSegments, measuredHeightsRef.current, DEFAULT_VIRTUAL_ROW_HEIGHT),
+    // measurementVersion bumps when ResizeObserver records a height delta
+    [filteredSegments, measurementVersion],
+  );
+
+  const virtualWindow = useMemo(
+    () => computeVirtualWindow(virtualLayout, scrollTop, viewportHeight, DEFAULT_VIRTUAL_OVERSCAN),
+    [virtualLayout, scrollTop, viewportHeight],
+  );
+
+  const visibleSegmentsSlice = useMemo(
+    () => filteredSegments.slice(virtualWindow.startIndex, virtualWindow.endIndex),
+    [filteredSegments, virtualWindow.startIndex, virtualWindow.endIndex],
+  );
+
+  const acceptedCount = counts.accepted;
   const hasPendingMutation = Object.values(reviewMutations).some(state => state.status === 'pending');
 
-  // Auto-scroll active card into view
+  // Reset cached row measurements when switching jobs
   useEffect(() => {
-    const activeSeg = segments[activeSegmentIndex];
-    if (activeSeg && cardRefs.current[activeSeg.id]) {
-      cardRefs.current[activeSeg.id]?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-      });
+    measuredHeightsRef.current.clear();
+    rowObserversRef.current.forEach(observer => observer.disconnect());
+    rowObserversRef.current.clear();
+    lastScrolledActiveIdRef.current = null;
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0;
     }
-  }, [activeSegmentIndex, segments]);
+    setScrollTop(0);
+    setMeasurementVersion(v => v + 1);
+  }, [activeJob?.id]);
+
+  // Reset scroll offset to top when filter or search query narrows the list
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0;
+    }
+    setScrollTop(0);
+  }, [currentFilter, searchQuery]);
+
+  // Track scroll container viewport height
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const syncViewportHeight = () => {
+      const nextHeight = container.clientHeight;
+      if (nextHeight > 0) {
+        setViewportHeight(prev => (Math.abs(prev - nextHeight) > 1 ? nextHeight : prev));
+      }
+    };
+    syncViewportHeight();
+
+    if (typeof ResizeObserver !== 'undefined') {
+      const observer = new ResizeObserver(syncViewportHeight);
+      observer.observe(container);
+      return () => observer.disconnect();
+    }
+    window.addEventListener('resize', syncViewportHeight);
+    return () => window.removeEventListener('resize', syncViewportHeight);
+  }, []);
+
+  // Cleanup any row observers on unmount
+  useEffect(() => {
+    return () => {
+      rowObserversRef.current.forEach(observer => observer.disconnect());
+      rowObserversRef.current.clear();
+    };
+  }, []);
+
+  const handleListScroll = useCallback((event: React.UIEvent<HTMLDivElement>) => {
+    const nextTop = event.currentTarget.scrollTop;
+    setScrollTop(prev => (Math.abs(prev - nextTop) >= 1 ? nextTop : prev));
+  }, []);
+
+  const registerRowRef = useCallback((segmentId: number, el: HTMLDivElement | null) => {
+    cardRefs.current[segmentId] = el;
+    const prevObserver = rowObserversRef.current.get(segmentId);
+    if (prevObserver) {
+      prevObserver.disconnect();
+      rowObserversRef.current.delete(segmentId);
+    }
+    if (!el) return;
+
+    const recordHeight = () => {
+      const rectHeight = Math.ceil(el.getBoundingClientRect().height);
+      if (rectHeight <= 0) return;
+      const previous = measuredHeightsRef.current.get(segmentId);
+      if (previous === undefined || Math.abs(previous - rectHeight) > 2) {
+        measuredHeightsRef.current.set(segmentId, rectHeight);
+        setMeasurementVersion(v => v + 1);
+      }
+    };
+    recordHeight();
+
+    if (typeof ResizeObserver !== 'undefined') {
+      const observer = new ResizeObserver(recordHeight);
+      observer.observe(el);
+      rowObserversRef.current.set(segmentId, observer);
+    }
+  }, []);
+
+  // Auto-scroll active card into view (works even when the active segment is off-screen in a 10k+ list)
+  const activeSegmentId = segments[activeSegmentIndex]?.id ?? null;
+  useEffect(() => {
+    if (activeSegmentId === null) return;
+    if (lastScrolledActiveIdRef.current === activeSegmentId) return;
+    lastScrolledActiveIdRef.current = activeSegmentId;
+
+    const filteredIdx = filteredIndexById.get(activeSegmentId);
+    if (filteredIdx === undefined) return;
+
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const itemTop = virtualLayout.offsets[filteredIdx];
+    const itemBottom = virtualLayout.offsets[filteredIdx + 1];
+    const currentTop = container.scrollTop;
+    const effectiveHeight = container.clientHeight > 0 ? container.clientHeight : viewportHeight;
+
+    if (itemTop < currentTop || itemBottom > currentTop + effectiveHeight) {
+      const targetTop = Math.max(0, Math.round(itemTop - effectiveHeight * 0.25));
+      container.scrollTop = targetTop;
+      setScrollTop(targetTop);
+    }
+  }, [activeSegmentId, filteredIndexById, virtualLayout, viewportHeight]);
 
   // Global Keyboard Hotkeys Engine
   useEffect(() => {
@@ -170,7 +327,7 @@ export const SegmentReviewer: React.FC = () => {
     // 1. Save and accept
     await updateSegment(id, { vi: text, speaker, review_status: 'accepted' });
     // 2. Advance to next segment
-    const curIdx = segments.findIndex(s => s.id === id);
+    const curIdx = segmentIndexById.get(id) ?? -1;
     if (curIdx !== -1 && curIdx < segments.length - 1) {
       const nextIdx = curIdx + 1;
       setActiveSegmentIndex(nextIdx);
@@ -337,45 +494,71 @@ export const SegmentReviewer: React.FC = () => {
         )}
       </div>
 
-      {/* Body: Scrollable list of segment cards */}
-      <div tabIndex={0} aria-label={t('review.title')} className="flex-1 min-h-0 overflow-y-auto p-2 space-y-2 scroll-smooth">
+      {/* Body: Windowed/virtualized scrollable list of segment cards */}
+      <div
+        ref={scrollContainerRef}
+        onScroll={handleListScroll}
+        tabIndex={0}
+        aria-label={t('review.title')}
+        data-virtualized-list="true"
+        data-total-segments={filteredSegments.length}
+        data-rendered-segments={visibleSegmentsSlice.length}
+        className="flex-1 min-h-0 overflow-y-auto p-2"
+      >
         {filteredSegments.length === 0 ? (
           <div className="text-center py-16 text-slate-500 dark:text-slate-400 font-mono text-xs">
             {t('review.no_results')}
           </div>
         ) : (
-          filteredSegments.map(seg => (
-            <div
-              key={seg.id}
-              ref={el => {
-                cardRefs.current[seg.id] = el;
-              }}
-            >
-              <SegmentCard
-                segment={seg}
-                mutation={reviewMutations[seg.id]}
-                onRetry={() => retrySegmentMutation(seg.id)}
-                isActive={seg.id === segments[activeSegmentIndex]?.id}
-                onSelect={() => {
-                  const idx = segments.findIndex(s => s.id === seg.id);
-                  if (idx !== -1) {
-                    setActiveSegmentIndex(idx);
-                    requestSeek(seg.start);
-                  }
-                }}
-                onSave={async (id, text, speaker) => {
-                  await updateSegment(id, { vi: text, speaker, review_status: 'reviewed' });
-                }}
-                onAccept={async (id) => {
-                  await acceptSegment(id);
-                }}
-                onRerender={async (id) => {
-                  await rerenderSegment(id);
-                }}
-                onCtrlEnter={handleCtrlEnterFromCard}
+          <div>
+            {virtualWindow.topSpacerHeight > 0 && (
+              <div
+                aria-hidden="true"
+                data-virtual-spacer="top"
+                style={{ height: `${virtualWindow.topSpacerHeight}px` }}
               />
-            </div>
-          ))
+            )}
+            {visibleSegmentsSlice.map(seg => (
+              <div
+                key={seg.id}
+                data-segment-card="true"
+                data-segment-id={seg.id}
+                className="pb-2"
+                ref={el => registerRowRef(seg.id, el)}
+              >
+                <SegmentCard
+                  segment={seg}
+                  mutation={reviewMutations[seg.id]}
+                  onRetry={() => retrySegmentMutation(seg.id)}
+                  isActive={seg.id === activeSegmentId}
+                  onSelect={() => {
+                    const idx = segmentIndexById.get(seg.id);
+                    if (idx !== undefined) {
+                      setActiveSegmentIndex(idx);
+                      requestSeek(seg.start);
+                    }
+                  }}
+                  onSave={async (id, text, speaker) => {
+                    await updateSegment(id, { vi: text, speaker, review_status: 'reviewed' });
+                  }}
+                  onAccept={async (id) => {
+                    await acceptSegment(id);
+                  }}
+                  onRerender={async (id) => {
+                    await rerenderSegment(id);
+                  }}
+                  onCtrlEnter={handleCtrlEnterFromCard}
+                />
+              </div>
+            ))}
+            {virtualWindow.bottomSpacerHeight > 0 && (
+              <div
+                aria-hidden="true"
+                data-virtual-spacer="bottom"
+                style={{ height: `${virtualWindow.bottomSpacerHeight}px` }}
+              />
+            )}
+          </div>
         )}
       </div>
     </div>
