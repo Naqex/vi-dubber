@@ -277,3 +277,31 @@ def test_input_change_during_inference_retains_resume_but_prevents_publication(r
     checkpoint = json.loads((output / "checkpoint.json").read_text())
     assert checkpoint["status"] == "failed_resume_available"
     assert not (output / "diagnostic.json").exists()
+
+
+def test_prepare_full_track_check_resolves_flac_for_longform_jobs(tmp_path, monkeypatch):
+    job = tmp_path / "job-longform-flac"
+    job.mkdir()
+    (job / "voice_vi.flac").write_bytes(b"flac-voice-data")
+    atomic_write_json(
+        job / "resolved_config.json",
+        {"asr": {"model": "large-v3", "batch_size": 4}, "tts": {"sample_rate": 48000}, "qa": {"min_similarity": 0.78}},
+    )
+    (job / "segments_vi.json").write_text(json.dumps([{"id": 0, "start": 0, "end": 2, "vi": "xin chao"}]))
+    atomic_write_json(job / "qa.json", {"passed": False, "segment_summary": {"final_failed": 1}})
+    monkeypatch.setattr(full_track_qa, "audio_duration", lambda path: 4.0 if Path(path).name == "voice_vi.flac" else 0.0)
+    monkeypatch.setattr(full_track_qa, "_cached_model_identity", lambda _: {"revision": "fixture"})
+
+    prepared = full_track_qa.prepare_full_track_check(job, window_seconds=2, context_seconds=0)
+    assert Path(prepared["source_path"]).name == "voice_vi.flac"
+
+    # When both WAV and FLAC exist, result.json duration (>10.1h vs short) selects the authoritative container.
+    (job / "voice_vi.wav").write_bytes(b"legacy-wav-data")
+    atomic_write_json(job / "result.json", {"duration_seconds": 43_200.0})
+    prepared_long = full_track_qa.prepare_full_track_check(job, window_seconds=2, context_seconds=0)
+    assert Path(prepared_long["source_path"]).name == "voice_vi.flac"
+
+    atomic_write_json(job / "result.json", {"duration_seconds": 120.0})
+    monkeypatch.setattr(full_track_qa, "audio_duration", lambda _path: 4.0)
+    prepared_short = full_track_qa.prepare_full_track_check(job, window_seconds=2, context_seconds=0)
+    assert Path(prepared_short["source_path"]).name == "voice_vi.wav"

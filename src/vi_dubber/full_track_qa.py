@@ -12,7 +12,7 @@ from .artifacts import atomic_write_json, fingerprint_data, fingerprint_file
 from .asr import transcribe_text_chunks
 from .jobs import claim_job
 from .longform import MacroChunk, MacroChunkPolicy, plan_macro_chunks
-from .media import audio_duration
+from .media import audio_duration, voice_track_path
 from .qa import transcript_similarity
 from .runtime import MODELS_DIR, PROJECT_ROOT
 from .types import Segment
@@ -53,6 +53,31 @@ def _runtime_identity() -> dict[str, Any]:
     }}
 
 
+def _resolve_voice_track_source(job_dir: Path, config: dict[str, Any]) -> Path:
+    """Resolve the assembled voice track supporting both WAV and >10.1h FLAC containers."""
+    candidates: list[Path] = []
+    result_path = job_dir / "result.json"
+    if result_path.is_file():
+        try:
+            result_data = json.loads(result_path.read_text(encoding="utf-8"))
+            duration = float(result_data.get("duration_seconds") or 0.0)
+            if duration > 0.0:
+                sample_rate = int((config.get("tts") or {}).get("sample_rate", 48000))
+                preferred = voice_track_path(job_dir, duration, sample_rate=sample_rate)
+                candidates.append(preferred)
+        except (OSError, ValueError, TypeError):
+            pass
+    for fallback in (job_dir / "voice_vi.flac", job_dir / "voice_vi.wav"):
+        if fallback not in candidates:
+            candidates.append(fallback)
+    for candidate in candidates:
+        if candidate.is_file():
+            return candidate
+    raise FileNotFoundError(
+        f"Voice track not found in {job_dir} (checked voice_vi.flac and voice_vi.wav)"
+    )
+
+
 def prepare_full_track_check(
     job_dir: Path, *, window_seconds: float = 300.0, context_seconds: float = 2.0,
 ) -> dict[str, Any]:
@@ -62,7 +87,7 @@ def prepare_full_track_check(
     config = json.loads((job_dir / "resolved_config.json").read_text(encoding="utf-8"))
     segments = json.loads((job_dir / "segments_vi.json").read_text(encoding="utf-8"))
     retained_qa = json.loads((job_dir / "qa.json").read_text(encoding="utf-8"))
-    source = job_dir / "voice_vi.wav"
+    source = _resolve_voice_track_source(job_dir, config)
     duration = audio_duration(source)
     policy = MacroChunkPolicy(
         target_seconds=window_seconds, min_seconds=window_seconds, max_seconds=window_seconds,

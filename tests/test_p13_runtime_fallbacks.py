@@ -582,3 +582,71 @@ def test_separator_progress_callback_failure_does_not_fail_separation(
     assert vocals.name == "Vocals.wav"
     assert instrumental.name == "Instrumental.wav"
     assert fake_mdxc_module.tqdm is original_tqdm
+
+
+@pytest.mark.parametrize("control_exc_name", ["PipelinePaused", "PipelineCancelled"])
+def test_mdxc_progress_adapter_reraises_pipeline_control_and_restores_tqdm(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    control_exc_name: str,
+) -> None:
+    import vi_dubber.jobs as jobs_mod
+    import vi_dubber.separation as separation_module
+
+    control_cls = getattr(jobs_mod, control_exc_name)
+    fake_package = types.ModuleType("audio_separator")
+    fake_separator_module = types.ModuleType("audio_separator.separator")
+    fake_architectures_module = types.ModuleType("audio_separator.separator.architectures")
+    fake_mdxc_module = types.ModuleType("audio_separator.separator.architectures.mdxc_separator")
+
+    def original_tqdm(iterable=None, *args, **kwargs):
+        del args, kwargs
+        return iterable
+
+    fake_mdxc_module.tqdm = original_tqdm
+
+    class FakeSeparator:
+        def __init__(self, *, output_dir: str, **_kwargs):
+            self.output_dir = output_dir
+
+        def load_model(self, model_filename: str):
+            del model_filename
+
+        def separate(self, _input_path: str):
+            for _item in fake_mdxc_module.tqdm(range(5)):
+                pass
+            return ["Vocals.wav", "Instrumental.wav"]
+
+    fake_separator_module.Separator = FakeSeparator
+    fake_torch = types.ModuleType("torch")
+
+    class FakeCuda:
+        @staticmethod
+        def is_available() -> bool:
+            return False
+
+    fake_torch.cuda = FakeCuda()
+    monkeypatch.setitem(sys.modules, "audio_separator", fake_package)
+    monkeypatch.setitem(sys.modules, "audio_separator.separator", fake_separator_module)
+    monkeypatch.setitem(sys.modules, "torch", fake_torch)
+    monkeypatch.setitem(
+        sys.modules,
+        "audio_separator.separator.architectures",
+        fake_architectures_module,
+    )
+    monkeypatch.setitem(
+        sys.modules,
+        "audio_separator.separator.architectures.mdxc_separator",
+        fake_mdxc_module,
+    )
+
+    with pytest.raises(control_cls, match="user requested"):
+        separation_module.separate_dialogue(
+            tmp_path / "input.wav",
+            tmp_path / "out",
+            tmp_path / "models",
+            "model.ckpt",
+            progress_callback=lambda *_args: (_ for _ in ()).throw(control_cls("user requested")),
+        )
+
+    assert fake_mdxc_module.tqdm is original_tqdm

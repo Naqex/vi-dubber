@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
+import tempfile
 import time
 from pathlib import Path
 from typing import Any, Callable
@@ -363,6 +365,54 @@ def _load_stems(job_dir: Path, stems_meta: Path) -> tuple[Path | None, Path | No
     return vocals, background
 
 
+def _atomic_write_json_any(path: Path, data: Any) -> None:
+    """Atomically write arbitrary JSON payloads (lists or dicts) via temp+fsync+replace."""
+    text = json.dumps(data, ensure_ascii=False, indent=2)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            newline="\n",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as handle:
+            handle.write(text)
+            handle.flush()
+            os.fsync(handle.fileno())
+            temp_path = Path(handle.name)
+        os.replace(temp_path, path)
+        temp_path = None
+    finally:
+        if temp_path is not None:
+            temp_path.unlink(missing_ok=True)
+
+
+def _compact_qa_for_state(qa_result: dict[str, Any] | None) -> dict[str, Any] | None:
+    """Strip bulky full-track expected/actual transcripts from state.json (kept in qa.json/qa_raw.json)."""
+    if not isinstance(qa_result, dict):
+        return qa_result
+    compact = dict(qa_result)
+    expected = compact.pop("expected", None)
+    actual = compact.pop("actual", None)
+    if isinstance(expected, str):
+        compact.setdefault("expected_chars", len(expected))
+    if isinstance(actual, str):
+        compact.setdefault("actual_chars", len(actual))
+    return compact
+
+
+def _compact_state_result(result: dict[str, Any]) -> dict[str, Any]:
+    """Return a compact result snapshot for state.json so 2s /api/jobs polls stay small."""
+    compact = dict(result)
+    if "qa" in compact:
+        compact["qa"] = _compact_qa_for_state(compact.get("qa"))
+    return compact
+
+
 def _save_segments(
     path: Path,
     segments: list[Segment],
@@ -375,10 +425,7 @@ def _save_segments(
         if review_statuses is not None and item.id in review_statuses:
             data["review_status"] = review_statuses[item.id]
         payload.append(data)
-    path.write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2),
-        encoding="utf-8",
-    )
+    _atomic_write_json_any(path, payload)
 
 
 def _load_segments(path: Path) -> list[Segment]:
@@ -2054,10 +2101,7 @@ def _run_pipeline_impl(
                 tts_engine_preload = None
         rewrite_stats = dict(current_rewrite_stats)
         _save_segments(translated_json, segments, review_statuses=review_statuses)
-        tts_stats_path.write_text(
-            json.dumps([item.to_dict() for item in tts_stats], ensure_ascii=False, indent=2),
-            encoding="utf-8",
-        )
+        _atomic_write_json_any(tts_stats_path, [item.to_dict() for item in tts_stats])
         atomic_write_json(
             tts_translation_meta_path,
             {
@@ -2166,11 +2210,13 @@ def _run_pipeline_impl(
             + int(current_rewrite_stats.get(retry_counter) or 0),
         )
 
-    _save_segments(translated_json, segments)
-    tts_stats_path.write_text(
-        json.dumps([item.to_dict() for item in tts_stats], ensure_ascii=False, indent=2),
-        encoding="utf-8",
-    )
+    # Both TTS cache-hit and cache-miss branches already persisted and verified
+    # segments_vi.json (with review_statuses) and tts_stats.json against
+    # manifests/tts.json. Never overwrite them post-commit without review_statuses.
+    if not translated_json.is_file():
+        _save_segments(translated_json, segments, review_statuses=review_statuses)
+    if not tts_stats_path.is_file():
+        _atomic_write_json_any(tts_stats_path, [item.to_dict() for item in tts_stats])
 
     segment_qa_report: dict[str, Any] | None = None
     qa_config = dict(config.get("qa", {}) or {})
@@ -2406,14 +2452,7 @@ def _run_pipeline_impl(
                     rendered = [rendered_by_id[segment.id] for segment in segments]
                     tts_stats = [stats_by_id[segment.id] for segment in segments]
                     _save_segments(translated_json, segments, review_statuses=review_statuses)
-                    tts_stats_path.write_text(
-                        json.dumps(
-                            [item.to_dict() for item in tts_stats],
-                            ensure_ascii=False,
-                            indent=2,
-                        ),
-                        encoding="utf-8",
-                    )
+                    _atomic_write_json_any(tts_stats_path, [item.to_dict() for item in tts_stats])
                     tts_manifest = _commit_stage(
                         job_dir,
                         "tts",
@@ -2958,7 +2997,7 @@ def _run_pipeline_impl(
         stage="complete",
         progress=1.0,
         message="Hoàn tất",
-        result=result,
+        result=_compact_state_result(result),
     )
     _notify(progress_callback, 1.0, "Hoàn tất")
     return result
