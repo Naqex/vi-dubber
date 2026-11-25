@@ -4,6 +4,7 @@ import { useTranslation } from '@/context/I18nContext';
 import {
   formatSeconds,
   resolveActiveStageIndex,
+  resolveCompletedQaState,
   PIPELINE_STAGES,
 } from '@/lib/utils';
 import { deriveEtaTelemetry, finiteNumber } from '@/lib/telemetry';
@@ -15,6 +16,7 @@ import {
   Pause,
   Square,
   CheckCircle2,
+  AlertTriangle,
   Timer,
   Clock,
 } from 'lucide-react';
@@ -27,6 +29,7 @@ export const SystemBar: React.FC = () => {
   const [selectedStage, setSelectedStage] = useState<StageDefinition | null>(null);
 
   const isJobComplete = activeJob?.status === 'completed';
+  const completedQaState = resolveCompletedQaState(activeJob);
   const persistedElapsed = activeJob?.result?.elapsed_seconds ?? activeJob?.metrics?.total_wall_seconds;
 
   useEffect(() => {
@@ -149,9 +152,38 @@ export const SystemBar: React.FC = () => {
                 <Play className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">{t('common.resume')}</span>
               </button>
+            ) : completedQaState === 'failed' ? (
+              <div
+                data-qa-state="failed"
+                className="flex items-center gap-1 text-rose-700 dark:text-rose-300 font-bold text-xs px-2.5 h-7"
+              >
+                <AlertTriangle className="w-4 h-4 shrink-0" />
+                <span>{t('job.completed_qa_failed')}</span>
+              </div>
+            ) : completedQaState === 'passed' ? (
+              <div
+                data-qa-state="passed"
+                className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400 font-bold text-xs px-2.5 h-7"
+              >
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>{t('job.completed_qa_passed')}</span>
+              </div>
+            ) : completedQaState === 'unverified' ? (
+              <div
+                data-qa-state="unverified"
+                className="flex items-center gap-1 text-amber-800 dark:text-amber-300 font-bold text-xs px-2.5 h-7"
+              >
+                <AlertTriangle className="w-4 h-4 shrink-0" />
+                <span>{t('job.completed_qa_unverified')}</span>
+              </div>
+            ) : activeJob.status === 'failed' || activeJob.status === 'cancelled' ? (
+              <div className="flex items-center gap-1 text-rose-700 dark:text-rose-300 font-bold text-xs px-2.5 h-7">
+                <AlertTriangle className="w-4 h-4 shrink-0" />
+                <span>{activeJob.status.toUpperCase()}</span>
+              </div>
             ) : (
-              <div className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400 font-bold text-xs px-2.5 h-7">
-                <CheckCircle2 className="w-4 h-4" />
+              <div className="flex items-center gap-1 text-slate-700 dark:text-slate-300 font-bold text-xs px-2.5 h-7">
+                <Clock className="w-4 h-4 shrink-0" />
                 <span>{activeJob.status.toUpperCase()}</span>
               </div>
             )}

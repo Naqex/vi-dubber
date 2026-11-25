@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import type { JobState, LongformMetadata, PreviewArtifact, StageDefinition } from '@/types';
+export { resolveCompletedQaState, type CompletedQaState } from './telemetry';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

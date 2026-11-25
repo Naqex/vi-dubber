@@ -252,3 +252,205 @@ def normalize_loudness(
         raise RuntimeError(f"FFmpeg loudnorm failed:\n{apply_res.stderr.strip()}")
 
     return output_path
+
+
+WAVEFORM_DEFAULT_BARS = 64
+WAVEFORM_MIN_BARS = 16
+WAVEFORM_MAX_BARS = 512
+WAVEFORM_BLOCK_FRAMES = 16_384
+WAVEFORM_FULL_SCAN_MAX_FRAMES = 48_000 * 60 * 10  # 10 min @ 48 kHz
+WAVEFORM_PROBES_PER_BAR = 8
+WAVEFORM_PROBE_FRAMES = 4_096
+
+
+def _extract_waveform_peaks_from_stream(
+    stream: Any,
+    *,
+    total_frames: int,
+    sample_rate: int,
+    channels: int,
+    file_bytes: int,
+    bars: int = WAVEFORM_DEFAULT_BARS,
+    block_frames: int = WAVEFORM_BLOCK_FRAMES,
+    full_scan_max_frames: int = WAVEFORM_FULL_SCAN_MAX_FRAMES,
+    probes_per_bar: int = WAVEFORM_PROBES_PER_BAR,
+    probe_frames: int = WAVEFORM_PROBE_FRAMES,
+) -> dict[str, Any]:
+    """Compute bounded-memory peak amplitudes from an open seekable/streamable audio handle."""
+    if isinstance(bars, bool) or not isinstance(bars, int) or not (WAVEFORM_MIN_BARS <= bars <= WAVEFORM_MAX_BARS):
+        raise ValueError(f"bars must be an integer between {WAVEFORM_MIN_BARS} and {WAVEFORM_MAX_BARS}")
+
+    total_frames = max(0, int(total_frames))
+    sample_rate = max(0, int(sample_rate))
+    channels = max(0, int(channels))
+    duration_seconds = (total_frames / sample_rate) if (sample_rate > 0 and total_frames > 0) else 0.0
+    effective_block = max(1, int(block_frames))
+
+    if total_frames == 0:
+        return {
+            "bars": bars,
+            "peaks": [0.0] * bars,
+            "duration_seconds": 0.0,
+            "sample_rate": sample_rate,
+            "channels": channels,
+            "total_frames": 0,
+            "file_bytes": int(file_bytes),
+            "sampling_mode": "empty",
+            "frames_scanned": 0,
+            "max_read_buffer_frames": 0,
+        }
+
+    peaks = np.zeros(bars, dtype=np.float32)
+    frames_scanned = 0
+    max_read_buffer_frames = 0
+    seekable = bool(getattr(stream, "seekable", lambda: False)())
+
+    if total_frames > full_scan_max_frames and seekable:
+        # Near-12h / long-form guard: sample fixed windows per bar via seek() so RAM
+        # and disk I/O stay strictly O(1) regardless of multi-gigabyte WAV length.
+        sampling_mode = "windowed_seek"
+        effective_probe = max(1, min(int(probe_frames), effective_block))
+        effective_probes = max(1, int(probes_per_bar))
+        for bar_index in range(bars):
+            bucket_start = (bar_index * total_frames) // bars
+            bucket_end = ((bar_index + 1) * total_frames) // bars
+            bucket_len = max(1, bucket_end - bucket_start)
+            bar_peak = 0.0
+
+            if bucket_len <= effective_probes * effective_probe:
+                stream.seek(bucket_start)
+                remaining = bucket_len
+                while remaining > 0:
+                    to_read = min(effective_probe, remaining)
+                    chunk = np.asarray(stream.read(frames=to_read, dtype="float32", always_2d=True), dtype=np.float32)
+                    if chunk.size == 0 or len(chunk) == 0:
+                        break
+                    max_read_buffer_frames = max(max_read_buffer_frames, int(len(chunk)))
+                    frames_scanned += int(len(chunk))
+                    remaining -= int(len(chunk))
+                    chunk_peak = float(np.max(np.abs(chunk)))
+                    if chunk_peak > bar_peak:
+                        bar_peak = chunk_peak
+            else:
+                max_offset = bucket_end - effective_probe
+                span = max(0, max_offset - bucket_start)
+                for probe_index in range(effective_probes):
+                    if effective_probes == 1:
+                        offset = bucket_start + span // 2
+                    else:
+                        offset = bucket_start + int(round(probe_index * span / (effective_probes - 1)))
+                    stream.seek(offset)
+                    chunk = np.asarray(
+                        stream.read(frames=effective_probe, dtype="float32", always_2d=True),
+                        dtype=np.float32,
+                    )
+                    if chunk.size == 0 or len(chunk) == 0:
+                        continue
+                    max_read_buffer_frames = max(max_read_buffer_frames, int(len(chunk)))
+                    frames_scanned += int(len(chunk))
+                    chunk_peak = float(np.max(np.abs(chunk)))
+                    if chunk_peak > bar_peak:
+                        bar_peak = chunk_peak
+            peaks[bar_index] = bar_peak
+    else:
+        sampling_mode = "streaming_full"
+        if total_frames < bars:
+            # Tiny audio clip shorter than bar count: map each bar to its nearest frame.
+            chunk = np.asarray(stream.read(frames=total_frames, dtype="float32", always_2d=True), dtype=np.float32)
+            if chunk.size > 0 and len(chunk) > 0:
+                max_read_buffer_frames = int(len(chunk))
+                frames_scanned = int(len(chunk))
+                frame_peaks = np.max(np.abs(chunk), axis=1)
+                n_frames = len(frame_peaks)
+                for bar_index in range(bars):
+                    sample_idx = min(n_frames - 1, (bar_index * n_frames) // bars)
+                    peaks[bar_index] = float(frame_peaks[sample_idx])
+        else:
+            frame_cursor = 0
+            while frame_cursor < total_frames:
+                to_read = min(effective_block, total_frames - frame_cursor)
+                chunk = np.asarray(stream.read(frames=to_read, dtype="float32", always_2d=True), dtype=np.float32)
+                if chunk.size == 0 or len(chunk) == 0:
+                    break
+                n_read = int(len(chunk))
+                max_read_buffer_frames = max(max_read_buffer_frames, n_read)
+                frames_scanned += n_read
+
+                first_bar = min(bars - 1, (frame_cursor * bars) // total_frames)
+                last_bar = min(bars - 1, ((frame_cursor + n_read - 1) * bars) // total_frames)
+                if first_bar == last_bar:
+                    chunk_peak = float(np.max(np.abs(chunk)))
+                    if chunk_peak > peaks[first_bar]:
+                        peaks[first_bar] = chunk_peak
+                else:
+                    for bar_index in range(first_bar, last_bar + 1):
+                        bucket_start = (bar_index * total_frames) // bars
+                        bucket_end = ((bar_index + 1) * total_frames) // bars
+                        local_start = max(0, bucket_start - frame_cursor)
+                        local_end = min(n_read, bucket_end - frame_cursor)
+                        if local_end > local_start:
+                            bucket_peak = float(np.max(np.abs(chunk[local_start:local_end])))
+                            if bucket_peak > peaks[bar_index]:
+                                peaks[bar_index] = bucket_peak
+                frame_cursor += n_read
+
+    normalized_peaks = [
+        round(float(min(1.0, max(0.0, value))), 4) if math.isfinite(float(value)) else 0.0
+        for value in peaks
+    ]
+    return {
+        "bars": bars,
+        "peaks": normalized_peaks,
+        "duration_seconds": round(duration_seconds, 4),
+        "sample_rate": sample_rate,
+        "channels": channels,
+        "total_frames": total_frames,
+        "file_bytes": int(file_bytes),
+        "sampling_mode": sampling_mode,
+        "frames_scanned": frames_scanned,
+        "max_read_buffer_frames": max_read_buffer_frames,
+    }
+
+
+def extract_bounded_waveform_peaks(
+    audio_path: Path,
+    *,
+    bars: int = WAVEFORM_DEFAULT_BARS,
+    block_frames: int = WAVEFORM_BLOCK_FRAMES,
+    full_scan_max_frames: int = WAVEFORM_FULL_SCAN_MAX_FRAMES,
+    probes_per_bar: int = WAVEFORM_PROBES_PER_BAR,
+    probe_frames: int = WAVEFORM_PROBE_FRAMES,
+) -> dict[str, Any]:
+    """Extract waveform peak bars from an audio file with strictly bounded RAM usage.
+
+    Never decodes the full track into memory: short files stream in fixed-size blocks
+    and long/near-12h files use seek-windowed probes so memory stays O(1).
+    """
+    if isinstance(bars, bool) or not isinstance(bars, int) or not (WAVEFORM_MIN_BARS <= bars <= WAVEFORM_MAX_BARS):
+        raise ValueError(f"bars must be an integer between {WAVEFORM_MIN_BARS} and {WAVEFORM_MAX_BARS}")
+
+    path = Path(audio_path)
+    if not path.is_file():
+        raise FileNotFoundError(f"Audio file not found: {audio_path}")
+
+    file_bytes = path.stat().st_size
+    try:
+        with sf.SoundFile(str(path), mode="r") as snd:
+            return _extract_waveform_peaks_from_stream(
+                snd,
+                total_frames=snd.frames,
+                sample_rate=snd.samplerate,
+                channels=snd.channels,
+                file_bytes=file_bytes,
+                bars=bars,
+                block_frames=block_frames,
+                full_scan_max_frames=full_scan_max_frames,
+                probes_per_bar=probes_per_bar,
+                probe_frames=probe_frames,
+            )
+    except FileNotFoundError:
+        raise
+    except ValueError:
+        raise
+    except Exception as exc:
+        raise ValueError(f"Failed to read audio file for waveform extraction: {exc}") from exc

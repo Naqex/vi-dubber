@@ -8,6 +8,7 @@ import sqlite3
 import shutil
 import threading
 import time
+from collections import OrderedDict
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Literal
@@ -25,6 +26,12 @@ from .artifacts import (
     fingerprint_file,
     load_stage_manifest,
     resolve_artifact_path,
+)
+from .audio import (
+    WAVEFORM_DEFAULT_BARS,
+    WAVEFORM_MAX_BARS,
+    WAVEFORM_MIN_BARS,
+    extract_bounded_waveform_peaks,
 )
 from .catalog_store import (
     AVAILABILITY_STATES,
@@ -75,6 +82,33 @@ _START_TIME = time.time()
 _active_threads: dict[str, threading.Thread] = {}
 _active_threads_lock = threading.Lock()
 _CATALOG_DB_NAME = "catalog.sqlite3"
+_WAVEFORM_TRACK_FILES: dict[str, str] = {
+    "a": "vocals.wav",
+    "b": "voice_track.wav",
+    "bgm": "accompaniment.wav",
+}
+_WAVEFORM_CACHE_MAX_ENTRIES = 32
+_waveform_cache: OrderedDict[tuple[str, int, int, int], dict[str, Any]] = OrderedDict()
+_waveform_cache_lock = threading.Lock()
+
+
+def _read_cached_waveform_peaks(audio_file: Path, *, bars: int) -> dict[str, Any]:
+    """Compute bounded-memory waveform peaks with an in-memory LRU cache (zero disk writes)."""
+    stat = audio_file.stat()
+    cache_key = (str(audio_file), int(stat.st_mtime_ns), int(stat.st_size), int(bars))
+    with _waveform_cache_lock:
+        cached = _waveform_cache.get(cache_key)
+        if cached is not None:
+            _waveform_cache.move_to_end(cache_key)
+            return dict(cached)
+
+    computed = extract_bounded_waveform_peaks(audio_file, bars=bars)
+    with _waveform_cache_lock:
+        _waveform_cache[cache_key] = computed
+        _waveform_cache.move_to_end(cache_key)
+        while len(_waveform_cache) > _WAVEFORM_CACHE_MAX_ENTRIES:
+            _waveform_cache.popitem(last=False)
+    return dict(computed)
 
 _PROJECT_SESSION_SCHEMA_VERSION = "project-session-v1"
 _LOCAL_DEMO_AUTH_MODE = "local-trusted-demo"
@@ -1064,6 +1098,52 @@ def create_app() -> FastAPI:
     def list_job_previews(job_id: str) -> list[dict[str, Any]]:
         job_dir = _resolve_job_dir(job_id)
         return _list_chunk_previews(job_dir)
+
+    @app.get("/api/jobs/{job_id}/waveform")
+    def get_job_waveform(
+        job_id: str,
+        track: str = "b",
+        bars: int = WAVEFORM_DEFAULT_BARS,
+    ) -> JSONResponse:
+        normalized_track = track.strip().lower()
+        filename = _WAVEFORM_TRACK_FILES.get(normalized_track)
+        if filename is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid waveform track: {track!r}. Expected one of: a, b, bgm.",
+            )
+        if isinstance(bars, bool) or not isinstance(bars, int) or not (WAVEFORM_MIN_BARS <= bars <= WAVEFORM_MAX_BARS):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"bars must be between {WAVEFORM_MIN_BARS} and {WAVEFORM_MAX_BARS}.",
+            )
+        job_dir = _resolve_job_dir(job_id)
+        audio_file = _safe_job_file(job_dir, filename)
+        if audio_file is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Waveform audio track {normalized_track!r} not found for job {job_dir.name}.",
+            )
+        try:
+            payload = _read_cached_waveform_peaks(audio_file, bars=bars)
+        except ValueError as exc:
+            raise HTTPException(
+                status_code=422,
+                detail="Unable to decode waveform audio track.",
+            ) from exc
+        except OSError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Waveform audio track {normalized_track!r} is unavailable.",
+            ) from exc
+        return JSONResponse(
+            content={
+                "job_id": job_dir.name,
+                "track": normalized_track,
+                **payload,
+            },
+            headers={"Cache-Control": "private, no-cache"},
+        )
 
     @app.get("/api/jobs/{job_id}/previews/{chunk_id}")
     def get_job_preview(job_id: str, chunk_id: str, download: bool = False) -> FileResponse:
