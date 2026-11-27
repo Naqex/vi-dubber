@@ -27,7 +27,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: uv sync --locked --dev
-      - run: uv run pytest tests/test_core.py tests/test_artifacts.py -q
+      - run: uv run pytest tests/test_core.py tests/test_artifacts.py tests/test_commercial_license_guard.py -q
       - name: Guard against CC-BY-NC diffq/demucs imports in src/vi_dubber
         run: |
           uv run python - <<'PY'
