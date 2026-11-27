@@ -28,3 +28,26 @@ jobs:
           python-version: '3.12'
       - run: uv sync --locked --dev
       - run: uv run pytest tests/test_core.py tests/test_artifacts.py -q
+      - name: Guard against CC-BY-NC diffq/demucs imports in src/vi_dubber
+        run: |
+          uv run python - <<'PY'
+          import ast, pathlib, sys
+          banned = {'diffq', 'diffq_fixed', 'demucs'}
+          hits = []
+          for f in pathlib.Path('src/vi_dubber').rglob('*.py'):
+              tree = ast.parse(f.read_text(encoding='utf-8'), filename=str(f))
+              for node in ast.walk(tree):
+                  if isinstance(node, ast.Import):
+                      for alias in node.names:
+                          root = alias.name.split('.')[0]
+                          if root in banned:
+                              hits.append(f'{f}:{node.lineno}: import {alias.name}')
+                  elif isinstance(node, ast.ImportFrom) and node.module:
+                      root = node.module.split('.')[0]
+                      if root in banned:
+                          hits.append(f'{f}:{node.lineno}: from {node.module} import ...')
+          if hits:
+              print('BLOCKED CC-BY-NC IMPORTS:', hits, file=sys.stderr)
+              sys.exit(1)
+          print('LICENSE_GUARD_PASS: 0 diffq/demucs imports in src/vi_dubber')
+          PY
