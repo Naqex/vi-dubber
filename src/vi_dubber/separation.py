@@ -30,6 +30,70 @@ SEPARATION_CHUNK_SECONDS = 15 * 60
 SEPARATION_CHUNK_THRESHOLD_SECONDS = 30 * 60
 SEPARATION_SAMPLE_RATE = 48_000
 SEPARATION_CHANNELS = 2
+# Explicit commercial-license denylist: Demucs/HTDemucs paths in audio-separator
+# trigger lazy imports of CC-BY-NC-4.0 diffq/diffq-fixed. Keep this as an
+# explicit denylist (not a narrow filename allowlist) so compatible local/test
+# checkpoints such as ``model.ckpt`` and RoFormer/MDXC weights continue to work.
+BLOCKED_SEPARATION_MODEL_PATTERNS: tuple[str, ...] = (
+    "htdemucs",
+    "demucs",
+    "diffq",
+)
+
+
+class CommercialLicenseError(ValueError):
+    """Raised when a requested separation model or architecture violates license policy."""
+
+
+def validate_separation_model_license(
+    model_filename: str | os.PathLike[str],
+    *,
+    model_arch: str | None = None,
+) -> str:
+    """Reject Demucs/HTDemucs/diffq model names or architectures before loading."""
+    if isinstance(model_filename, os.PathLike):
+        filename_text = os.fspath(model_filename)
+    elif isinstance(model_filename, str):
+        filename_text = model_filename
+    else:
+        raise ValueError("separation model_filename must be a non-empty string")
+
+    if not filename_text.strip():
+        raise ValueError("separation model_filename must be a non-empty string")
+
+    candidates: list[tuple[str, str]] = [("model_filename", filename_text)]
+    if model_arch is not None:
+        candidates.append(("model_arch", str(model_arch)))
+
+    for field_name, raw_value in candidates:
+        normalized = raw_value.lower()
+        for blocked in BLOCKED_SEPARATION_MODEL_PATTERNS:
+            if blocked in normalized:
+                raise CommercialLicenseError(
+                    f"Blocked separation {field_name} {raw_value!r}: matched disallowed "
+                    f"pattern {blocked!r} (Demucs/HTDemucs/diffq paths are blocked due to "
+                    "CC-BY-NC-4.0 transitive dependency diffq/diffq-fixed). "
+                    "Use an MIT/Apache-compatible RoFormer/MDXC checkpoint instead."
+                )
+    return filename_text
+
+
+def _validate_loaded_separator_arch(separator: Any, model_filename: str) -> None:
+    """Defense-in-depth check on loaded separator metadata before running inference."""
+    arch_candidates: list[str] = []
+    for attr in ("model_arch", "arch"):
+        value = getattr(separator, attr, None)
+        if value:
+            arch_candidates.append(str(value))
+    model_instance = getattr(separator, "model_instance", None)
+    if model_instance is not None:
+        arch_candidates.append(type(model_instance).__name__)
+        for attr in ("model_type", "arch", "model_arch"):
+            value = getattr(model_instance, attr, None)
+            if value:
+                arch_candidates.append(str(value))
+    for token in arch_candidates:
+        validate_separation_model_license(model_filename, model_arch=token)
 
 
 def _output_format_for_audio(input_audio: Path) -> str:
@@ -305,6 +369,7 @@ def separate_dialogue(
     model_filename: str,
     progress_callback: ProgressCallback | None = None,
 ) -> tuple[Path, Path]:
+    validated_model = validate_separation_model_license(model_filename)
     from audio_separator.separator import Separator
 
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -322,7 +387,8 @@ def separate_dialogue(
             use_soundfile=True,
             use_autocast=True,
         )
-        separator.load_model(model_filename=model_filename)
+        separator.load_model(model_filename=validated_model)
+        _validate_loaded_separator_arch(separator, validated_model)
         # A full-track RoFormer call allocates overlap-add buffers proportional
         # to the complete decoded timeline. Long inputs therefore use bounded
         # FLAC chunks while reusing one loaded model instance.
